@@ -1,0 +1,27 @@
+{
+  "name": "pyazo-static",
+  "version": "1.0.0",
+  "description": "Static files for pyazo",
+  "main": "index.js",
+  "dependencies": {
+    "@webcomponents/custom-elements": "1.0.0-alpha.3",
+    "clarity-icons": "latest",
+    "clarity-ui": "latest",
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^2.0.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-npm-command": "^0.1.2",
+    "jquery": "^3.2.0",
+    "mutationobserver-shim": "^0.3.2"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.beryju.org/BeryJu.org/pyazo"
+  },
+  "author": "BeryJu.org <hello@beryju.org>",
+  "license": "MIT"
+}

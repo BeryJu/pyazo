@@ -1,0 +1,125 @@
+.nav-link img.branding {
+    min-width: initial;
+    padding: 0 !important;
+}
+
+.card-block > .table-card {
+    margin: 0;
+}
+
+.login-wrapper .form-group {
+    padding-left: 0 !important;
+}
+
+.login-group .form-group input[type=text], input[type=password], input[type=number], input[type=email], input[type=url], input[type=tel], input[type=date] {
+    width: 100% !important;
+}
+
+.login-wrapper .login .login-group .success {
+    background: #266900;
+}
+
+.login-wrapper .login .login-group .warning {
+    background: #EFD603;
+}
+
+.login-wrapper .login .login-group .info {
+    background: #007cbb;
+}
+
+.login-group .checkbox input[type=checkbox] {
+    opacity: 1;
+    margin-top: 0 !important;
+}
+
+.login-wrapper .login .login-group .error.active {
+    display: block !important;
+}
+
+div.main-container.hidden {
+    display: none;
+}
+
+.clr-wizard .modal-dialog .modal-content .modal-body .content-area {
+    overflow-y: hidden;
+}
+
+.clr-wizard .clr-nav-content {
+    overflow-y: hidden;
+}
+
+.modal-content form,
+.modal-content .form {
+    padding-top: 0;
+}
+
+.form-group input,
+.form-group .select {
+    width: 100%;
+}
+
+
+/* CSS for embedded Django-admin */
+#content-main .module {
+    background: initial !important;
+}
+
+table {
+    width: 100%;
+}
+
+div.breadcrumbs {
+    margin: -24px;
+    margin-top: -24px !important;
+    margin-bottom: 24px;
+    background: #49AFD9 !important;
+    color: #007CBB !important;
+}
+
+div.breadcrumbs a {
+    color: #002538 !important;
+}
+
+/* hide number spinner */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    display: none;
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+/* fix tablesorter css */
+th.header {
+    display: table-cell !important;
+    height: inherit !important;
+    color: inherit !important;
+    flex: initial !important;
+    white-space: initial !important;
+}
+
+/* tr selected */
+tr.selected {
+    background-color: #E1F1F6 !important;
+}
+
+.btn-group {
+    margin-top: 24px !important;
+    margin-bottom: -12px !important;
+}
+
+/* fix for forms surrounding wizards */
+
+.modal-content-wrapper form,
+.model-content-wrapper .form {
+    padding-top: 0 !important;
+    width: 100%;
+}
+
+.modal-content-wrapper form .modal-content,
+.model-content-wrapper .form .modal-content {
+    width: 100%;
+}
+
