@@ -163,4 +163,4 @@ typings/
 # dotenv environment variables file
 .env
 
-supervisr_puppet/modules/*.tgz
+media/
