@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = 'core-index'
 # Application definition
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'allaccess',
+    'crispy_forms',
     'pyazo',
 ]
 
@@ -140,10 +143,6 @@ LOGGING = {
         'default': {
             'format': ('[%(asctime)s] %(levelname)s '
                        '[%(name)s::%(funcName)s::%(lineno)s] %(message)s'),
-        },
-        'syslog': {
-            'format': '%(asctime)s supervisr %(funcName)s: %(message)s',
-            'datefmt': '%Y-%m-%dT%H:%M:%S',
         },
     },
     'handlers': {
