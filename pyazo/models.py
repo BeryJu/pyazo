@@ -58,7 +58,7 @@ class Upload(models.Model):
         """
         Returns the initial view
         """
-        return UplodaView.objects.filter(upload=self).earliest()
+        return UploadView.objects.filter(upload=self).earliest()
 
     @property
     def filename(self):
@@ -67,7 +67,10 @@ class Upload(models.Model):
         """
         return self.sha512
 
-class UplodaView(models.Model):
+    def __str__(self):
+        return self.sha512
+
+class UploadView(models.Model):
     upload = models.ForeignKey(Upload)
     viewee = models.ForeignKey(User, blank=True, default=1)
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)

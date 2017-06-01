@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from pyazo.models import Upload, UploadView
+
+admin.site.register(Upload)
+admin.site.register(UploadView)
