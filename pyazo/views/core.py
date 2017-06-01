@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+
 from pyazo.models import Upload, UploadView, save_from_post
 from pyazo.utils import get_remote_ip, get_reverse_dns
 
@@ -16,9 +17,10 @@ LOGGER = logging.getLogger(__name__)
 @login_required
 def index(req):
     """
-
+    Show overview of newest images
     """
-    return render(req, 'core/index.html')
+    images = Upload.objects.all().order_by('-id')[:200]
+    return render(req, 'core/index.html', {'images': images})
 
 @csrf_exempt
 def upload_legacy(req):
@@ -90,3 +92,13 @@ def view_sha512(req, hash):
     uploads = Upload.objects.filter(sha512=hash)
     return handle_view(req, uploads)
 
+def thumb_view_sha512(req, hash):
+    """
+    Search upload by sha512 and return it (don't log it tho)
+    """
+    uploads = Upload.objects.filter(sha512=hash)
+    if uploads.exists():
+        upload = uploads.first()
+        return HttpResponse(upload.file.read(), content_type="image/png")
+    else:
+        return Http404

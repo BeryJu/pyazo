@@ -1,11 +1,8 @@
 {% extends "core/skel.html" %}
 
-{% load is_active %}
-{% load setting %}
-{% load hostname %}
-{% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
+{% load is_active %}
 {% load gravatar %}
 
 {% block body %}
@@ -29,36 +26,21 @@
   {% endblock %}
   <header class="header header-1">
     <div class="branding">
-      <a class="logo-and-title" href="{% url 'common-index' %}">
-        <img class="clr-icon clarity-logo" src="{% static 'img/icon.png' %}" alt="{% trans 'Logo' %}}">
-        <span class="title">{% supervisr_setting 'branding' %}</span>
+      <a class="logo-and-title" href="{% url 'core-index' %}">
+        <span class="title">pyazo</span>
       </a>
     </div>
     <div class="divider"></div>
     <div class="header-nav clr-nav-level-1">
-      <a class="nav-link {% is_active 'account' 'common' 'domain' %}" href="{% url 'common-index' %}">
+      <a class="nav-link {% is_active 'core' %}" href="{% url 'core-index' %}">
         <span class="nav-text">{% trans "Home" %}</span>
       </a>
       {% if user.is_authenticated %}
-      {% supervisr_dyn_navapps as installed_apps %}
-      {% for app in installed_apps %}
-      <a class="nav-link {% is_active app.short %}" href="{% url app.index %}">
-        <span class="nav-text">{% trans app.title %}</span>
-      </a>
-      {% endfor %}
-      {% if user.is_superuser %}
-      <a class="nav-link {% is_active 'admin' %}" href="{% url 'admin-index' %}">
+      <a class="nav-link {% is_active 'admin' %}" href="{% url 'admin:index' %}">
         <span class="nav-text">{% trans "Admin" %}</span>
       </a>
       {% endif %}
-      {% endif %}
     </div>
-    <div class="divider"></div>
-    <form class="search" method="GET" action="{% url 'common-search' %}">
-      <label for="search_input">
-        <input id="search_input" name="q" placeholder="{% trans 'Search for keywords...' %}" type="text" {% if request.GET.q %} value="{{ request.GET.q }}" {% endif %}>
-      </label>
-    </form>
     <div class="settings">
       <span class="nav-link">
         <img class="branding" src="{% gravatar user.email %}" alt="">
@@ -70,12 +52,7 @@
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="{% url 'user-index' %}">{% trans "Profile" %}</a>
-          <a class="dropdown-item" href="{% url 'account-change_password' %}">{% trans "Change Password" %}</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'about-attributions' %}">{% trans "Attributions" %}</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'account-logout' %}">{% trans "Logout" %}</a>
+          <a class="dropdown-item" href="{% url 'admin:logout' %}">{% trans "Logout" %}</a>
         </div>
       </div>
       {% endif %}
