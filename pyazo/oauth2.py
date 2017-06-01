@@ -25,7 +25,7 @@ class SupervisrOAuthCallback(OAuthCallback):
     client_class = SupervisrOAuth2Client
 
     def get_user_id(self, provider, info):
-        return info['id']
+        return info['pk']
 
     def get_or_create_user(self, provider, access, info):
         User = get_user_model()

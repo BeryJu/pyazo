@@ -1,6 +1,5 @@
 {% extends "core/skel.html" %}
 
-{% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block header %}
@@ -11,13 +10,12 @@
 <div class="login-wrapper">
   <form class="login" method="POST">
     <label class="title">
-      Pyazo
+      pyazo
     </label>
     <label class="subtitle">
       {{ title }}
     </label>
     <div class="login-group">
-      {% crispy form %}
       {% block messages %}
         {% if messages %}
           {% for msg in messages %}
@@ -26,25 +24,8 @@
             </div>
           {% endfor %}
         {% endif %}
-        {% for field in form %}
-          {% if field.errors %}
-            {% for error in field.errors %}
-              <div class="error active">
-              {{ field.label }}: {{ error|escape }}
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
       {% endblock %}
-      {% if next %}
-      <input type="hidden" name="next" value="{{ next }}" />
-      {% endif %}
-      <button type="submit" class="btn btn-primary">{{ primary_action }}</button>
-      {% if extra_links %}
-      {% for link, name in extra_links.items %}
-      <a href="{% url link %}" class="signup">{% trans name %}</a>
-      {% endfor %}
-      {% endif %}
+      <a href="{% url 'allaccess-login' 'supervisr' %}" class="btn btn-primary">{% trans "Login with Supervisr" %}</a>
     </div>
   </form>
 </div>

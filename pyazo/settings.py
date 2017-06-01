@@ -11,11 +11,16 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
+import logging
+
+
+LOGGER = logging.getLogger(__name__)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-EXTERNAL_URL = 'https://i.beryju.org/'
+EXTERNAL_URL = 'http://localhost:8000'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -64,7 +69,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'pyazo.urls'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 TEMPLATES = [
     {
@@ -83,7 +88,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pyazo.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -134,7 +138,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+try:
+    # pylint: disable=wildcard-import
+    sys.path.append('..')
+    from local_settings import * # noqa
+except ImportError as exception:
+    LOGGER.warning("Failed to import local_settings because %s", exception)
 
 LOGGING = {
     'version': 1,
