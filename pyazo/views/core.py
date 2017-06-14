@@ -1,13 +1,13 @@
 
 import logging
-
+from urllib.parse import urljoin
 
 from django.conf import settings
-from django.http import HttpResponse, Http404
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
+from django.http import Http404, HttpResponse
+from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from pyazo.models import Upload, UploadView, save_from_post
 from pyazo.utils import get_remote_ip, get_reverse_dns
@@ -46,8 +46,8 @@ def upload_legacy(req):
         print( "Uploaded %s from %s" % (new_upload.filename, client_ip))
 
         # Generate url for client to open
-        url = '%s/%s' % (settings.EXTERNAL_URL,
-            reverse('core-view_sha256', kwargs={ 'hash': new_upload.sha256 }))
+        url = reverse('core-view_sha256', kwargs={ 'hash': new_upload.sha256 })
+        full_url = urljoin(settings.EXTERNAL_URL, url)
         return HttpResponse(url)
     else:
         return HttpResponse(status=400)

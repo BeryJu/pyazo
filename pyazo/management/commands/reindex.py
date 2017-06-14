@@ -4,7 +4,6 @@ Pyazo Reindex management command
 
 import hashlib
 import logging
-
 from glob import glob
 
 from django.conf import settings

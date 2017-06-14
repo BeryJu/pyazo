@@ -1,10 +1,11 @@
 """
 pyazo URL Configuration
 """
-from django.conf.urls import url, include
+from django.conf.urls import include, url
 from django.contrib import admin
-from pyazo.views import core
+
 from pyazo.oauth2 import SupervisrOAuthCallback
+from pyazo.views import core
 
 urlpatterns = [
     url(r'^$', core.index, name='core-index'),
@@ -19,4 +20,3 @@ urlpatterns = [
     url(r'^(?P<hash>\w{128})\.png$', core.view_sha512, name='core-view_sha512'),
     url(r'^w/thumb/(?P<hash>\w{128})\.png$', core.thumb_view_sha512, name='core-thumb-view_sha512'),
 ]
-

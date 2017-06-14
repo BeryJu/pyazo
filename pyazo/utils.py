@@ -1,5 +1,6 @@
 import socket
 
+
 def get_remote_ip(req):
     """
     Return the remote's IP

@@ -1,7 +1,9 @@
 import json
-from django.contrib.auth import get_user_model
+
 from allaccess.clients import OAuth2Client
 from allaccess.views import OAuthCallback
+from django.contrib.auth import get_user_model
+
 
 class SupervisrOAuth2Client(OAuth2Client):
 
