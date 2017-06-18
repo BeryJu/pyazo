@@ -43,12 +43,12 @@ def upload_legacy(req):
             )
         new_upload_view.save()
 
-        print( "Uploaded %s from %s" % (new_upload.filename, client_ip))
+        LOGGER.info( "Uploaded %s from %s" % (new_upload.filename, client_ip))
 
         # Generate url for client to open
         url = reverse('core-view_sha256', kwargs={ 'hash': new_upload.sha256 })
         full_url = urljoin(settings.EXTERNAL_URL, url)
-        return HttpResponse(url)
+        return HttpResponse(full_url)
     else:
         return HttpResponse(status=400)
 
