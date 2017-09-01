@@ -29,7 +29,7 @@ chown -R pyazo: /etc/pyazo/
 chmod 440 /etc/pyazo/secret_key
 echo " * Running Database Migration"
 /usr/share/pyazo/manage.sh manage.py migrate
-if [ "$FIRST" -eq "true" ];
+if [ "$FIRST" -eq "true" ]; then
 	echo " * Creating superuser"
 	/usr/share/pyazo/manage.sh manage.py createsuperuser
 fi
