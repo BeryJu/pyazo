@@ -1,5 +1,5 @@
-pyazo (0.1) unstable; urgency=medium
+pyazo (1.0) stable; urgency=medium
 
-  * Initial release. (Closes #206)
+  * Initial release.
 
- -- Jens Langhammer <jens.langhammer@beryju.org>  Sun, 27 Aug 2017 07:47:14 +0000
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 01 Sep 2017 15:01:36 +0000
