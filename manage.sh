@@ -8,7 +8,7 @@ if [ $? -eq 0 ] && [ "$BASE_DIR" != $(pwd)  ]; then
 	PACKAGED=true
 fi
 
-COMMAND="python manage.py $@"
+COMMAND="python $@"
 
 if [ $PACKAGED == true ]; then
 	if [ "$(id -u)" != "0" ]; then
