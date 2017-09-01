@@ -20,7 +20,6 @@ fi
 if [ ! -f '/etc/pyazo/secret_key' ]; then
   echo " * Generating Secret Key"
   /usr/share/pyazo/generate-secret-key > /etc/pyazo/secret_key 2> /dev/null
-  FIRST=1
 fi
 rm -f /usr/share/pyazo/pyazo/local_settings.py
 chown -R pyazo: /var/log/pyazo/
@@ -29,10 +28,7 @@ chown -R pyazo: /etc/pyazo/
 chmod 440 /etc/pyazo/secret_key
 echo " * Running Database Migration"
 /usr/share/pyazo/manage.sh manage.py migrate
-if [ ! -z "$FIRST" ]; then
-	echo " * Creating superuser"
-	/usr/share/pyazo/manage.sh manage.py createsuperuser
-fi
+echo " * A superuser can be created with this command `/usr/share/pyazo/manage.sh manage.py createsuperuser`"
 
 #DEBHELPER#
 
