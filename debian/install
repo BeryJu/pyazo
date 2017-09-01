@@ -1,0 +1,8 @@
+pyazo			/usr/share/pyazo/
+static			/usr/share/pyazo/
+manage.py		/usr/share/pyazo/
+manage.sh		/usr/share/pyazo/
+generate-secret-key	/usr/share/pyazo/
+runserver.py		/usr/share/pyazo/
+
+debian/etc/pyazo	/etc/
