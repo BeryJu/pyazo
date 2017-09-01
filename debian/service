@@ -8,7 +8,7 @@ User=pyazo
 Group=pyazo
 WorkingDirectory=/usr/share/pyazo
 Type=simple
-ExecStart=/usr/share/pyazo/manage.sh runserver
+ExecStart=/usr/share/pyazo/manage.sh runserver.py
 Environment=PYAZO_LOCAL_SETTINGS=config
 
 [Install]
