@@ -5,7 +5,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from pyazo.oauth2 import SupervisrOAuthCallback
-from pyazo.views import core
+from pyazo.views import core, image
 
 urlpatterns = [
     url(r'^$', core.index, name='core-index'),
@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allaccess.urls')),
     url(r'^gyazo\.php$', core.upload_legacy, name='core-upload_legacy'),
+    url(r'^image/view/$', image.view, name='core-image_view'),
+    url(r'^(?P<hash>\w{16})\.png$', core.view_sha512_short, name='core-view_sha512_short'),
     url(r'^(?P<hash>\w{32})\.png$', core.view_md5, name='core-view_md5'),
     url(r'^(?P<hash>\w{64})\.png$', core.view_sha256, name='core-view_sha256'),
     url(r'^(?P<hash>\w{128})\.png$', core.view_sha512, name='core-view_sha512'),

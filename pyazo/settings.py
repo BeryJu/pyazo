@@ -16,10 +16,27 @@ import sys
 
 LOGGER = logging.getLogger(__name__)
 
+
+
+# This is the base url used for image URLs
+EXTERNAL_URL = 'http://localhost:8000'
+# This dictates how the Path is generated
+# can be either of:
+# - view_sha512_short
+# - view_md5
+# - view_sha256
+# - view_sha512
+DEFAULT_RETURN_VIEW = 'core-view_sha256'
+
+
+
+
+
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-EXTERNAL_URL = 'http://localhost:8000'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 

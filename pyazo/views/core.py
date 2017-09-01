@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -46,7 +46,7 @@ def upload_legacy(req):
         LOGGER.info( "Uploaded %s from %s" % (new_upload.filename, client_ip))
 
         # Generate url for client to open
-        url = reverse('core-view_sha256', kwargs={ 'hash': new_upload.sha256 })
+        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={ 'hash': new_upload.sha256 })
         full_url = urljoin(settings.EXTERNAL_URL, url)
         return HttpResponse(full_url)
     else:
@@ -90,6 +90,13 @@ def view_sha512(req, hash):
     Search upload by sha512 and return it
     """
     uploads = Upload.objects.filter(sha512=hash)
+    return handle_view(req, uploads)
+
+def view_sha512_short(req, hash):
+    """
+    Search upload by shortened sha512 and return it
+    """
+    uploads = Upload.objects.filter(sha512__startswith=hash)
     return handle_view(req, uploads)
 
 def thumb_view_sha512(req, hash):
