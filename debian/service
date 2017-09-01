@@ -1,0 +1,16 @@
+[Unit]
+Description=pyazo
+After=syslog.target network.target
+Requires=network.target
+
+[Service]
+User=pyazo
+Group=pyazo
+WorkingDirectory=/usr/share/pyazo
+Type=simple
+ExecStart=/usr/share/pyazo/manage.sh runserver
+Environment=PYAZO_LOCAL_SETTINGS=config
+
+[Install]
+WantedBy=multi-user.target
+

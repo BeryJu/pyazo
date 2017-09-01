@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+. /usr/share/debconf/confmodule
+. /usr/share/dbconfig-common/dpkg/postinst.mysql
+
+# you can set the default database encoding to something else
+dbc_mysql_createdb_encoding="UTF8"
+dbc_generate_include=sh:/etc/pyazo/database-config
+dbc_go pyazo "$@"
+
+if [ -z "`getent group pyazo`" ]; then
+  addgroup --quiet --system pyazo
+fi
+if [ -z "`getent passwd pyazo`" ]; then
+  echo " * Creating user and group pyazo..."
+  adduser --quiet --system --home /usr/share/pyazo --shell /bin/false --ingroup pyazo --disabled-password --disabled-login --gecos "pyazo User" pyazo
+fi
+if [ ! -f '/etc/pyazo/secret_key' ]; then
+  echo " * Generating Secret Key"
+  /usr/share/pyazo/generate-secret-key > /etc/pyazo/secret_key 2> /dev/null
+fi
+rm -f /usr/share/pyazo/pyazo/local_settings.py
+chown -R pyazo: /var/log/pyazo/
+chown -R pyazo: /usr/share/pyazo/
+chown -R pyazo: /etc/pyazo/
+chmod 440 /etc/pyazo/secret_key
+echo " * Running Database Migration"
+/usr/share/pyazo/generate-secret-key manage.py migrate
+
+#DEBHELPER#
+

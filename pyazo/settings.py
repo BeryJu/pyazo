@@ -53,6 +53,12 @@ LOGIN_REDIRECT_URL = 'core-index'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
+CHERRYPY_SERVER = {
+    'socket_host': '0.0.0.0',
+    'socket_port': 8000,
+    'thread_pool': 30
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -153,13 +159,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+import importlib
+sys.path.append('/etc/pyazo')
 
-try:
-    # pylint: disable=wildcard-import
-    sys.path.append('..')
-    from local_settings import * # noqa
-except ImportError as exception:
-    LOGGER.warning("Failed to import local_settings because %s", exception)
+def load_local_settings(mod):
+    """
+    Load module *mod* and apply contents to ourselves
+    """
+    try:
+        loaded_module = importlib.import_module(mod, package=None)
+        for key, val in loaded_module.__dict__.items():
+            if not key.startswith('__') and not key.endswith('__'):
+                globals()[key] = val
+        LOGGER.warning("Loaded '%s' as local_settings", mod)
+        return True
+    except ImportError as exception:
+        LOGGER.info('Not loaded %s because %s', mod, exception)
+        return False
+
+for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
+    if load_local_settings(modu):
+        break
 
 LOGGING = {
     'version': 1,

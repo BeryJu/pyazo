@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+export DH_VIRTUALENV_INSTALL_ROOT=/usr/share/pyazo/
+export DH_VIRTUALENV_INSTALL_SUFFIX=env
+
+%:
+	dh $@ --with=systemd --with=python-virtualenv --skip-install --install-suffix=env #-buildsystem=dh_virtualenv
+
+override_dh_auto_clean:
+	env/bin/invoke clean
+
+override_dh_auto_build:
+	env/bin/invoke compile-reqs
+
+# override_dh_usrlocal to do nothing
+override_dh_usrlocal:
+

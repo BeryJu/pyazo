@@ -1,0 +1,4 @@
+pyazo			/usr/share/pyazo/
+static			/usr/share/pyazo/
+
+debian/etc/pyazo	/etc/

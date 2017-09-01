@@ -1,0 +1,13 @@
+Source: pyazo
+Section: admin
+Priority: optional
+Maintainer: BeryJu.org <support@beryju.org>
+Uploaders: Jens Langhammer <jens@beryju.org>, BeryJu.org <support@beryju.org>
+Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5), dh-exec, wget, dh-virtualenv, dh-exec
+Standards-Version: 3.9.6
+
+Package: pyazo
+Architecture: all
+Depends: python3, dbconfig-mysql | dbconfig-no-thanks, ${misc:Depends}
+Description: Gyazo in Python/Django
+
