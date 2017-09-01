@@ -11,7 +11,7 @@
 <div class="login-wrapper">
   <form class="login" method="POST">
     <label class="title">
-      {% supervisr_setting 'branding' %}
+      pyazo
     </label>
     <label class="subtitle">
       {{ title }}
@@ -45,6 +45,7 @@
       <a href="{% url link %}" class="signup">{% trans name %}</a>
       {% endfor %}
       {% endif %}
+      <a href="{% url 'allaccess-login' 'supervisr' %}" class="btn btn-primary">{% trans "Login with Supervisr" %}</a>
     </div>
   </form>
 </div>

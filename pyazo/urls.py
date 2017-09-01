@@ -5,13 +5,14 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from pyazo.oauth2 import SupervisrOAuthCallback
-from pyazo.views import core, image
+from pyazo.views import accounts, core, image
 
 urlpatterns = [
     url(r'^$', core.index, name='core-index'),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/callback/(?P<provider>(\w|-)+)/$',
         SupervisrOAuthCallback.as_view(), name='allaccess-callback'),
+    url(r'^accounts/login/$', accounts.login, name='core-accounts_login'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allaccess.urls')),
     url(r'^gyazo\.php$', core.upload_legacy, name='core-upload_legacy'),

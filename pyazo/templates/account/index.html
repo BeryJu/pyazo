@@ -1,0 +1,38 @@
+{% extends "_admin/base.html" %}
+
+{% load supervisr_title %}
+{% load i18n %}
+{% load setting %}
+
+{% block title %}
+{% supervisr_title "Overview" %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-header">
+        {% trans "Users" %}
+      </div>
+      <div class="card-block">
+        <div class="card-text">
+          <h1 class="text-center">{{ user_count }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-header">
+        {% trans "Version" %}
+      </div>
+      <div class="card-block">
+        <div class="card-text">
+          <h1 class="text-center">{% setting 'VERSION_HASH' %}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
