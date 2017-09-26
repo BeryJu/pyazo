@@ -8,6 +8,6 @@ Standards-Version: 3.9.6
 
 Package: pyazo
 Architecture: all
-Depends: python3, dbconfig-mysql | dbconfig-no-thanks, ${misc:Depends}
+Depends: python3, dbconfig-mysql | dbconfig-no-thanks, mysql-server ${misc:Depends}
 Description: Gyazo in Python/Django
 
