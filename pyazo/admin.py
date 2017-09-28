@@ -1,3 +1,6 @@
+"""
+pyazo admin
+"""
 from django.contrib import admin
 
 from pyazo.models import Upload, UploadView
