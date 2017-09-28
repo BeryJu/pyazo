@@ -1,5 +1,5 @@
 """
-supervisr view decorators
+pyazo view decorators
 """
 
 import base64
@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
+
 
 def anonymous_required(view_function):
     """
@@ -30,4 +31,3 @@ def anonymous_required(view_function):
     wrap.__doc__ = view_function.__doc__
     wrap.__name__ = view_function.__name__
     return wrap
-

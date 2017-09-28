@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+import importlib
 import logging
 import os
 import sys
@@ -159,7 +160,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-import importlib
 sys.path.append('/etc/pyazo')
 
 def load_local_settings(mod):

@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -23,7 +23,7 @@ def index(req):
     return render(req, 'core/index.html', {'images': images})
 
 @csrf_exempt
-def upload_legacy(req):
+def upload(req):
     if 'id' in req.POST and 'imagedata' in req.FILES:
         client_ip = get_remote_ip(req)
         client_dns = get_reverse_dns(client_ip)

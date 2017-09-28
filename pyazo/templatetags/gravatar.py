@@ -1,5 +1,5 @@
 """
-Supervisr Core Gravatar Templatetag
+pyazo Core Gravatar Templatetag
 """
 from hashlib import md5
 from urllib.parse import urlencode

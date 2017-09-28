@@ -1,5 +1,5 @@
 """
-Supervisr Core templte_wildcard Templatetag
+pyazo Core templte_wildcard Templatetag
 """
 
 import glob

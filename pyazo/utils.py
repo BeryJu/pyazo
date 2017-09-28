@@ -60,4 +60,3 @@ def read_simple(path, mode='r'):
     """
     with open(path, mode) as file:
         return file.read()
-

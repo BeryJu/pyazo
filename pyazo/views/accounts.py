@@ -1,5 +1,5 @@
 """
-Supervisr Core Account Views
+pyazo Core Account Views
 """
 
 import logging
@@ -18,8 +18,8 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_GET
 
-from ..decorators import anonymous_required
-from ..forms.account import LoginForm
+from pyazo.decorators import anonymous_required
+from pyazo.forms.account import LoginForm
 
 LOGGER = logging.getLogger(__name__)
 

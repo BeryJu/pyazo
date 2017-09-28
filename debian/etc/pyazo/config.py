@@ -1,5 +1,5 @@
 """
-Supervisr default local settings
+pyazo default local settings
 """
 from os import path
 

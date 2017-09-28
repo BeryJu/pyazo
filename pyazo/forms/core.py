@@ -1,5 +1,5 @@
 """
-Supervisr Core Forms
+pyazo Core Forms
 """
 
 from crispy_forms.helper import FormHelper

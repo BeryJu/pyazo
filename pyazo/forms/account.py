@@ -1,5 +1,5 @@
 """
-Supervisr Core Account Forms
+pyazo Core Account Forms
 """
 
 import logging

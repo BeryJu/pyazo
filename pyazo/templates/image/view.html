@@ -1,0 +1,120 @@
+{% extends "core/base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+{{ image.md5 }} - pyazo
+{% endblock %}
+
+{% block content_area %}
+<div class="row">
+  <div class="col-sm-12 col-lg-6">
+    <h3>{% trans 'Image' %}</h3>
+    <hr>
+    <img style="max-width:100%" src="{% url 'core-thumb-view_sha512' hash=image.sha512 %}" alt="">
+  </div>
+  <div class="row col-sm-12 col-lg-6">
+    <div class="col-sm-12 col-lg-6">
+      <h3>{% trans 'Info' %}</h3>
+      <hr>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans 'Property' %}</th>
+            <th>{% trans 'Value' %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{% trans 'User' %}</td>
+            <td>{{ image.user }} ({{image.user.email}})</td>
+          </tr>
+          <tr>
+            <td>{% trans 'MD5' %}</td>
+            <td><a href="{{ url_prefix }}{{ image.md5 }}.png">{% trans 'Here' %}</a></td>
+          </tr>
+          <tr>
+            <td>{% trans 'SHA256' %}</td>
+            <td><a href="{{ url_prefix }}{{ image.sha256 }}.png">{% trans 'Here' %}</a></td>
+          </tr>
+          <tr>
+            <td>{% trans 'SHA512' %}</td>
+            <td><a href="{{ url_prefix }}{{ image.sha512 }}.png">{% trans 'Here' %}</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      <h3>{% trans 'Actions' %}</h3>
+      <hr>
+      {% if not image.user or image.user.is_superuser %}
+        <a class="btn btn-primary" href="{% url 'core-image_claim' hash=image.sha512 %}">{% trans 'Claim' %}</a>
+      {% endif %}
+    </div>
+    <div class="col-sm-12">
+      <h3>{% trans 'Statistics' %}</h3>
+      <hr>
+      <h1>{% trans 'Views: ' %}{{ image.uploadview_set.count }}</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans 'IP' %}</th>
+            <th>{% trans 'Reverse DNS' %}</th>
+            <th>{% trans 'User-Agent' %}</th>
+            <th>{% trans 'Date' %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for view in views %}
+          <tr>
+            <td>{{ view.viewee_ip }}</td>
+            <td>{{ view.viewee_dns }}</td>
+            <td>
+              <span role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg">
+                {{ view.user_agent }}
+                <span class="tooltip-content">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>{% trans 'Is PC' %}</td>
+                        <td>{{ view.user_agent.is_pc}}</td>
+                      </tr>
+                      <tr>
+                        <td>{% trans 'Is Mobile' %}</td>
+                        <td>{{ view.user_agent.is_mobile }}</td>
+                      </tr>
+                      <tr>
+                        <td>{% trans 'Is Bot' %}</td>
+                        <td>{{ view.user_agent.is_bot }}</td>
+                      </tr>
+                      <tr>
+                        <td>{% trans 'Browser Family' %}</td>
+                        <td>{{ view.user_agent.browser.family }}</td>
+                      </tr>
+                      <tr>
+                        <td>{% trans 'Operating System' %}</td>
+                        <td>{{ view.user_agent.os.family }}</td>
+                      </tr>
+                      <tr>
+                        <td>{% trans 'Device' %}</td>
+                        <td>{{ view.user_agent.device.family }}</td>
+                      </tr>
+                      <tr>
+                        <td>{% trans 'Full User-Agent' %}</td>
+                        <td>{{ view.viewee_user_agent }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </span>
+                <clr-icon shape="info-circle" size="24"></clr-icon>
+              </span>
+            </td>
+            <td>{{ view.viewee_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

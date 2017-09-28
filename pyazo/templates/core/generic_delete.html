@@ -1,0 +1,34 @@
+{% extends "core/base.html" %}
+
+{% load i18n %}
+{% load back %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="modal">
+  <div class="modal-dialog {% if size %}modal-{{ size }}{% endif %}" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="{% back %}" aria-label="Close" class="close" >
+          <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </a>
+        <h3 class="modal-title">{% trans "Attention" %}</h3>
+      </div>
+      <div class="modal-body" id="delete_form">
+        <p>{% blocktrans %}Are you sure you want to {{ action }} {{ object }}{% endblocktrans %}</p>
+      </div>
+      <div class="modal-footer">
+        <a href="{% back %}" class="btn btn-outline" type="button">{% trans 'Cancel' %}</a>
+        <form action="{{ delete_url }}" method="POST">
+          {% csrf_token %}
+          <button type="submit" name="confirmdelete" class="btn btn-danger">{% trans primary_action|default:'Confirm Deletion' %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop" aria-hidden="true"></div>
+{% endblock %}

@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+from user_agents import parse
+
 UPLOAD_TYPES = (
     (0, 'Picture'),
 )
@@ -25,7 +27,7 @@ def save_from_post(content):
 class Upload(models.Model):
     file = models.FileField(max_length=512)
     type = models.IntegerField(choices=UPLOAD_TYPES)
-    user = models.ForeignKey(User, default=1)
+    user = models.ForeignKey(User, default=None, null=True, blank=True)
     md5 = models.CharField(max_length=32, blank=True)
     sha256 = models.CharField(max_length=64, blank=True)
     sha512 = models.CharField(max_length=128, blank=True)
@@ -78,3 +80,14 @@ class UploadView(models.Model):
     viewee_dns = models.TextField(blank=True)
     viewee_date = models.DateTimeField(auto_now_add=True)
     viewee_user_agent = models.TextField(blank=True)
+
+    _ua_inst = None
+
+    @property
+    def user_agent(self):
+        """
+        Return user_agent instance
+        """
+        if not self._ua_inst:
+            self._ua_inst = parse(self.viewee_user_agent)
+        return self._ua_inst

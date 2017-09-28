@@ -1,5 +1,5 @@
 """
-Supervisr Core navbar Templatetag
+pyazo Core navbar Templatetag
 """
 
 from django import template

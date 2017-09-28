@@ -1,10 +1,12 @@
 import logging
 
 import django
-from django.db.utils import IntegrityError
 from django.conf import settings
-from pyazo.wsgi import application
+from django.db.utils import IntegrityError
+
 import cherrypy
+from pyazo.wsgi import application
+
 
 # pylint: disable=too-few-public-methods
 class NullObject(object):
@@ -37,4 +39,3 @@ server.subscribe()
 
 cherrypy.engine.start()
 cherrypy.engine.block()
-

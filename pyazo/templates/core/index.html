@@ -8,9 +8,13 @@
 
 {% block content_area %}
 <div class="row">
+  <div class="col-md-12">
+    <h3>{% trans 'All Images' %}</h3>
+    <hr>
+  </div>
   {% for upl in images %}
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1 col-xl-1">
-      <div class="card" style="background: url(.{% url 'core-thumb-view_sha512' hash=upl.sha512 %}) no-repeat center;min-width:100%;min-height:100px;"></div>
+      <a href="{% url 'core-image_view' hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'core-thumb-view_sha512' hash=upl.sha512 %}) no-repeat center;min-width:100%;min-height:100px;"></a>
     </div>
   {% empty %}
     <p>No Pictures yet!</p>
