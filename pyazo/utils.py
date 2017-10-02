@@ -19,7 +19,7 @@ def get_reverse_dns(dev_ip):
         rev = socket.gethostbyaddr(dev_ip)
         if rev:
             return rev[0]
-    except (socket.herror, TypeError, IndexError):
+    except (socket.herror, socket.gaierror, TypeError, IndexError):
         return ''
 
 def db_settings_from_dbconfig(config_path):
