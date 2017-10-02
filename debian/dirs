@@ -1,3 +1,4 @@
 etc/pyazo/
 var/log/pyazo/
 usr/share/pyazo/
+usr/share/pyazo/media/

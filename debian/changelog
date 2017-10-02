@@ -1,4 +1,12 @@
-pyazo (1.1.1) unstable; urgency=medium
+pyazo (1.1.2) stable; urgency=medium
+
+  * Added EXTERNAL_URL to default config
+  * Added missing migrations
+  * Add missing media dir
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 02 Oct 2017 12:22:44 +0000
+
+pyazo (1.1.1) stable; urgency=medium
 
   * Fix error when reverse DNS couldn't be determined 
 

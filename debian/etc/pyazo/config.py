@@ -7,6 +7,10 @@ from pyazo.utils import db_settings_from_dbconfig
 
 LOCAL_BASE = path.join((path.dirname(__file__)) + '/')
 
+# Set this to the server's external address.
+# This is used to generate external URLs
+EXTERNAL_URL = 'test.example.log'
+
 # Set this to this server's hostname or localhost if behind a reverse proxy
 ALLOWED_HOSTS = ['test.example.org']
 
