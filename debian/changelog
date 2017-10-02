@@ -1,3 +1,10 @@
+pyazo (1.1.0) stable; urgency=medium
+
+  * add view to view image details, view to claim image
+  * only show stats if  unclaimed, user is claimee or superuser
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Thu, 28 Sep 2017 20:13:13 +0000
+
 pyazo (1.0.1) stable; urgency=medium
 
   * add mysql-server as dependency
