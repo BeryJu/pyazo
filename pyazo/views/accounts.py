@@ -5,6 +5,8 @@ pyazo Core Account Views
 import logging
 import time
 
+from allaccess.models import Provider
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as django_login
@@ -64,5 +66,5 @@ def login(req):
         'form': form,
         'title': _("SSO - Login"),
         'primary_action': _("Login"),
-
+        'oauth_providers': Provider.objects.all()
         })

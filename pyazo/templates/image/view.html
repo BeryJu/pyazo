@@ -30,6 +30,10 @@
             <td>{{ image.user }} ({{image.user.email}})</td>
           </tr>
           <tr>
+            <td>{% trans 'Size' %}</td>
+            <td>{{ image.file.size|filesizeformat }}</td>
+          </tr>
+          <tr>
             <td>{% trans 'MD5' %}</td>
             <td><a href="{{ url_prefix }}{{ image.md5 }}.png">{% trans 'Here' %}</a></td>
           </tr>

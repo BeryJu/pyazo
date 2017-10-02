@@ -45,7 +45,9 @@
       <a href="{% url link %}" class="signup">{% trans name %}</a>
       {% endfor %}
       {% endif %}
-      <a href="{% url 'allaccess-login' 'supervisr' %}" class="btn btn-primary">{% trans "Login with Supervisr" %}</a>
+      {% for prov in oauth_providers %}
+      <a href="{% url 'allaccess-login' prov %}" class="btn btn-primary">{% trans "Login with" %} {{ prov }}</a>
+      {% endfor %}
     </div>
   </form>
 </div>

@@ -11,6 +11,14 @@ LOCAL_BASE = path.join((path.dirname(__file__)) + '/')
 # This is used to generate external URLs
 EXTERNAL_URL = 'test.example.log'
 
+# This dictates how the Path is generated
+# can be either of:
+# - view_sha512_short
+# - view_md5
+# - view_sha256
+# - view_sha512
+DEFAULT_RETURN_VIEW = 'core-view_sha256'
+
 # Set this to this server's hostname or localhost if behind a reverse proxy
 ALLOWED_HOSTS = ['test.example.org']
 

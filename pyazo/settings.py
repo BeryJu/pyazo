@@ -51,6 +51,7 @@ ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = 'core-index'
 # Application definition
+LOGOUT_REDIRECT_URL = 'core-accounts_login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
