@@ -1,3 +1,11 @@
+pyazo (1.1.3) stable; urgency=medium
+
+  * only show oauth login if providers are defined
+  * show size in image view
+  * DEFAULT_RETURN_VIEW added to default config
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 02 Oct 2017 13:19:15 +0000
+
 pyazo (1.1.2) stable; urgency=medium
 
   * Added EXTERNAL_URL to default config
