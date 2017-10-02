@@ -11,7 +11,13 @@ namespace PyazoWin {
     class Launcher {
 
         public static int Main(string[] args) {
-            string server = System.AppDomain.CurrentDomain.FriendlyName.Replace("PyazoWin_", "").Replace(".exe", "");
+            string server = System.AppDomain.CurrentDomain.FriendlyName
+                .Replace("Pyazo", "")
+                .Replace("_", "")
+                .Replace(".exe", "");
+            if (server == "") {
+                server = "i.beryju.org";
+            }
             var image = SnippingForm.Snip();
             if (image == null) {
                 return 1; // User pressed escape or window was closed
