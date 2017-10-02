@@ -1,3 +1,9 @@
+pyazo (1.1.1) unstable; urgency=medium
+
+  * Fix error when reverse DNS couldn't be determined 
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 02 Oct 2017 12:10:10 +0000
+
 pyazo (1.1.0) stable; urgency=medium
 
   * add view to view image details, view to claim image
