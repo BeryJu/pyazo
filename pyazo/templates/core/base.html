@@ -35,6 +35,9 @@
       <a class="nav-link {% is_active 'core' %}" href="{% url 'core-index' %}">
         <span class="nav-text">{% trans "Home" %}</span>
       </a>
+      <a href="{% url 'core-download_client_windows' %}" class="nav-link">
+        <span class="nav-text">{% trans 'Download Client' %}</span>
+      </a>
       {% if user.is_authenticated %}
       <a class="nav-link {% is_active 'admin' %}" href="{% url 'admin:index' %}">
         <span class="nav-text">{% trans "Admin" %}</span>

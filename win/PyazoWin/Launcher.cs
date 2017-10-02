@@ -14,6 +14,7 @@ namespace PyazoWin {
             string server = System.AppDomain.CurrentDomain.FriendlyName
                 .Replace("Pyazo", "")
                 .Replace("_", "")
+                .Replace("-", ":")
                 .Replace(".exe", "");
             if (server == "") {
                 server = "i.beryju.org";

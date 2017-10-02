@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^accounts/login/$', accounts.login, name='core-accounts_login'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allaccess.urls')),
+    url(r'^download/win/$', core.download_client_windows, name='core-download_client_windows'),
     url(r'^gyazo\.php$', core.upload, name='core-upload'),
     url(r'^upload/$', core.upload, name='core-upload'),
     url(r'^image/(?P<hash>\w{128})/view/$', image.view, name='core-image_view'),

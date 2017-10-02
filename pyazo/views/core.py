@@ -1,6 +1,7 @@
 
 import logging
-from urllib.parse import urljoin
+import os.path
+from urllib.parse import urljoin, urlparse
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -51,6 +52,21 @@ def upload(req):
         return HttpResponse(full_url)
     else:
         return HttpResponse(status=400)
+
+@login_required
+def download_client_windows(req):
+    """
+    Download Client (Windows)
+    """
+    client_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'Pyazo.exe')
+    host = urlparse(req.build_absolute_uri()).netloc
+    filename = "Pyazo_%s.exe" % host
+    if os.path.isfile(client_path):
+        with open(client_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/octet-stream")
+            response['Content-Disposition'] = 'inline; filename=%s' % filename
+            return response
+    raise Http404
 
 def handle_view(req, uploads):
     """
