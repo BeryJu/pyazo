@@ -66,5 +66,6 @@ def login(req):
         'form': form,
         'title': _("SSO - Login"),
         'primary_action': _("Login"),
-        'oauth_providers': Provider.objects.all()
+        'oauth_providers': Provider.objects.all(),
+        'external_only': settings.EXTERNAL_AUTH_ONLY,
         })

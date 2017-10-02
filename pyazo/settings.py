@@ -28,9 +28,8 @@ EXTERNAL_URL = 'http://localhost:8000'
 # - view_sha256
 # - view_sha512
 DEFAULT_RETURN_VIEW = 'core-view_sha256'
-
-
-
+# Set this to true if you only want to use external authentication
+EXTERNAL_AUTH_ONLY = False
 
 
 

@@ -1,10 +1,56 @@
-{% extends 'core/generic_form_login.html' %}
+{% extends "core/skel.html" %}
 
-{% load template_wildcard %}
+{% load crispy_forms_tags %}
+{% load i18n %}
 
-{% block extra %}
-{% template_wildcard 'account/dyn_extra/' as incl %}
-{% for inc in incl %}
-{% include inc %}
-{% endfor %}
+{% block header %}
+<title>login - pyazo</title>
+{% endblock %}
+
+{% block body %}
+<div class="login-wrapper">
+  <form class="login" method="POST">
+    <label class="title">
+      pyazo
+    </label>
+    <label class="subtitle">
+      {{ title }}
+    </label>
+    <div class="login-group">
+      {% if not external_only %}
+      {% crispy form %}
+      {% block messages %}
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="error {{ msg.level_tag }} active">
+            {{ msg.message|safe }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% for field in form %}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <div class="error active">
+              {{ field.label }}: {{ error|escape }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endblock %}
+      {% if next %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      {% endif %}
+      <button type="submit" class="btn btn-primary">{{ primary_action }}</button>
+      {% endif %}
+      {% if extra_links %}
+      {% for link, name in extra_links.items %}
+      <a href="{% url link %}" class="signup">{% trans name %}</a>
+      {% endfor %}
+      {% endif %}
+      {% for prov in oauth_providers %}
+      <a href="{% url 'allaccess-login' prov %}" class="btn btn-primary">{% trans "Login with" %} {{ prov }}</a>
+      {% endfor %}
+    </div>
+  </form>
+</div>
 {% endblock %}
