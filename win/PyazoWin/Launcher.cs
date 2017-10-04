@@ -23,6 +23,7 @@ namespace PyazoWin {
         private static bool toggleOpenBrowser = true;
         private static bool toggleCopyClipboard = true;
 
+        [STAThread]
         public static int Main(string[] args) {
             foreach (string arg in args) {
                 switch (arg) {
