@@ -20,8 +20,20 @@ namespace PyazoWin {
         [DllImport("shcore.dll")]
         private static extern int SetProcessDpiAwareness(ProcessDPIAwareness value);
 
+        private static bool toggleOpenBrowser = true;
+        private static bool toggleCopyClipboard = true;
 
         public static int Main(string[] args) {
+            foreach (string arg in args) {
+                switch (arg) {
+                    case "-nb":
+                        toggleOpenBrowser = false;
+                        break;
+                    case "-nc":
+                        toggleCopyClipboard = false;
+                        break;
+                }
+            }
             string server = System.AppDomain.CurrentDomain.FriendlyName
                 .Replace("Pyazo", "")
                 .Replace("_", "")
@@ -47,7 +59,12 @@ namespace PyazoWin {
             if (url == null) {
                 return 2; // Some error occured while uploading the image
             }
-            Process.Start(url);
+            if (toggleOpenBrowser) {
+                Process.Start(url);
+            }
+            if (toggleCopyClipboard) {
+                Clipboard.SetText(url);
+            }
             return 0;
         }
 
