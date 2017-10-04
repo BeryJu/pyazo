@@ -6,3 +6,4 @@ generate-secret-key	/usr/share/pyazo/
 runserver.py		/usr/share/pyazo/
 
 debian/etc/pyazo	/etc/
+win/PyazoWin/bin/Release/Pyazo.exe	/usr/share/pyazo/bin/

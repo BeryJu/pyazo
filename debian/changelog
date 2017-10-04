@@ -1,3 +1,10 @@
+pyazo (1.2) stable; urgency=medium
+
+  * improve server guessing
+  * add download link to client, which renames it to the server
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 02 Oct 2017 18:19:12 +0000
+
 pyazo (1.1.4) stable; urgency=medium
 
   * add windows client
