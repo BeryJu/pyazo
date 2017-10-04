@@ -1,7 +1,6 @@
 D:\dev\pyazo\win\PyazoWin\bin\Release\Pyazo.exe.config
 D:\dev\pyazo\win\PyazoWin\bin\Release\Pyazo.exe
 D:\dev\pyazo\win\PyazoWin\bin\Release\Pyazo.pdb
-D:\dev\pyazo\win\PyazoWin\obj\Release\PyazoWin.csprojResolveAssemblyReference.cache
 D:\dev\pyazo\win\PyazoWin\obj\Release\PyazoWin.csproj.CoreCompileInputs.cache
 D:\dev\pyazo\win\PyazoWin\obj\Release\Pyazo.exe
 D:\dev\pyazo\win\PyazoWin\obj\Release\Pyazo.pdb

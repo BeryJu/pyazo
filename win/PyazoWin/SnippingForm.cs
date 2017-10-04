@@ -13,13 +13,22 @@ namespace PyazoWin {
 
     public partial class SnippingForm : Form {
 
+        private Rectangle ScreenArea;
+
         public static Image Snip() {
-            var rc = Screen.AllScreens.Select(screen => screen.WorkingArea)
+            var rc = Screen.AllScreens
+                .Select(screen => screen.WorkingArea)
                 .Aggregate(Rectangle.Union);
             using (Bitmap bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppPArgb)) {
-                using (Graphics gr = Graphics.FromImage(bmp))
-                    gr.CopyFromScreen(rc.X, rc.Y, 0, 0, bmp.Size);
+                using (Graphics gr = Graphics.FromImage(bmp)) {
+                    foreach (Screen scr in Screen.AllScreens) {
+                        var newX = Math.Abs(rc.X) + scr.Bounds.X;
+                        var newY = Math.Abs(rc.Y) + scr.Bounds.Y;
+                        gr.CopyFromScreen(scr.Bounds.X, scr.Bounds.Y, newX, newY, scr.Bounds.Size);
+                    }
+                }
                 using (var snipper = new SnippingForm(bmp)) {
+                    snipper.ScreenArea = rc;
                     if (snipper.ShowDialog() == DialogResult.OK) {
                         return snipper.Image;
                     }
@@ -45,11 +54,8 @@ namespace PyazoWin {
 
         protected override void OnLoad(EventArgs e) {
             base.OnLoad(e);
-            var rc = Screen.AllScreens
-                .Select(screen => screen.WorkingArea)
-                .Aggregate(Rectangle.Union);
-            this.Location = new Point(rc.X, rc.Y);
-            this.Size = new Size(rc.Width, rc.Height);
+            this.Location = new Point(this.ScreenArea.X, this.ScreenArea.Y);
+            this.Size = new Size(this.ScreenArea.Width, this.ScreenArea.Height);
         }
 
         protected override void OnMouseDown(MouseEventArgs e) {
