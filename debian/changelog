@@ -1,3 +1,9 @@
+pyazo (1.2.2) stable; urgency=medium
+
+  * Ignore initialview fails if ipv6 is too long (happens with C# client)
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Thu, 26 Oct 2017 12:03:51 +0000
+
 pyazo (1.2.1) stable; urgency=medium
 
   * [win] fix bug if multiple screens have different sizes

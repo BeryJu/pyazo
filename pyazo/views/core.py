@@ -5,6 +5,7 @@ from urllib.parse import urljoin, urlparse
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db.utils import DataError
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -36,13 +37,17 @@ def upload(req):
             type=0)
         new_upload.save()
 
-        new_upload_view = UploadView(
-            upload=new_upload,
-            viewee_ip=client_ip,
-            viewee_dns=client_dns,
-            viewee_user_agent=req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
-            )
-        new_upload_view.save()
+        try:
+            new_upload_view = UploadView(
+                upload=new_upload,
+                viewee_ip=client_ip,
+                viewee_dns=client_dns,
+                viewee_user_agent=req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
+                )
+            new_upload_view.save()
+        except DataError:
+            LOGGER.info("Failed to create initial view with rIP '%r'" % client_ip)
+            pass
 
         LOGGER.info( "Uploaded %s from %s" % (new_upload.filename, client_ip))
 

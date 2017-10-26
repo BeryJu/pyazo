@@ -19,7 +19,7 @@ EXTERNAL_URL = 'test.example.log'
 # - view_sha512
 DEFAULT_RETURN_VIEW = 'core-view_sha256'
 
-# Set this to this server's hostname or localhost if behind a reverse proxy
+# Set this to this server's hostname or the external domain as if behind a reverse proxy
 ALLOWED_HOSTS = ['test.example.org']
 
 # Set this to true if you only want to use external authentication
