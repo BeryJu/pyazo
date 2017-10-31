@@ -42,8 +42,15 @@ namespace PyazoWin {
                 mfdc.Add(new StringContent("foo"), "id");
                 try {
                     var res = client.PostAsync(endpoint, mfdc).Result;
-                    return res.Content.ReadAsStringAsync().Result;
+                    var resp = res.Content.ReadAsStringAsync().Result; 
+                    EventLog.WriteEntry(Launcher.EL_SOURCE, 
+                        String.Format("Successfully uploaded image, response: {}", resp),
+                        EventLogEntryType.Information);
+                    return resp;
                 } catch (AggregateException ae) {
+                    EventLog.WriteEntry(Launcher.EL_SOURCE,
+                        String.Format("Failed to upload image because {}", ae),
+                        EventLogEntryType.Error);
                     MessageBox.Show(ae.Flatten().ToString());
                     return null;
                 }
