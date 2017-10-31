@@ -155,6 +155,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOG_LEVEL_FILE = 'DEBUG'
+LOG_FILE = '/dev/null'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -177,9 +179,10 @@ def load_local_settings(mod):
         LOGGER.info('Not loaded %s because %s', mod, exception)
         return False
 
-for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
-    if load_local_settings(modu):
-        break
+if not DEBUG:
+    for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
+        if load_local_settings(modu):
+            break
 
 LOGGING = {
     'version': 1,
@@ -203,6 +206,7 @@ LOGGING = {
         'file': {
             'level': LOG_LEVEL_FILE,
             'class': 'logging.FileHandler',
+            'formatter': 'default',
             'filename': LOG_FILE,
         },
     },

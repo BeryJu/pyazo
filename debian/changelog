@@ -1,3 +1,10 @@
+pyazo (1.2.4) stable; urgency=high
+
+  * force older cherrypy version to fix startup error
+  * change file logger formatter
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 31 Oct 2017 11:31:54 +0000
+
 pyazo (1.2.3) stable; urgency=medium
 
   * Fix logfile not being created/used
