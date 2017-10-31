@@ -14,7 +14,7 @@ class NullObject(object):
     empty class to serve static files with cherrypy
     """
     pass
-cherrypy.config.update({'log.screen': False,
+cherrypy.config.update({'log.screen': True,
                         'log.access_file': '',
                         'log.error_file': ''
                        })

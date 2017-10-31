@@ -179,10 +179,9 @@ def load_local_settings(mod):
         LOGGER.info('Not loaded %s because %s', mod, exception)
         return False
 
-if not DEBUG:
-    for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
-        if load_local_settings(modu):
-            break
+for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
+    if load_local_settings(modu):
+        break
 
 LOGGING = {
     'version': 1,

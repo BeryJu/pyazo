@@ -1,0 +1,6 @@
+coverage
+isort
+pylint
+pylint-django
+prospector
+django-debug-toolbar
