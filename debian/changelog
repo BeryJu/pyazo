@@ -1,3 +1,9 @@
+pyazo (1.2.3) stable; urgency=medium
+
+  * Fix logfile not being created/used
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 31 Oct 2017 11:10:26 +0000
+
 pyazo (1.2.2) stable; urgency=medium
 
   * Ignore initialview fails if ipv6 is too long (happens with C# client)
