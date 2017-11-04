@@ -3,138 +3,37 @@ before_script:
   - "python3 -m pip install -U virtualenv"
   - "virtualenv env"
   - "source env/bin/activate"
-  - "pip3 install invoke"
-  - "inv dev.install --dev"
+  - "pip3 install -U -r requirements.txt -r requirements-dev.txt"
 stages:
   - test
-  - test-db
-  - build-release
-  - deploy
 image: python:3.6
-variables:
-  # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-  MYSQL_DATABASE: supervisr_test
-  MYSQL_ROOT_PASSWORD: 'EK-5jnKfjrGRm<77'
-  POSTGRES_DB: supervisr_test
-  POSTGRES_USER: supervisr
-  POSTGRES_PASSWORD: 'EK-5jnKfjrGRm<77'
 
-# All normal tests
-coverage:
-  except:
-    - prod
-  script:
-    - "inv dev.coverage"
-  stage: test
-  cache:
-    paths:
-      - env/
 isort:
-  except:
-    - prod
   script:
-    - "inv dev.isort"
+    - "isort -c -vb -sg env -b importlib"
   stage: test
   cache:
     paths:
       - env/
 migrations:
-  except:
-    - prod
   script:
-    - "inv supervisr.migrate"
+    - "python manage.py migrate"
   stage: test
   cache:
     paths:
       - env/
 prospector:
-  except:
-    - prod
   script:
-    - "inv dev.prospector"
+    - "prospector"
   stage: test
   cache:
     paths:
       - env/
 pylint:
-  except:
-    - prod
   script:
-    - "inv dev.lint"
-  stage: test
-  cache:
-    paths:
-      - env/
-unittest:
-  except:
-    - prod
-  script:
-    - "inv dev.unittest"
+    - "pylint --load-plugins pylint_django pyazo"
   stage: test
   cache:
     paths:
       - env/
 
-# Database tests
-unittest_mysql:
-  services:
-    - mysql:latest
-  except:
-    - prod
-  script:
-    - pip install pymysql
-    - inv migrate
-    - inv unittest
-  variables:
-    SUPERVISR_LOCAL_SETTINGS: supervisr.local_settings_mysql
-  stage: test-db
-  only:
-    - db-*
-    - release-*
-  cache:
-    paths:
-      - env/
-unittest_pgsql:
-  services:
-    - postgres:latest
-  except:
-    - prod
-  script:
-    - pip install psycopg2
-    - inv migrate
-    - inv unittest
-  variables:
-    SUPERVISR_LOCAL_SETTINGS: supervisr.local_settings_pgsql
-  stage: test-db
-  only:
-    - db-*
-    - release-*
-  cache:
-    paths:
-      - env/
-
-# Release test
-bundle_release:
-  image: debian:stable
-  script:
-    - apt install -y libncurses5-dev libglib2.0-dev libgeoip-dev libtokyocabinet-dev zlib1g-dev libncursesw5-dev build-essential libbz2-dev dh-autoreconf dh-python dh-systemd dh-virtualenv dpkg-dev debhelper dh-exec
-    - dpkg-buildpackage -us -uc
-  only:
-    - release-*
-  stage: build-release
-
-# Deploy
-deploy:
-  before_script:
-    - ''
-  environment:
-    name: production
-    url: "https://my.beryju.org"
-  only:
-    - prod
-  script:
-    - "eval $(ssh-agent -s)"
-    - "mkdir ~/.ssh -p"
-    - "echo \"${CI_SSH_PRIVATE}\" | ssh-add -"
-    - "ssh -o 'StrictHostKeyChecking=no' beryjuorg@ory1-web-prod-1.ory1.beryju.org \"./update_supervisr.sh\""
-  stage: deploy

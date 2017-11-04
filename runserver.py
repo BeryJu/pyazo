@@ -1,10 +1,10 @@
 import logging
 
+import cherrypy
 import django
 from django.conf import settings
 from django.db.utils import IntegrityError
 
-import cherrypy
 from pyazo.wsgi import application
 
 

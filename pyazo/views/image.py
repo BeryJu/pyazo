@@ -1,3 +1,7 @@
+"""
+pyazo image views
+"""
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -9,11 +13,11 @@ from pyazo.models import Upload
 
 
 @login_required
-def view(req, hash):
+def view(req, file_hash):
     """
     Show stats about image and allow user to claim it
     """
-    img = Upload.objects.filter(sha512=hash)
+    img = Upload.objects.filter(sha512=file_hash)
     if not img.exists():
         raise Http404
     r_img = img.first()
@@ -28,11 +32,11 @@ def view(req, hash):
         })
 
 @login_required
-def claim(req, hash):
+def claim(req, file_hash):
     """
     Attempt to claim a picture
     """
-    images = Upload.objects.filter(sha512=hash)
+    images = Upload.objects.filter(sha512=file_hash)
     if not images.exists():
         raise Http404
     r_image = images.first()
@@ -45,12 +49,12 @@ def claim(req, hash):
         r_image.user = req.user
         r_image.save()
         messages.success(req, _('Upload successfully claimed'))
-        return redirect(reverse('core-image_view', kwargs={'hash': hash}))
+        return redirect(reverse('core-image_view', kwargs={'file_hash': file_hash}))
 
     return render(req, 'core/generic_delete.html', {
         'object': 'Upload %s' % r_image.md5,
         'delete_url': reverse('core-image_claim', kwargs={
-            'hash': hash
+            'file_hash': file_hash
             }),
         'action': _('claim'),
         'primary_action': _('Confirm Claim')

@@ -2,17 +2,8 @@
 pyazo view decorators
 """
 
-import base64
-import time
-
-from django.apps import apps
-from django.conf import settings
-from django.contrib.auth import authenticate, login
-from django.core.cache import cache
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.http import urlencode
 
 
 def anonymous_required(view_function):

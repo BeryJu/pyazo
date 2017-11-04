@@ -1,4 +1,6 @@
-
+"""
+pyazo core views
+"""
 import logging
 import os.path
 from urllib.parse import urljoin, urlparse
@@ -7,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.utils import DataError
 from django.http import Http404, HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -26,6 +28,9 @@ def index(req):
 
 @csrf_exempt
 def upload(req):
+    """
+    Main upload handler. Fully Gyazo compatible.
+    """
     if 'id' in req.POST and 'imagedata' in req.FILES:
         client_ip = get_remote_ip(req)
         client_dns = get_reverse_dns(client_ip)
@@ -42,21 +47,20 @@ def upload(req):
                 upload=new_upload,
                 viewee_ip=client_ip,
                 viewee_dns=client_dns,
-                viewee_user_agent=req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
+                viewee_user_agent=req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' \
+                                  in req.META else ''
                 )
             new_upload_view.save()
         except DataError:
-            LOGGER.info("Failed to create initial view with rIP '%r'" % client_ip)
-            pass
+            LOGGER.info("Failed to create initial view with rIP '%r'", client_ip)
 
-        LOGGER.info( "Uploaded %s from %s" % (new_upload.filename, client_ip))
+        LOGGER.info("Uploaded %s from %s", new_upload.filename, client_ip)
 
         # Generate url for client to open
-        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={ 'hash': new_upload.sha256 })
+        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': new_upload.sha256})
         full_url = urljoin(settings.EXTERNAL_URL, url)
         return HttpResponse(full_url)
-    else:
-        return HttpResponse(status=400)
+    return HttpResponse(status=400)
 
 @login_required
 def download_client_windows(req):
@@ -67,8 +71,8 @@ def download_client_windows(req):
     host = urlparse(req.build_absolute_uri()).netloc
     filename = "Pyazo_%s.exe" % host
     if os.path.isfile(client_path):
-        with open(client_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/octet-stream")
+        with open(client_path, 'rb') as _file:
+            response = HttpResponse(_file.read(), content_type="application/octet-stream")
             response['Content-Disposition'] = 'inline; filename=%s' % filename
             return response
     raise Http404
@@ -89,44 +93,43 @@ def handle_view(req, uploads):
             )
         LOGGER.info("Logged view for %s (%s) viewing '%s'", client_ip, client_dns, upload.md5)
         return HttpResponse(upload.file.read(), content_type="image/png")
-    else:
-        return Http404
+    return Http404
 
-def view_md5(req, hash):
+def view_md5(req, file_hash):
     """
     Search upload by md5 and return it
     """
-    uploads = Upload.objects.filter(md5=hash)
+    uploads = Upload.objects.filter(md5=file_hash)
     return handle_view(req, uploads)
 
-def view_sha256(req, hash):
+def view_sha256(req, file_hash):
     """
     Search upload by sha256 and return it
     """
-    uploads = Upload.objects.filter(sha256=hash)
+    uploads = Upload.objects.filter(sha256=file_hash)
     return handle_view(req, uploads)
 
-def view_sha512(req, hash):
+def view_sha512(req, file_hash):
     """
     Search upload by sha512 and return it
     """
-    uploads = Upload.objects.filter(sha512=hash)
+    uploads = Upload.objects.filter(sha512=file_hash)
     return handle_view(req, uploads)
 
-def view_sha512_short(req, hash):
+def view_sha512_short(req, file_hash):
     """
     Search upload by shortened sha512 and return it
     """
-    uploads = Upload.objects.filter(sha512__startswith=hash)
+    uploads = Upload.objects.filter(sha512__startswith=file_hash)
     return handle_view(req, uploads)
 
-def thumb_view_sha512(req, hash):
+# pylint: disable=unused-argument
+def thumb_view_sha512(req, file_hash):
     """
     Search upload by sha512 and return it (don't log it tho)
     """
-    uploads = Upload.objects.filter(sha512=hash)
+    uploads = Upload.objects.filter(sha512=file_hash)
     if uploads.exists():
         upload = uploads.first()
         return HttpResponse(upload.file.read(), content_type="image/png")
-    else:
-        return Http404
+    return Http404

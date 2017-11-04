@@ -18,7 +18,7 @@ module.exports = function(grunt) {
             'node_modules/jquery/dist/jquery.js',
             'js/*.js',
         ],
-        dest: '../pyazo/static/app.min.js',
+        dest: '../pyazo/static/js/app.min.js',
       },
     },
     cssmin: {
@@ -27,16 +27,34 @@ module.exports = function(grunt) {
           src: [
               'node_modules/clarity-icons/clarity-icons.min.css',
               'node_modules/clarity-ui/clarity-ui.min.css',
+              'node_modules/font-awesome/css/font-awesome.min.css',
               'css/*.css',
           ],
-          dest: '../pyazo/static/app.min.css',
+          dest: '../pyazo/static/css/app.min.css',
         }]
       }
     },
     copy: {
+      custom_elements: {
+        files: [
+          { src: ['node_modules/@webcomponents/custom-elements/custom-elements.min.js'],
+            dest: '../pyazo/static/js/custom-elements.min.js'}
+        ]
+      },
+      raven: {
+        files: [
+          { src: ['node_modules/raven-js/dist/raven.min.js'],
+            dest: '../pyazo/static/js/raven.min.js'}
+        ]
+      },
       images: {
         files: [
           { expand: true, cwd: 'img', src: ['*'], dest: '../pyazo/static/img/' },
+        ]
+      },
+      fonts: {
+        files: [
+          { expand: true, cwd: 'node_modules/font-awesome/fonts/', src: ['*'], dest: '../pyazo/static/fonts/' },
         ]
       }
     }
@@ -47,6 +65,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-npm-command');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['npm-command', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['uglify', 'cssmin', 'copy']);
 
 };

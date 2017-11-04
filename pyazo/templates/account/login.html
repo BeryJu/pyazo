@@ -18,7 +18,7 @@
     </label>
     <div class="login-group">
       {% if not external_only %}
-      {% crispy form %}
+      {% include 'blocks/block_form_login.html' with form=form %}
       {% block messages %}
         {% if messages %}
           {% for msg in messages %}

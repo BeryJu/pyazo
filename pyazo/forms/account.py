@@ -5,16 +5,11 @@ pyazo Core Account Forms
 import logging
 
 from django import forms
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.forms import ValidationError
 from django.utils.translation import ugettext as _
-
-from pyazo.forms.core import InlineForm, check_password
 
 LOGGER = logging.getLogger(__name__)
 
-class LoginForm(InlineForm):
+class LoginForm(forms.Form):
     """
     Form to handle logins
     """

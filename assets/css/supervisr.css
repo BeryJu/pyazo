@@ -7,6 +7,10 @@
     margin: 0;
 }
 
+.login-wrapper {
+    background-image: url('../img/login_bg.jpg') !important;
+}
+
 .login-wrapper .form-group {
     padding-left: 0 !important;
 }
@@ -123,3 +127,81 @@ tr.selected {
     width: 100%;
 }
 
+
+/* fix links in alerts */
+
+.alert > .alert-item > .alert-text > a {
+    color: white;
+}
+
+
+@media screen and (max-width: 768px) {
+    .main-container .content-container .content-area {
+        padding: 24px 0;
+        padding-top: 4px;
+    }
+    .container {
+        padding: 0;
+    }
+    .sidenav .sidenav-content {
+        overflow-y: auto;
+    }
+}
+
+.btn.btn-fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+}
+
+header.header form.active {
+    background: rgba(255,255,255,.15);
+    opacity: 1;
+}
+
+.main-container .content-container .content-area {
+    padding-top: 4px;
+}
+
+h1 > clr-icon {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+}
+
+h2 > clr-icon {
+    margin-left: 8px;
+    margin-bottom: 4px;
+    margin-right: 8px;
+}
+
+.card-header>h1,
+.card-header>h2,
+.card-header>h3 {
+    margin-top: 0;
+}
+
+
+.sidenav .nav-group > a.nav-link {
+    color: #313131;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    font-family: Metropolis,"Avenir Next","Helvetica Neue",Arial,sans-serif;
+    letter-spacing: normal;
+    padding-left: 12px;
+    margin: 0 0 0 30px;
+}
+
+.sidenav .nav-group > a.nav-link:hover {
+    background: #eee;
+}
+
+.sidenav .nav-group > a.nav-link.active {
+    background: #d9e4ea;
+    color: #000;
+}
+
+section[role=tabpanel] {
+    width: 100%;
+}

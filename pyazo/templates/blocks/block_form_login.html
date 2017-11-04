@@ -1,0 +1,21 @@
+{% load fieldtype %}
+
+{% csrf_token %}
+{% for field in form %}
+  {% if field.field.widget|fieldtype == 'CheckboxInput' %}
+  <div class="checkbox">
+    <input type="checkbox" id="id_{{ field.name }}" name="{{ field.name }}">
+    <label for="id_{{ field.name }}">
+      {{ field.label }}
+    </label>
+  </div>
+  {% elif field.field.widget|fieldtype == 'EmailInput' %}
+  <input class="username" type="email" id="id_{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}">
+  {% elif field.field.widget|fieldtype == 'PasswordInput' %}
+  <input class="password" type="password" id="id_{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}">
+  {% elif field.field.widget|fieldtype == 'TextInput' %}
+  <input class="username" type="text" id="id_{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}">
+  {% else %}
+  {{ field }}
+  {% endif %}
+{% endfor %}

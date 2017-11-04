@@ -3,22 +3,15 @@ pyazo Core Account Views
 """
 
 import logging
-import time
 
 from allaccess.models import Provider
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as django_login
-from django.contrib.auth import logout as django_logout
 from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.decorators.http import require_GET
 
 from pyazo.decorators import anonymous_required
 from pyazo.forms.account import LoginForm
@@ -54,7 +47,7 @@ def login(req):
             else:
                 # Check if the user's account is pending
                 # and inform that, they need to check their usernames
-                users = User.objects.filter(username=form.cleaned_data.get('username'))
+                # users = User.objects.filter(username=form.cleaned_data.get('username'))
                 messages.error(req, _("Invalid Login"))
                 LOGGER.info("Failed to log in %s", form.cleaned_data.get('username'))
                 return redirect(reverse('core-accounts_login'))

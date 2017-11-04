@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import importlib
 import logging
 import os
+import subprocess
 import sys
+
+import raven
 
 LOGGER = logging.getLogger(__name__)
 
@@ -70,6 +73,7 @@ INSTALLED_APPS = [
     'allaccess',
     'crispy_forms',
     'pyazo',
+    'raven.contrib.django.raven_compat',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -87,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
 ]
 
 ROOT_URLCONF = 'pyazo.urls'
@@ -109,6 +114,21 @@ TEMPLATES = [
         },
     },
 ]
+
+VERSION = 'dev'
+try:
+    VERSION = subprocess.check_output(['dpkg-query', "--showformat='${Version}'",
+                                       '--show', 'pyazo']).decode('utf-8')[1:-1]
+except Exception: # pylint: disable=broad-except
+    pass
+
+RAVEN_CONFIG = {
+    'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
+           '3372ecce5d548a5@sentry.services.beryju.org/4',
+    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    'environment': 'production' if DEBUG is False else 'development',
+    'tags': {'external_domain': EXTERNAL_URL}
+}
 
 WSGI_APPLICATION = 'pyazo.wsgi.application'
 

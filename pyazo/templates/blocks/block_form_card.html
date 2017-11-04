@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<div class="card">
+  <div class="card-header">
+    {% trans card_title %}
+  </div>
+  <form role="form" method="POST">
+    <div class="card-block">
+      <section class="form-block">
+        {% include 'blocks/block_form.html' with form=form %}
+      </section>
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-sm btn-primary">{% trans form_update %}</button>
+    </div>
+  </form>
+</div>

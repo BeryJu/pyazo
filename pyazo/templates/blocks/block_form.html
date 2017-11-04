@@ -1,0 +1,68 @@
+{% load fieldtype %}
+
+{% csrf_token %}
+{% for field in form %}
+{% for error in field.errors %}
+<div class="alert alert-danger">
+  <div class="alert-items">
+    <div class="alert-item">
+      <div class="alert-icon-wrapper">
+        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+      </div>
+      <span class="alert-text">
+        {{ error }}
+      </span>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<div class="form-group">
+  {% if field.field.widget|fieldtype == 'RadioSelect' %}
+    <label for="{{ field.name }}-{{ forloop.counter0 }}">
+      {{ field.label }}
+      {% if field.help_text %}
+      <br>
+      {{ field.help_text }}
+      {% endif %}
+    </label>
+    {% for c in field %}
+    <div class="radio">
+      <input type="radio" id="{{ field.name }}-{{ forloop.counter0 }}" name="{{ wizard.steps.current }}-{{ field.name }}" value="{{ c.choice_value }}" {% if c.is_checked %} checked {% endif %}>
+      <label for="{{ field.name }}-{{ forloop.counter0 }}">{{ c.choice_label }}</label>
+    </div>
+    {% endfor %}
+  {% elif field.field.widget|fieldtype == 'Select' %}
+  <label for="{{ field.name }}-{{ forloop.counter0 }}">
+    {{ field.label }}
+    {% if field.help_text %}
+    <br>
+    {{ field.help_text }}
+    {% endif %}
+  </label>
+  <div class="select">
+    {{ field }}
+  </div>
+  {% elif field.field.widget|fieldtype == 'CheckboxInput' %}
+  <label for="{{ field.name }}-{{ forloop.counter0 }}">
+    {{ field.label }}
+    {% if field.help_text %}
+    <br>
+    {{ field.help_text }}
+    {% endif %}
+  </label>
+  <div class="toggle-switch">
+    {{ field }}
+    <label for="id_{{ field.name }}"></label>
+  </div>
+  {% else %}
+  <label for="{{ field.name }}-{{ forloop.counter0 }}">
+    {{ field.label }}
+    {% if field.help_text %}
+    <br>
+    {{ field.help_text }}
+    {% endif %}
+  </label>
+  {{ field }}
+  {% endif %}
+</div>
+{% endfor %}

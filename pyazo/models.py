@@ -1,9 +1,12 @@
+"""
+pyazo models
+"""
+
 import hashlib
 
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-
 from user_agents import parse
 
 UPLOAD_TYPES = (
@@ -18,13 +21,14 @@ def save_from_post(content):
     """
     sha512 = hashlib.sha512()
     sha512.update(content)
-    hash = sha512.hexdigest()
-    filename = '%s/%s' % (settings.MEDIA_ROOT, hash)
+    filename = '%s/%s' % (settings.MEDIA_ROOT, sha512.hexdigest())
     with open(filename, 'wb') as out_file:
         out_file.write(content)
     return filename
 
 class Upload(models.Model):
+    """Store data about a single upload"""
+
     file = models.FileField(max_length=512)
     type = models.IntegerField(choices=UPLOAD_TYPES)
     user = models.ForeignKey(User, default=None, null=True, blank=True)
@@ -40,9 +44,10 @@ class Upload(models.Model):
         sha256 = hashlib.sha256()
         sha512 = hashlib.sha512()
 
-        with open(self.file.path, 'rb') as f:
+        # pylint: disable=no-member
+        with open(self.file.path, 'rb') as _file:
             while True:
-                data = f.read(BUF_SIZE)
+                data = _file.read(BUF_SIZE)
                 if not data:
                     break
                 md5.update(data)
@@ -74,6 +79,7 @@ class Upload(models.Model):
         return self.sha512
 
 class UploadView(models.Model):
+    """Store information about a single view"""
     upload = models.ForeignKey(Upload)
     viewee = models.ForeignKey(User, blank=True, default=1)
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)

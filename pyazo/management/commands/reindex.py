@@ -24,9 +24,9 @@ class Command(BaseCommand):
     @staticmethod
     def _file_get_sha_512(path):
         sha512 = hashlib.sha512()
-        with open(path, 'rb') as f:
+        with open(path, 'rb') as _file:
             while True:
-                data = f.read(BUF_SIZE)
+                data = _file.read(BUF_SIZE)
                 if not data:
                     break
                 sha512.update(data)
