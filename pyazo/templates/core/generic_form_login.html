@@ -1,7 +1,7 @@
 {% extends "core/skel.html" %}
 
-{% load crispy_forms_tags %}
 {% load i18n %}
+{% load static %}
 
 {% block header %}
 <title>login - pyazo</title>
@@ -11,13 +11,15 @@
 <div class="login-wrapper">
   <form class="login" method="POST">
     <label class="title">
+      <img src="{% static 'img/icon.png' %}" alt="" style="width: 48px; height: 48px;">
       pyazo
     </label>
     <label class="subtitle">
       {{ title }}
     </label>
     <div class="login-group">
-      {% crispy form %}
+      {% if not external_only %}
+      {% include 'blocks/block_form_login.html' with form=form %}
       {% block messages %}
         {% if messages %}
           {% for msg in messages %}
@@ -40,6 +42,7 @@
       <input type="hidden" name="next" value="{{ next }}" />
       {% endif %}
       <button type="submit" class="btn btn-primary">{{ primary_action }}</button>
+      {% endif %}
       {% if extra_links %}
       {% for link, name in extra_links.items %}
       <a href="{% url link %}" class="signup">{% trans name %}</a>

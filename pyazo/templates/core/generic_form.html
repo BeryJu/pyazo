@@ -1,6 +1,5 @@
 {% extends "core/base.html" %}
 
-{% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block content %}
@@ -12,7 +11,7 @@
     <div class="panel-body">
       <form role="form" method="POST">
         {% csrf_token %}
-        {{ form|crispy }}
+        {% include 'blocks/block_form.html' with form=form %}
         <button type="submit" class="btn btn-lg btn-block btn-primary">{{ primary_action }}</button>
       </form>
     </div>

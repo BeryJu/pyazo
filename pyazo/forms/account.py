@@ -14,6 +14,6 @@ class LoginForm(forms.Form):
     Form to handle logins
     """
     order = ['username', 'password', 'remember']
-    username = forms.CharField(label=_('Mail'))
+    username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput, label=_('Password'))
     remember = forms.BooleanField(required=False, label=_('Remember'))

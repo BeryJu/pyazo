@@ -56,8 +56,6 @@ LOGIN_REDIRECT_URL = 'core-index'
 # Application definition
 LOGOUT_REDIRECT_URL = 'core-accounts_login'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
 CHERRYPY_SERVER = {
     'socket_host': '0.0.0.0',
     'socket_port': 8000,
@@ -72,7 +70,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'allaccess',
-    'crispy_forms',
     'pyazo',
     'raven.contrib.django.raven_compat',
 ]

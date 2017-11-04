@@ -27,6 +27,7 @@
   <header class="header header-1">
     <div class="branding">
       <a class="logo-and-title" href="{% url 'core-index' %}">
+        <img src="{% static 'img/icon.png' %}" alt="" class="clr-icon clarity-logo is-info">
         <span class="title">pyazo</span>
       </a>
     </div>
@@ -51,7 +52,7 @@
       {% if user.is_authenticated %}
       <div class="dropdown bottom-right">
         <button class="dropdown-toggle btn btn-primary" clrDropdown>
-          {{ user.email }}
+          {{ user.username }}
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <div class="dropdown-menu">
