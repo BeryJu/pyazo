@@ -1,3 +1,11 @@
+pyazo (1.3) stable; urgency=medium
+
+  * add sentry support, rebuild assets, cleanup
+  * fix index view not working, wrong wsgi setting
+  * set raven settings after including local_settings
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 04 Nov 2017 12:12:08 +0000
+
 pyazo (1.2.4b) stable; urgency=medium
 
   * fix ALLOWED_HOSTS not being applied
