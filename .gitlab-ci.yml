@@ -40,7 +40,7 @@ pylint:
 
 package:
   before_script:
-    - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip
+    - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr
   image: debian
   script:
     - python3 -m pip install -U virtualenv
