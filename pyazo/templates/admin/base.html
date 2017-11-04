@@ -1,0 +1,33 @@
+{% extends "core/base.html" %}
+
+{% load i18n static %}
+
+{% block header %}
+{% block extrahead %}{% endblock %}
+{% block extrastyle %}{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static "css/admin.css" %}" />
+{% endblock %}
+
+{% block content_area %}
+  {% if not is_popup %}
+    {% block breadcrumbs %}
+      <div class="breadcrumbs">
+      <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+      {% if title %} &rsaquo; {{ title }}{% endif %}
+      </div>
+    {% endblock %}
+  {% endif %}
+{% endblock %}
+
+{% block _content %}
+<div id="content" class="{% block coltype %}colM{% endblock %}">
+  {% block pretitle %}{% endblock %}
+  {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+  {% block content %}
+  {% block object-tools %}{% endblock %}
+  {{ content }}
+  {% endblock %}
+  {% block sidebar %}{% endblock %}
+  <br class="clear" />
+</div>
+{% endblock %}

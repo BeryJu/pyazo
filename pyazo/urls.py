@@ -7,6 +7,9 @@ from django.contrib import admin
 from pyazo.oauth2 import SupervisrOAuthCallback
 from pyazo.views import accounts, core, image
 
+admin.site.index_title = 'Pyazo Admin'
+admin.site.site_title = 'pyazo'
+
 urlpatterns = [
     url(r'^$', core.index, name='core-index'),
     url(r'^admin/', admin.site.urls),

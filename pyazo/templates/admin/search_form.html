@@ -1,0 +1,23 @@
+{% load i18n static %}
+{% if cl.search_fields %}
+<div id="toolbar"><form id="changelist-search" method="get">
+<div><!-- DIV needed for valid HTML -->
+  <form class="search">
+    <label for="search_input">
+        <input type="text" name="{{ search_var }}" value="{{ cl.query }}" id="search_input" autofocus  />
+    </label>
+    <button class="btn btn-sm btn-primary" type="submit" value="">
+      <clr-icon shape="search"></clr-icon>
+      {% trans 'Search' %}
+    </button>
+  </form>
+
+{% if show_result_count %}
+    <span class="small quiet">{% blocktrans count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktrans %} (<a href="?{% if cl.is_popup %}_popup=1{% endif %}">{% if cl.show_full_result_count %}{% blocktrans with full_result_count=cl.full_result_count %}{{ full_result_count }} total{% endblocktrans %}{% else %}{% trans "Show all" %}{% endif %}</a>)</span>
+{% endif %}
+{% for pair in cl.params.items %}
+    {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
+{% endfor %}
+</div>
+</form></div>
+{% endif %}

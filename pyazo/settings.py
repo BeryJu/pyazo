@@ -100,7 +100,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'pyazo/templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
