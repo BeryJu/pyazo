@@ -120,7 +120,7 @@ try:
     VERSION = subprocess.check_output(['dpkg-query', "--showformat='${Version}'",
                                        '--show', 'pyazo']).decode('utf-8')[1:-1]
 except Exception: # pylint: disable=broad-except
-    pass
+    VERSION = raven.fetch_git_sha(os.path.dirname(os.pardir))
 
 WSGI_APPLICATION = 'pyazo.wsgi.application'
 
@@ -198,7 +198,7 @@ for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'co
 RAVEN_CONFIG = {
     'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
            '3372ecce5d548a5@sentry.services.beryju.org/4',
-    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    'release': VERSION,
     'environment': 'production' if DEBUG is False else 'development',
     'tags': {'external_domain': EXTERNAL_URL}
 }
