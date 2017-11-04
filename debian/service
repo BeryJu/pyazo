@@ -1,5 +1,5 @@
 [Unit]
-Description=pyazo
+Description=pyazo - Opensource Gyazo-compatible Imageserver
 After=syslog.target network.target
 Requires=network.target
 
