@@ -14,7 +14,7 @@
   </div>
   {% for upl in images %}
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1 col-xl-1">
-      <a href="{% url 'core-image_view' hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'core-thumb-view_sha512' hash=upl.sha512 %}) no-repeat center;min-width:100%;min-height:100px;"></a>
+      <a href="{% url 'core-image_view' file_hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'core-thumb-view_sha512' file_hash=upl.sha512 %}) no-repeat center;min-width:100%;min-height:100px;"></a>
     </div>
   {% empty %}
     <p>No Pictures yet!</p>

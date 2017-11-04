@@ -15,7 +15,7 @@ from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
 
 pymysql.install_as_MySQLdb()
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.core.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.settings")
 
 # pylint: disable=invalid-name
 application = Sentry(get_wsgi_application())
