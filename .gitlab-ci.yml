@@ -6,6 +6,7 @@ before_script:
   - "pip3 install -U -r requirements.txt -r requirements-dev.txt"
 stages:
   - test
+  - build
 image: python:3.6
 
 isort:
@@ -37,3 +38,18 @@ pylint:
     paths:
       - env/
 
+package:
+  image: debian
+  script:
+    - apt update && apt install -y dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage
+    - debuild -us -uc
+    - echo "${CI_GPG_PRIVATE}" | gpg --import
+    - echo "${CI_GPG_KEY}" | gpg --batch --yes --passphrase-fd 0 -a --output pyazo_singed.deb --detach-sig ../build-area/pyazo_*.deb
+  stage: build
+  artifacts:
+    paths:
+    - pyazo_singed.deb
+    expire_in: 2 days
+  cache:
+    paths:
+      - env/
