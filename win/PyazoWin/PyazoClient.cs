@@ -23,7 +23,7 @@ namespace PyazoWin {
             this.endpoint = string.Format("https://{0}/upload/", server);
         }
 
-        public string Upload(Image image) {
+        public string Upload(Image image, string username = "") {
             using (var client = new HttpClient())
             using (var mfdc = new MultipartFormDataContent())
             using (var ms = new MemoryStream())
@@ -39,18 +39,13 @@ namespace PyazoWin {
                 filecontent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
                 mfdc.Add(filecontent);
+                mfdc.Add(new StringContent(username), "username");
                 mfdc.Add(new StringContent("foo"), "id");
                 try {
                     var res = client.PostAsync(endpoint, mfdc).Result;
                     var resp = res.Content.ReadAsStringAsync().Result; 
-                    EventLog.WriteEntry(Launcher.EL_SOURCE, 
-                        String.Format("Successfully uploaded image, response: {}", resp),
-                        EventLogEntryType.Information);
                     return resp;
                 } catch (AggregateException ae) {
-                    EventLog.WriteEntry(Launcher.EL_SOURCE,
-                        String.Format("Failed to upload image because {}", ae),
-                        EventLogEntryType.Error);
                     MessageBox.Show(ae.Flatten().ToString());
                     return null;
                 }

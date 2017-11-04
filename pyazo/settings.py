@@ -33,8 +33,9 @@ EXTERNAL_URL = 'http://localhost:8000'
 DEFAULT_RETURN_VIEW = 'core-view_sha256'
 # Set this to true if you only want to use external authentication
 EXTERNAL_AUTH_ONLY = False
-
-
+# If this is true, images are automatically claimed if the windows user exists
+# in django
+AUTO_CLAIM_ENABLED = True
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

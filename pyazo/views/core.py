@@ -7,6 +7,7 @@ from urllib.parse import urljoin, urlparse
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db.utils import DataError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
@@ -40,6 +41,14 @@ def upload(req):
         new_upload = Upload(
             file=file,
             type=0)
+
+        # Run auto-claim
+        if settings.AUTO_CLAIM_ENABLED and 'username' in req.POST:
+            matching = User.objects.filter(username=req.POST.get('username'))
+            if matching.exists():
+                new_upload.user = matching.first()
+                LOGGER.debug("Auto-claimed upload to user '%s'", req.POST.get('username'))
+
         new_upload.save()
 
         try:

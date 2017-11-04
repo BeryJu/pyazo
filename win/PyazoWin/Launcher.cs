@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpRaven;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -28,22 +29,16 @@ namespace PyazoWin {
 
         [STAThread]
         public static int Main(string[] args) {
-            if (!EventLog.SourceExists(EL_SOURCE))
-                EventLog.CreateEventSource(EL_SOURCE, EL_LOG);
-            EventLog.WriteEntry(EL_SOURCE, String.Format("Pyazo Version {} starting",
-                typeof(Launcher).Assembly.GetName().Version.ToString()), EventLogEntryType.Information);
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(RavenHandler);
 
             foreach (string arg in args) {
                 switch (arg) {
                     case "-nb":
                         toggleOpenBrowser = false;
-                        EventLog.WriteEntry(EL_SOURCE, "Disabling toggleOpenBrowser",
-                            EventLogEntryType.Information);
                         break;
                     case "-nc":
                         toggleCopyClipboard = false;
-                        EventLog.WriteEntry(EL_SOURCE, "Disabling toggleCopyClipboard",
-                            EventLogEntryType.Information);
                         break;
                 }
             }
@@ -52,45 +47,41 @@ namespace PyazoWin {
                 .Replace("_", "")
                 .Replace("-", ":")
                 .Replace(".exe", "");
-            EventLog.WriteEntry(EL_SOURCE, String.Format("Extracted server {} from filename", server), 
-                EventLogEntryType.Information);
             if (server == "") {
-                EventLog.WriteEntry(EL_SOURCE, "Fell back to i.beryju.org", EventLogEntryType.Warning);
                 server = "i.beryju.org";
             }
             try {
                 if (Environment.OSVersion.Version.Major >= 6) {
                     SetProcessDpiAwareness(ProcessDPIAwareness.ProcessPerMonitorDPIAware);
-                    EventLog.WriteEntry(EL_SOURCE, "Enable DPI Awareness", EventLogEntryType.Information);
                 }
             } catch (EntryPointNotFoundException) {
-                EventLog.WriteEntry(EL_SOURCE, "DPI Awareness not supported", EventLogEntryType.Warning);
+                //this exception occures if OS does not implement this API, just ignore it.
+            } catch (DllNotFoundException) {
                 //this exception occures if OS does not implement this API, just ignore it.
             }
 
             var image = SnippingForm.Snip();
             if (image == null) {
-                EventLog.WriteEntry(EL_SOURCE, "User canceled snipping", EventLogEntryType.Information);
                 return 1; // User pressed escape or window was closed
             }
             var client = new PyazoClient(server);
-            var url = client.Upload(image);
+            var url = client.Upload(image, Environment.UserName);
             if (url == null) {
-                EventLog.WriteEntry(EL_SOURCE, "Failed to upload picture", EventLogEntryType.Error);
                 return 2; // Some error occured while uploading the image
             }
             if (toggleCopyClipboard) {
                 Clipboard.SetText(url);
-                EventLog.WriteEntry(EL_SOURCE, String.Format("Set clipboard to {}", url),
-                    EventLogEntryType.Information);
             }
             if (toggleOpenBrowser) {
                 Process.Start(url);
-                EventLog.WriteEntry(EL_SOURCE, String.Format("Opened url {}", url),
-                    EventLogEntryType.Information);
             }
-            EventLog.WriteEntry(EL_SOURCE, "Goodbye", EventLogEntryType.Information);
             return 0;
+        }
+
+        static void RavenHandler(object sender, UnhandledExceptionEventArgs args) {
+            Exception e = (Exception)args.ExceptionObject;
+            var ravenClient = new RavenClient("https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b3372ecce5d548a5@sentry.services.beryju.org/4");
+            ravenClient.Capture(new SharpRaven.Data.SentryEvent(e));
         }
 
     }
