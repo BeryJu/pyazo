@@ -93,7 +93,7 @@ def handle_view(req, uploads):
             )
         LOGGER.info("Logged view for %s (%s) viewing '%s'", client_ip, client_dns, upload.md5)
         return HttpResponse(upload.file.read(), content_type="image/png")
-    return Http404
+    raise Http404
 
 def view_md5(req, file_hash):
     """
@@ -132,4 +132,4 @@ def thumb_view_sha512(req, file_hash):
     if uploads.exists():
         upload = uploads.first()
         return HttpResponse(upload.file.read(), content_type="image/png")
-    return Http404
+    raise Http404
