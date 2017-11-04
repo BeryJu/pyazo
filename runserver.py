@@ -1,9 +1,8 @@
-import logging
-
+"""
+pyazo cherrypy server
+"""
 import cherrypy
-import django
 from django.conf import settings
-from django.db.utils import IntegrityError
 
 from pyazo.wsgi import application
 
@@ -28,14 +27,14 @@ cherrypy.tree.mount(NullObject(), '/static', config={
 })
 cherrypy.server.unsubscribe()
 # pylint: disable=protected-access
-server = cherrypy._cpserver.Server()
+SERVER = cherrypy._cpserver.Server()
 
-server.socket_host = "0.0.0.0"
-server.socket_port = 8000
-server.thread_pool = 30
+SERVER.socket_host = "0.0.0.0"
+SERVER.socket_port = 8000
+SERVER.thread_pool = 30
 for key, value in settings.CHERRYPY_SERVER.items():
-    setattr(server, key, value)
-server.subscribe()
+    setattr(SERVER, key, value)
+SERVER.subscribe()
 
 cherrypy.engine.start()
 cherrypy.engine.block()

@@ -43,12 +43,12 @@ def upload(req):
         new_upload.save()
 
         try:
+            uag = req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
             new_upload_view = UploadView(
                 upload=new_upload,
                 viewee_ip=client_ip,
                 viewee_dns=client_dns,
-                viewee_user_agent=req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' \
-                                  in req.META else ''
+                viewee_user_agent=uag
                 )
             new_upload_view.save()
         except DataError:
