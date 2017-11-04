@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Pyazo by BeryJu.org</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<link rel="shortcut icon" type="image/png" href="favicon.png"/>
+		<style>
+			#header span.logo img {
+				width: 128px;
+			}
+			html, body {
+				overflow-x: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="images/logo.png" alt=""/></span>
+						<h1>Pyazo</h1>
+						<p>Opensource Imageserver</p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#intro" class="active">Introduction</a></li>
+							<li><a href="#features">Features</a></li>
+							<li><a href="#stats">Statistics</a></li>
+							<li><a href="#get_started">Get Started</a></li>
+							<li><a href="#install">Installation</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+							<section id="intro" class="main">
+								<div class="spotlight">
+									<div class="content">
+										<header class="major">
+											<h2>Simple. Free.</h2>
+										</header>
+										<p>Pyazo is a gyazo-compatible Imageserver, written in Python with Django. It comes bundled with a C# client, requiring only .net 4.5</p>
+									</div>
+									<span class="image"><img src="images/pic01.jpg" alt="" /></span>
+								</div>
+							</section>
+
+						<!-- First Section -->
+							<section id="features" class="main special">
+								<header class="major">
+									<h2>Features</h2>
+								</header>
+								<ul class="features">
+									<li>
+										<span class="icon major style1 fa-code"></span>
+										<h3>Fast</h3>
+										<p>Written in Python with Django, and running on a CherryPy-Server, pyazo is lighting fast.</p>
+									</li>
+									<li>
+										<span class="icon major style3 fa-picture-o"></span>
+										<h3>Direct Image Links</h3>
+										<p>No slow embeds, no ads, no Javascript, just the image.</p>
+									</li>
+									<li>
+										<span class="icon major style5 fa-chain"></span>
+										<h3>Single Sign-on</h3>
+										<p>pyazo supports SSO via OAuth2.</p>
+									</li>
+								</ul>
+							</section>
+
+						<!-- Introduction -->
+							<section id="stats" class="main">
+								<div class="spotlight">
+									<div class="content">
+										<header class="major">
+											<h2>Statistics, but simple</h2>
+										</header>
+										<p>Easily see how many people viewed your images, on what devices and from where. All without any Javascript. </p>
+									</div>
+									<span class="image"><img src="images/pic02.jpg" alt="" /></span>
+								</div>
+							</section>
+
+						<!-- Get Started -->
+							<section id="get_started" class="main special">
+								<header class="major">
+									<h2>Get Started</h2>
+								</header>
+								<div class="content">
+									<p>Pyazo can either be run as it's own independant service, or as normal WSGI Application.</p>
+								</div>
+								<footer class="major">
+									<ul class="actions">
+										<li><a href="https://git.beryju.org/BeryJu.org/pyazo" class="button">Get the source</a></li>
+										<li><a href="#install" class="button special">Install it</a></li>
+										<li><a href="https://i.beryju.org" class="button">Try the hosted version!</a></li>
+									</ul>
+								</footer>
+							</section>
+
+							<!-- Installation -->
+								<section id="install" class="main special">
+									<header class="major">
+										<h2>Installation</h2>
+									</header>
+									<div class="content">
+										<p>Pyazo is available as a debian package on the BeryJu.org APT repository.</p>
+										<pre>
+											<code>
+wget -O - -q https://apt.beryju.org/public.key | apt-key add -
+echo "deb https://apt.beryju.org/ stable beryjuorg" >> /etc/apt/sources.list
+apt update
+apt install pyazo
+											</code>
+										</pre>
+										<p>After you've done that you can adjust your config in <code>/etc/pyazo/config.py</code>, and create a user with <code>/usr/share/pyazo/manage.sh manage.py createsuperuser</code></p>
+									</div>
+								</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>Contact us</h2>
+							<dl class="alt">
+								<dt>Email</dt>
+								<dd><a href="#">support@beryju.org</a></dd>
+							</dl>
+							<ul class="icons">
+								<li><a href="https://twitter.com/BeryJu" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
+							</ul>
+						</section>
+						<p class="copyright">&copy; BeryJu.org. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
