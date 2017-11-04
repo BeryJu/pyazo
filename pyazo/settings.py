@@ -122,14 +122,6 @@ try:
 except Exception: # pylint: disable=broad-except
     pass
 
-RAVEN_CONFIG = {
-    'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
-           '3372ecce5d548a5@sentry.services.beryju.org/4',
-    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
-    'environment': 'production' if DEBUG is False else 'development',
-    'tags': {'external_domain': EXTERNAL_URL}
-}
-
 WSGI_APPLICATION = 'pyazo.wsgi.application'
 
 # Database
@@ -202,6 +194,14 @@ def load_local_settings(mod):
 for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
     if load_local_settings(modu):
         break
+
+RAVEN_CONFIG = {
+    'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
+           '3372ecce5d548a5@sentry.services.beryju.org/4',
+    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    'environment': 'production' if DEBUG is False else 'development',
+    'tags': {'external_domain': EXTERNAL_URL}
+}
 
 LOGGING = {
     'version': 1,
