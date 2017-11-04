@@ -1,10 +1,27 @@
+pyazo (1.4) stable; urgency=medium
+
+  * fix version reading from git
+  * rebuild static
+  * adjust service description
+  * attempt to autobuild debian package
+  * fix before_script when using debian image
+  * fix 404 raising on dead links
+  * test different dependencies, user python3 venv
+  * install python3 pip
+  * install dirmngr
+  * add auto-claim functionality, new client 1.3
+  * update icon
+  * remove crispy_forms, add icon, cleanup
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 04 Nov 2017 14:56:27 +0000
+
 pyazo (1.3) stable; urgency=medium
 
   * add sentry support, rebuild assets, cleanup
   * fix index view not working, wrong wsgi setting
   * set raven settings after including local_settings
 
- -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 04 Nov 2017 12:12:08 +0000
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 04 Nov 2017 14:56:15 +0000
 
 pyazo (1.2.4b) stable; urgency=medium
 

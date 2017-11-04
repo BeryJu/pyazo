@@ -40,7 +40,7 @@ pylint:
 
 package:
   before_script:
-    - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr
+    - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr gpgv2
   image: debian
   script:
     - python3 -m pip install -U virtualenv
@@ -52,8 +52,8 @@ package:
     paths:
     - pyazo_singed.deb
     expire_in: 2 days
-  #only:
-  # - tags
+  only:
+    - tags
   cache:
     paths:
       - env/
