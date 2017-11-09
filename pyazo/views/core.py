@@ -66,7 +66,9 @@ def upload(req):
         LOGGER.info("Uploaded %s from %s", new_upload.filename, client_ip)
 
         # Generate url for client to open
-        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': new_upload.sha256})
+        upload_prop = settings.DEFAULT_RETURN_VIEW.replace('core-view_', '')
+        upload_hash = getattr(new_upload, upload_prop, 'sha256')
+        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
         full_url = urljoin(settings.EXTERNAL_URL, url)
         return HttpResponse(full_url)
     return HttpResponse(status=400)

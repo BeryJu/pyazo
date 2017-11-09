@@ -62,17 +62,18 @@ class Upload(models.Model):
         return super(Upload, self).save(*args, **kwargs)
 
     @property
+    def sha512_short(self):
+        """Get short sha512"""
+        return self.sha512[0:16]
+
+    @property
     def get_initial_view(self):
-        """
-        Returns the initial view
-        """
+        """Returns the initial view"""
         return UploadView.objects.filter(upload=self).earliest()
 
     @property
     def filename(self):
-        """
-        Return a filename
-        """
+        """Return a filename"""
         return self.sha512
 
     def __str__(self):
