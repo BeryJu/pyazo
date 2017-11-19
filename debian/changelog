@@ -1,3 +1,11 @@
+pyazo (1.4.4) stable; urgency=medium
+
+  * fix typo
+  * cleanup code
+  * add view to upload from borwser
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sun, 19 Nov 2017 20:14:37 +0000
+
 pyazo (1.4.3) stable; urgency=medium
 
   * fix DEFAULT_RETURN_VIEW not working
