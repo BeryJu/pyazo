@@ -1,3 +1,9 @@
+pyazo (1.4.3) stable; urgency=medium
+
+  * fix DEFAULT_RETURN_VIEW not working
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Thu, 09 Nov 2017 17:18:58 +0000
+
 pyazo (1.4.2) stable; urgency=medium
 
   * only show admin tab if user is superuser
