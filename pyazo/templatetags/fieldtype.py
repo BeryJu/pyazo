@@ -1,5 +1,5 @@
 """
-Supervisr Core Fieldtype filter
+pyazo Core Fieldtype filter
 """
 
 from django import template

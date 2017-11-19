@@ -1,0 +1,7 @@
+{
+  "python.pythonPath": "${workspaceRoot}\\env\\Scripts\\python.exe",
+  "editor.tabSize": 4,
+  "[html]": {
+    "editor.tabSize": 2
+  }
+}

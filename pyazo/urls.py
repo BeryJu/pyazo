@@ -5,7 +5,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from pyazo.oauth2 import SupervisrOAuthCallback
-from pyazo.views import accounts, core, image
+from pyazo.views import accounts, core, image, upload
 
 admin.site.index_title = 'Pyazo Admin'
 admin.site.site_title = 'pyazo'
@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^download/win/$', core.download_client_windows, name='core-download_client_windows'),
     url(r'^gyazo\.php$', core.upload, name='core-upload'),
     url(r'^upload/$', core.upload, name='core-upload'),
+    url(r'^image/upload/$', upload.upload, name='image-upload'),
     url(r'^image/(?P<file_hash>\w{128})/view/$', image.view, name='core-image_view'),
     url(r'^image/(?P<file_hash>\w{128})/claim/$', image.claim, name='core-image_claim'),
     url(r'^(?P<file_hash>\w{16})\.png$', core.view_sha512_short, name='core-view_sha512_short'),

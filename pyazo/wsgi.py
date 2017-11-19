@@ -1,5 +1,5 @@
 """
-WSGI config for supervisr project.
+WSGI config for pyazo project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

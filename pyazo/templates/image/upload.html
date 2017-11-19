@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+Upload - pyazo
+{% endblock %}
+
+{% block header %}
+<style>
+  .row, form {
+    height: 100%;
+  }
+  .col-md-12:nth-child(2) {
+    height: calc(100% - 64px);
+  }
+</style>
+{% endblock %}
+
+{% block content_area %}
+<div class="row">
+  <div class="col-md-12">
+    <h3>{% trans 'Upload' %}</h3>
+    <hr>
+  </div>
+  <div class="col-md-12" style="">
+    <form action="{{ request.get_full_path }}" method="POST" class="dropzone">
+      {% csrf_token %}
+    </form>
+  </div>
+</div>
+{% endblock %}

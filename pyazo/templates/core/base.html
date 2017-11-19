@@ -34,17 +34,6 @@
     </div>
     <div class="divider"></div>
     <div class="header-nav clr-nav-level-1">
-      <a class="nav-link {% is_active 'core' %}" href="{% url 'core-index' %}">
-        <span class="nav-text">{% trans "Home" %}</span>
-      </a>
-      <a href="{% url 'core-download_client_windows' %}" class="nav-link">
-        <span class="nav-text">{% trans 'Download Client' %}</span>
-      </a>
-      {% if user.is_superuser %}
-      <a class="nav-link {% is_active_app 'admin' %}" href="{% url 'admin:index' %}">
-        <span class="nav-text">{% trans "Admin" %}</span>
-      </a>
-      {% endif %}
     </div>
     <div class="settings">
       <span class="nav-link">
@@ -64,6 +53,31 @@
     </div>
   </header>
   <div class="content-container">
+    <div class="clr-vertical-nav has-icons is-collapsed">
+      <button class="nav-trigger" type="button" onclick="$(this).parent().toggleClass('is-collapsed');">
+        <clr-icon class="nav-trigger-icon" shape="angle-double" dir="right"></clr-icon>
+      </button>
+      <div class="nav-content">
+        <a class="nav-link {% is_active 'core' %}" href="{% url 'core-index' %}">
+          <clr-icon class="nav-icon" shape="home"></clr-icon>
+          <span class="nav-text">{% trans "Home" %}</span>
+        </a>
+        <a class="nav-link {% is_active 'image-upload' %}" href="{% url 'image-upload' %}">
+          <clr-icon class="nav-icon" shape="upload"></clr-icon>
+          <span class="nav-text">{% trans "Upload" %}</span>
+        </a>
+        <a href="{% url 'core-download_client_windows' %}" class="nav-link">
+          <clr-icon class="nav-icon" shape="download"></clr-icon>
+          <span class="nav-text">{% trans 'Download Client' %}</span>
+        </a>
+        {% if user.is_superuser %}
+        <a class="nav-link {% is_active_app 'admin' %}" href="{% url 'admin:index' %}">
+          <clr-icon class="nav-icon" shape="cog"></clr-icon>
+          <span class="nav-text">{% trans "Admin" %}</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
     <div class="content-area">
       {% block content_area %}
       {% endblock %}
@@ -74,8 +88,6 @@
         {% endblock %}
       </div>
     </div>
-    {% block sidenav %}
-    {% endblock %}
   </div>
   {% endblock %}
 </div>

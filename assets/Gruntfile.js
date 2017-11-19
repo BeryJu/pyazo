@@ -14,6 +14,7 @@ module.exports = function(grunt) {
       },
       pyazo: {
         src: [
+            'node_modules/dropzone/dist/dropzone.js',
             'node_modules/clarity-icons/clarity-icons.min.js',
             'node_modules/jquery/dist/jquery.js',
             'js/*.js',
@@ -28,6 +29,7 @@ module.exports = function(grunt) {
               'node_modules/clarity-icons/clarity-icons.min.css',
               'node_modules/clarity-ui/clarity-ui.min.css',
               'node_modules/font-awesome/css/font-awesome.min.css',
+              'node_modules/dropzone/dist/dropzone.css',
               'css/*.css',
           ],
           dest: '../pyazo/static/css/app.min.css',
