@@ -1,3 +1,9 @@
+pyazo (1.4.6) stable; urgency=medium
+
+  * ok fully remove tablesorter
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sun, 19 Nov 2017 20:25:58 +0000
+
 pyazo (1.4.5) stable; urgency=medium
 
   * remove tablesorter
