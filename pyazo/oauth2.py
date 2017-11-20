@@ -43,7 +43,7 @@ class SupervisrOAuthCallback(OAuthCallback):
         # pylint: disable=invalid-name
         User = get_user_model()
         kwargs = {
-            User.USERNAME_FIELD: info['email'],
+            User.USERNAME_FIELD: info['username'],
             'email': info['email'],
             'first_name': info['first_name'],
             'password': None

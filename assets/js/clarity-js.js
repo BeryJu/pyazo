@@ -173,3 +173,49 @@ var clrTableSelect = function(container) {
         }
     });
 };
+
+var clrSidenav = function (containerSelector) {
+    var container = $(containerSelector);
+    var navTrigger = container.children(".nav-trigger");
+    var navTriggerIcon = navTrigger.children(".nav-trigger-icon");
+
+    var isCollapsed = container.hasClass("is-collapsed");
+
+    // Collapse trigger
+    var updateCollapse = function () {
+        if (isCollapsed === false) {
+            container.addClass('is-collapsed');
+            navTriggerIcon.attr('dir', 'right');
+        } else if (isCollapsed === true) {
+            container.removeClass('is-collapsed');
+            navTriggerIcon.attr('dir', 'left');
+        }
+        isCollapsed = !isCollapsed;
+    };
+
+    navTrigger.on('click', function () {
+        updateCollapse();
+    });
+
+    container.find('.nav-group-trigger').on('click', function () {
+        var container = $(this).parents('clr-vertical-nav-group');
+        var icon = container.find('.nav-group-trigger-icon');
+        var isGroupExpanded = container.hasClass('is-expanded');
+        var toggleChildren = function ($this) {
+            container.find('.nav-group-children').each(function () {
+                $(this).toggleClass('nav-group-children-hidden');
+            });
+        };
+        if (isGroupExpanded === false) {
+            if (isCollapsed === true) {
+                updateCollapse();
+            }
+            toggleChildren();
+            icon.attr('dir', 'down');
+        } else if (isGroupExpanded === true) {
+            toggleChildren();
+            icon.attr('dir', 'right');
+        }
+        container.toggleClass('is-expanded');
+    });
+};

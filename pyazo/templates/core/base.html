@@ -25,41 +25,14 @@
   {% endfor %}
   {% endif %}
   {% endblock %}
-  <header class="header header-1">
-    <div class="branding">
-      <a class="logo-and-title" href="{% url 'core-index' %}">
-        <img src="{% static 'img/icon.png' %}" alt="" class="clr-icon clarity-logo is-info">
-        <span class="title">pyazo</span>
-      </a>
-    </div>
-    <div class="divider"></div>
-    <div class="header-nav clr-nav-level-1">
-    </div>
-    <div class="settings">
-      <span class="nav-link">
-        <img class="branding" src="{% gravatar user.email %}" alt="">
-      </span>
-      {% if user.is_authenticated %}
-      <div class="dropdown bottom-right">
-        <button class="dropdown-toggle btn btn-primary" clrDropdown>
-          {{ user.username }}
-          <clr-icon shape="caret down"></clr-icon>
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="{% url 'admin:logout' %}">{% trans "Logout" %}</a>
-        </div>
-      </div>
-      {% endif %}
-    </div>
-  </header>
   <div class="content-container">
-    <div class="clr-vertical-nav has-icons is-collapsed">
-      <button class="nav-trigger" type="button" onclick="$(this).parent().toggleClass('is-collapsed');">
+    <div class="clr-vertical-nav has-icons has-nav-groups is-collapsed">
+      <button class="nav-trigger" type="button">
         <clr-icon class="nav-trigger-icon" shape="angle-double" dir="right"></clr-icon>
       </button>
       <div class="nav-content">
         <a class="nav-link {% is_active 'core' %}" href="{% url 'core-index' %}">
-          <clr-icon class="nav-icon" shape="home"></clr-icon>
+          <img src="{% static 'img/icon.png' %}" alt="" class="nav-icon">
           <span class="nav-text">{% trans "Home" %}</span>
         </a>
         <a class="nav-link {% is_active 'image-upload' %}" href="{% url 'image-upload' %}">
@@ -75,6 +48,26 @@
           <clr-icon class="nav-icon" shape="cog"></clr-icon>
           <span class="nav-text">{% trans "Admin" %}</span>
         </a>
+        <clr-vertical-nav-group class="nav-group">
+          <div class="nav-group-content">
+            <button class="nav-group-trigger" type="button">
+              <img class="nav-icon" src="{% gravatar user.email %}" alt="">
+              <div class="nav-group-text">
+                {{ user.username }}
+              </div>
+              <clr-icon class="nav-group-trigger-icon" shape="caret" dir="right"></clr-icon>
+            </button>
+          </div>
+          <div class="nav-group-children nav-group-children-hidden">
+            <clr-vertical-nav-group-children>
+              <a class="nav-link" href="{% url 'admin:logout' %}">
+                <span class="nav-text">
+                  {% trans "Logout" %}
+                </span>
+              </a>
+            </clr-vertical-nav-group-children>
+          </div>
+        </clr-vertical-nav-group>
         {% endif %}
       </div>
     </div>
@@ -91,4 +84,12 @@
   </div>
   {% endblock %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(function () {
+    clrSidenav('.clr-vertical-nav');
+  });
+</script>
 {% endblock %}
