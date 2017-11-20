@@ -240,6 +240,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'cherrypy': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
         'django': {
             'handlers': ['console', 'file'],
             'level': 'INFO',

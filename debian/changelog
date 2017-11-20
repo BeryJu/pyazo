@@ -1,3 +1,9 @@
+pyazo (1.4.7) stable; urgency=medium
+
+  * fix pyazo not starting correctly due to invalid six version
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 20 Nov 2017 15:43:00 +0000
+
 pyazo (1.4.6) stable; urgency=medium
 
   * ok fully remove tablesorter
