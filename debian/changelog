@@ -1,3 +1,9 @@
+pyazo (1.5) stable; urgency=medium
+
+  * Finish UI rework, remove header bar and add sidenav support to clarity-js
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 20 Nov 2017 17:58:28 +0000
+
 pyazo (1.4.7) stable; urgency=medium
 
   * fix pyazo not starting correctly due to invalid six version
