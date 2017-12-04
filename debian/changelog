@@ -1,3 +1,10 @@
+pyazo (1.5.1) stable; urgency=medium
+
+  * satisfy tigs needs
+  * dark theme, add cache header to image view
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 04 Dec 2017 11:58:38 +0000
+
 pyazo (1.5) stable; urgency=medium
 
   * Finish UI rework, remove header bar and add sidenav support to clarity-js
