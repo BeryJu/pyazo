@@ -27,7 +27,7 @@ module.exports = function(grunt) {
         files: [{
           src: [
               'node_modules/clarity-icons/clarity-icons.min.css',
-              'node_modules/clarity-ui/clarity-ui.min.css',
+              'node_modules/clarity-ui/clarity-ui-dark.min.css',
               'node_modules/font-awesome/css/font-awesome.min.css',
               'node_modules/dropzone/dist/dropzone.css',
               'css/*.css',

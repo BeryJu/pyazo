@@ -12,6 +12,7 @@ from django.db.utils import DataError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
 from pyazo.models import Upload, UploadView, save_from_post
@@ -106,6 +107,7 @@ def handle_view(req, uploads):
         return HttpResponse(upload.file.read(), content_type="image/png")
     raise Http404
 
+@cache_control(max_age=3600)
 def view_md5(req, file_hash):
     """
     Search upload by md5 and return it
@@ -113,6 +115,7 @@ def view_md5(req, file_hash):
     uploads = Upload.objects.filter(md5=file_hash)
     return handle_view(req, uploads)
 
+@cache_control(max_age=3600)
 def view_sha256(req, file_hash):
     """
     Search upload by sha256 and return it
@@ -120,6 +123,7 @@ def view_sha256(req, file_hash):
     uploads = Upload.objects.filter(sha256=file_hash)
     return handle_view(req, uploads)
 
+@cache_control(max_age=3600)
 def view_sha512(req, file_hash):
     """
     Search upload by sha512 and return it
@@ -127,6 +131,7 @@ def view_sha512(req, file_hash):
     uploads = Upload.objects.filter(sha512=file_hash)
     return handle_view(req, uploads)
 
+@cache_control(max_age=3600)
 def view_sha512_short(req, file_hash):
     """
     Search upload by shortened sha512 and return it
@@ -134,6 +139,7 @@ def view_sha512_short(req, file_hash):
     uploads = Upload.objects.filter(sha512__startswith=file_hash)
     return handle_view(req, uploads)
 
+@cache_control(max_age=3600)
 # pylint: disable=unused-argument
 def thumb_view_sha512(req, file_hash):
     """
