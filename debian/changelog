@@ -1,3 +1,9 @@
+pyazo (1.5.2b) stable; urgency=medium
+
+  * Fix custom settings not being loaded correctly
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 08 Dec 2017 13:12:27 +0000
+
 pyazo (1.5.2) stable; urgency=medium
 
   * add download for custom ShareX uploader

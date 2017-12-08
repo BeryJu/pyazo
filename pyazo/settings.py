@@ -190,10 +190,12 @@ def load_local_settings(mod):
     except ImportError as exception:
         LOGGER.info('Not loaded %s because %s', mod, exception)
         return False
+    except PermissionError:
+        return False
 
-#for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
-#    if load_local_settings(modu):
-#       break
+for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
+    if load_local_settings(modu):
+        break
 
 RAVEN_CONFIG = {
     'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
