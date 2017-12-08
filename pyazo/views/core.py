@@ -1,6 +1,8 @@
 """
 pyazo core views
 """
+import copy
+import json
 import logging
 import os.path
 from urllib.parse import urljoin, urlparse
@@ -19,6 +21,16 @@ from pyazo.models import Upload, UploadView, save_from_post
 from pyazo.utils import get_remote_ip, get_reverse_dns
 
 LOGGER = logging.getLogger(__name__)
+SXCU_BASE = {
+    'Name': 'Pyazo %s',
+    'DestinationType': 'ImageUploader',
+    'RequestURL': '%s://%s/upload/',
+    'FileFormName': 'imagedata',
+    'Arguments': {
+        'id': '%rn',
+        'username': '%uln',
+    }
+}
 
 @login_required
 def index(req):
@@ -88,6 +100,17 @@ def download_client_windows(req):
             response['Content-Disposition'] = 'inline; filename=%s' % filename
             return response
     raise Http404
+
+@login_required
+def download_sxcu(req):
+    """Download ShareX Custom Uploader"""
+    url = urlparse(req.build_absolute_uri())
+    data = copy.deepcopy(SXCU_BASE)
+    data['RequestURL'] = data['RequestURL'] % (url.scheme, url.netloc)
+    data['Name'] = data['Name'] % url.netloc
+    response = HttpResponse(json.dumps(data), content_type='application/json')
+    response['Content-Disposition'] = 'attachment; filename=pyazo.sxcu'
+    return response
 
 def handle_view(req, uploads):
     """

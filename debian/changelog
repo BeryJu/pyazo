@@ -1,9 +1,15 @@
+pyazo (1.5.2) stable; urgency=medium
+
+  * add download for custom ShareX uploader
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 08 Dec 2017 13:06:00 +0000
+
 pyazo (1.5.1) stable; urgency=medium
 
   * satisfy tigs needs
   * dark theme, add cache header to image view
 
- -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 04 Dec 2017 11:58:38 +0000
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 08 Dec 2017 13:05:53 +0000
 
 pyazo (1.5) stable; urgency=medium
 

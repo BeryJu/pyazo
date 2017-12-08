@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allaccess.urls')),
     url(r'^download/win/$', core.download_client_windows, name='core-download_client_windows'),
+    url(r'^download/sharex/$', core.download_sxcu, name='core-download-sxcu'),
     url(r'^gyazo\.php$', core.upload, name='core-upload'),
     url(r'^upload/$', core.upload, name='core-upload'),
     url(r'^image/upload/$', upload.upload, name='image-upload'),

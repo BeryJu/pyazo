@@ -39,15 +39,37 @@
           <clr-icon class="nav-icon" shape="upload"></clr-icon>
           <span class="nav-text">{% trans "Upload" %}</span>
         </a>
-        <a href="{% url 'core-download_client_windows' %}" class="nav-link">
-          <clr-icon class="nav-icon" shape="download"></clr-icon>
-          <span class="nav-text">{% trans 'Download Client' %}</span>
-        </a>
+        <clr-vertical-nav-group class="nav-group">
+          <div class="nav-group-content">
+            <button class="nav-group-trigger" type="button">
+              <clr-icon class="nav-icon" shape="download"></clr-icon>
+              <div class="nav-group-text">
+                {% trans 'Download Client' %}
+              </div>
+              <clr-icon class="nav-group-trigger-icon" shape="caret" dir="right"></clr-icon>
+            </button>
+          </div>
+          <div class="nav-group-children nav-group-children-hidden">
+            <clr-vertical-nav-group-children>
+              <a class="nav-link" href="{% url 'core-download_client_windows' %}">
+                <span class="nav-text">
+                  {% trans "Windows" %}
+                </span>
+              </a>
+              <a class="nav-link" href="{% url 'core-download-sxcu' %}">
+                <span class="nav-text">
+                  {% trans "ShareX" %}
+                </span>
+              </a>
+            </clr-vertical-nav-group-children>
+          </div>
+        </clr-vertical-nav-group>
         {% if user.is_superuser %}
         <a class="nav-link {% is_active_app 'admin' %}" href="{% url 'admin:index' %}">
           <clr-icon class="nav-icon" shape="cog"></clr-icon>
           <span class="nav-text">{% trans "Admin" %}</span>
         </a>
+        {% endif %}
         <clr-vertical-nav-group class="nav-group">
           <div class="nav-group-content">
             <button class="nav-group-trigger" type="button">
@@ -68,7 +90,6 @@
             </clr-vertical-nav-group-children>
           </div>
         </clr-vertical-nav-group>
-        {% endif %}
       </div>
     </div>
     <div class="content-area">
