@@ -10,6 +10,7 @@ from urllib.parse import urljoin, urlparse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.db.utils import DataError
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
@@ -34,10 +35,11 @@ SXCU_BASE = {
 
 @login_required
 def index(req):
-    """
-    Show overview of newest images
-    """
-    images = Upload.objects.all().order_by('-id')[:200]
+    """Show overview of newest images"""
+    imgfilter = Q()
+    if not req.user.is_superuser:
+        imgfilter = Q(user=req.user) | Q(user_isnull=True)
+    images = Upload.objects.filter(imgfilter).order_by('-id')[:200]
     return render(req, 'core/index.html', {'images': images})
 
 @csrf_exempt

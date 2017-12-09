@@ -50,7 +50,7 @@ SECRET_KEY = '48e9z8tw=_z0e#m*x70&)u%cgo8#=16uzdze&i8q=*#**)@cp&' # noqa Debug S
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_REDIRECT_URL = 'core-index'
 # Application definition

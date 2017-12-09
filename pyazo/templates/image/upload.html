@@ -14,6 +14,9 @@ Upload - pyazo
   .col-md-12:nth-child(2) {
     height: calc(100% - 64px);
   }
+  .dropzone {
+    background: rgba(255, 255, 255, .1)
+  }
 </style>
 {% endblock %}
 
@@ -24,9 +27,15 @@ Upload - pyazo
     <hr>
   </div>
   <div class="col-md-12" style="">
-    <form action="{{ request.get_full_path }}" method="POST" class="dropzone">
+    <form action="{{ request.get_full_path }}" method="POST" class="dropzone" id="dupload">
       {% csrf_token %}
     </form>
   </div>
 </div>
+<script>
+  Dropzone.autoDiscover = false;
+  dz = new Dropzone('#dupload', {
+    acceptedFiles: 'image/*'
+  });
+</script>
 {% endblock %}

@@ -31,7 +31,8 @@ class Upload(models.Model):
 
     file = models.FileField(max_length=512)
     type = models.IntegerField(choices=UPLOAD_TYPES)
-    user = models.ForeignKey(User, default=None, null=True, blank=True)
+    user = models.ForeignKey(User, default=None, null=True, blank=True,
+                             on_delete=models.SET_DEFAULT)
     md5 = models.CharField(max_length=32, blank=True)
     sha256 = models.CharField(max_length=64, blank=True)
     sha512 = models.CharField(max_length=128, blank=True)
@@ -81,8 +82,8 @@ class Upload(models.Model):
 
 class UploadView(models.Model):
     """Store information about a single view"""
-    upload = models.ForeignKey(Upload)
-    viewee = models.ForeignKey(User, blank=True, default=1)
+    upload = models.ForeignKey(Upload, on_delete=models.CASCADE)
+    viewee = models.ForeignKey(User, blank=True, default=1, on_delete=models.CASCADE)
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)
     viewee_dns = models.TextField(blank=True)
     viewee_date = models.DateTimeField(auto_now_add=True)
