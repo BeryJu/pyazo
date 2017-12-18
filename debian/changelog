@@ -1,3 +1,10 @@
+pyazo (1.5.2c) stable; urgency=medium
+
+  * update website, make dark theme better, fix index filtering
+  * Fix Dropzone not being included in assets
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 18 Dec 2017 19:23:33 +0000
+
 pyazo (1.5.2b) stable; urgency=medium
 
   * Fix custom settings not being loaded correctly
