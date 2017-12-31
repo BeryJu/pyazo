@@ -37,15 +37,15 @@ class SupervisrOAuthCallback(OAuthCallback):
     client_class = SupervisrOAuth2Client
 
     def get_user_id(self, provider, info):
-        return info['pk']
+        return info['sub']
 
     def get_or_create_user(self, provider, access, info):
         # pylint: disable=invalid-name
         User = get_user_model()
         kwargs = {
-            User.USERNAME_FIELD: info['username'],
+            User.USERNAME_FIELD: info['preferred_username'],
             'email': info['email'],
-            'first_name': info['first_name'],
+            'first_name': info['name'],
             'password': None
         }
         return User.objects.create_user(**kwargs)
