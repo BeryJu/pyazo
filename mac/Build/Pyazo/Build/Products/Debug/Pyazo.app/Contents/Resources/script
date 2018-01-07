@@ -48,6 +48,7 @@ File.delete(tmpfile)
 boundary = '----BOUNDARYBOUNDARY----'
 
 HOST = 'i.beryju.org'
+PORT = 443
 CGI = '/upload/'
 UA   = 'Pyazo/Mac/1.0'
 
@@ -72,7 +73,7 @@ header ={
   'User-Agent' => UA
 }
 
-Net::HTTP.start(HOST, 443, :use_ssl => true){|http|
+Net::HTTP.start(HOST, PORT, :use_ssl => true){|http|
   res = http.post(CGI,data,header)
   url = res.response.body
   IO.popen("pbcopy","r+"){|io|

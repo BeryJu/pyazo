@@ -1,6 +1,7 @@
 coverage
 isort
-pylint
+astroid==1.5.3
+pylint==1.7.5
 pylint-django
 prospector
 django-debug-toolbar

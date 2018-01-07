@@ -5,6 +5,7 @@ import copy
 import json
 import logging
 import os.path
+import re
 from urllib.parse import urljoin, urlparse
 
 from django.conf import settings
@@ -19,7 +20,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
 from pyazo.models import Upload, UploadView, save_from_post
-from pyazo.utils import get_remote_ip, get_reverse_dns
+from pyazo.utils import get_remote_ip, get_reverse_dns, zip_to_response
 
 LOGGER = logging.getLogger(__name__)
 SXCU_BASE = {
@@ -113,6 +114,33 @@ def download_sxcu(req):
     response = HttpResponse(json.dumps(data), content_type='application/json')
     response['Content-Disposition'] = 'attachment; filename=pyazo.sxcu'
     return response
+
+@login_required
+def download_client_macos(request):
+    """Download zipped macos client"""
+    # First we replace the `SERVER` line
+    uri = urlparse(request.build_absolute_uri())
+    # replace text in script file
+    app_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'Pyazo.app/')
+    script_file = os.path.join(app_path, "Contents/Resources/script")
+    regex_replace = {
+        r"^HOST\s=\s'(.*)'$": "HOST = '%s'" % uri.hostname,
+        r"^PORT\s=\s\d+$": "PORT = %d" % uri.port,
+        r"use_ssl\s=>\s\w{4,5}": "use_ssl => %s" % ('true' \
+                               if uri.scheme == 'https' else 'false'),
+    }
+    try:
+        inp = open(script_file, 'r')
+        data = inp.read()
+        inp.close()
+        for regex, repl in regex_replace.items():
+            data = re.sub(regex, repl, data, flags=re.M)
+        with open(script_file, 'w') as out:
+            out.write(data)
+        return zip_to_response(app_path, 'Pyazo.app.zip')
+    except IOError as exc:
+        LOGGER.warning(exc)
+        raise Http404
 
 def handle_view(req, uploads):
     """

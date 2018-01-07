@@ -7,3 +7,4 @@ runserver.py		/usr/share/pyazo/
 
 debian/etc/pyazo	/etc/
 win/PyazoWin/bin/Release/Pyazo.exe	/usr/share/pyazo/bin/
+mac/Build/Pyazo/Build/Products/Debug/Pyazo.app /usr/share/pyazo/bin/
