@@ -120,12 +120,14 @@ def download_client_macos(request):
     """Download zipped macos client"""
     # First we replace the `SERVER` line
     uri = urlparse(request.build_absolute_uri())
+    # Try to take port from URI, otherwise fall back to standard ports
+    port = 443 if not uri.port else uri.port
     # replace text in script file
     app_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'Pyazo.app/')
     script_file = os.path.join(app_path, "Contents/Resources/script")
     regex_replace = {
         r"^HOST\s=\s'(.*)'$": "HOST = '%s'" % uri.hostname,
-        r"^PORT\s=\s\d+$": "PORT = %d" % uri.port,
+        r"^PORT\s=\s\d+$": "PORT = %d" % port,
         r"use_ssl\s=>\s\w{4,5}": "use_ssl => %s" % ('true' \
                                if uri.scheme == 'https' else 'false'),
     }
