@@ -46,7 +46,8 @@ package:
     - python3 -m pip install -U virtualenv
     - debuild -us -uc
     - export GPG_TTY=$(tty)
-    - echo "allow-loopback-pinentry" >> .gnupg/gpg-agent.conf
+    - mkdir .gnupg/
+    - echo "allow-loopback-pinentry" > .gnupg/gpg-agent.conf
     - echo "${CI_GPG_PRIVATE}" | gpg --import
     - echo "${CI_GPG_KEY}" | gpg --batch --pinentry-mode loopback --yes --passphrase-fd 0 -a --output pyazo_singed.deb --detach-sig ../build-area/pyazo_*.deb
   stage: build
