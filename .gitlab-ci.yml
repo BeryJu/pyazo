@@ -45,15 +45,17 @@ package:
   script:
     - python3 -m pip install -U virtualenv
     - debuild -us -uc
+    - export GPG_TTY=$(tty)
+    - gpg-agent --allow-loopback-pinentry
     - echo "${CI_GPG_PRIVATE}" | gpg --import
-    - echo "${CI_GPG_KEY}" | gpg --batch --yes --passphrase-fd 0 -a --output pyazo_singed.deb --detach-sig ../build-area/pyazo_*.deb
+    - echo "${CI_GPG_KEY}" | gpg --batch --pinentry-mode loopback --yes --passphrase-fd 0 -a --output pyazo_singed.deb --detach-sig ../build-area/pyazo_*.deb
   stage: build
   artifacts:
     paths:
     - pyazo_singed.deb
     expire_in: 2 days
-  only:
-    - tags
+  # only:
+  #   - tags
   cache:
     paths:
       - env/
