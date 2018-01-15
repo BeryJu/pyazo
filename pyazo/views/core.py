@@ -38,7 +38,7 @@ def index(req):
     """Show overview of newest images"""
     imgfilter = Q()
     if not req.user.is_superuser:
-        imgfilter = Q(user=req.user) | Q(user_isnull=True)
+        imgfilter = Q(user=req.user) | Q(user__isnull=True)
     images = Upload.objects.filter(imgfilter).order_by('-id')[:200]
     return render(req, 'core/index.html', {'images': images})
 
