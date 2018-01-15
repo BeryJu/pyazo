@@ -1,3 +1,10 @@
+pyazo (1.5.3+mac1) stable; urgency=medium
+
+  * initial mac app based on Gyazo
+  * prevent images from being in git
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 08 Jan 2018 17:15:12 +0000
+
 pyazo (1.5.3) stable; urgency=medium
 
   * fix oauth2 client for supervisr
