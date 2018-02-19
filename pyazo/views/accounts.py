@@ -7,8 +7,8 @@ import logging
 from allaccess.models import Provider
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login as django_login
 from django.contrib.auth import authenticate
+from django.contrib.auth import login as django_login
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import ugettext as _

@@ -28,6 +28,7 @@ def get_reverse_dns(dev_ip):
         rev = socket.gethostbyaddr(dev_ip)
         if rev:
             return rev[0]
+        return ''
     except (socket.herror, socket.gaierror, TypeError, IndexError):
         return ''
 
