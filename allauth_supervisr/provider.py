@@ -1,14 +1,19 @@
+"""supervisr provider"""
 from allauth.socialaccount.providers.base import ProviderAccount
 from allauth.socialaccount.providers.oauth2.provider import OAuth2Provider
 
 
 class SupervisrAccount(ProviderAccount):
+    """supervisr account"""
+
     def to_str(self):
         dflt = super(SupervisrAccount, self).to_str()
         return self.account.extra_data.get('username', dflt)
 
 
 class SupervisrProvider(OAuth2Provider):
+    """supervisr provider"""
+
     id = 'supervisr'
     name = 'Supervisr'
     account_class = SupervisrAccount
@@ -27,4 +32,4 @@ class SupervisrProvider(OAuth2Provider):
         return ['read']
 
 
-provider_classes = [SupervisrProvider]
+provider_classes = [SupervisrProvider] # noqa
