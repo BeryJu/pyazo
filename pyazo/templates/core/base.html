@@ -31,11 +31,11 @@
         <clr-icon class="nav-trigger-icon" shape="angle-double" dir="right"></clr-icon>
       </button>
       <div class="nav-content">
-        <a class="nav-link {% is_active 'core' %}" href="{% url 'core-index' %}">
+        <a class="nav-link {% is_active 'core' %}" href="{% url 'index' %}">
           <img src="{% static 'img/icon.png' %}" alt="" class="nav-icon">
           <span class="nav-text">{% trans "Home" %}</span>
         </a>
-        <a class="nav-link {% is_active 'image-upload' %}" href="{% url 'image-upload' %}">
+        <a class="nav-link {% is_active 'upload_browser' %}" href="{% url 'upload_browser' %}">
           <clr-icon class="nav-icon" shape="upload"></clr-icon>
           <span class="nav-text">{% trans "Upload" %}</span>
         </a>
@@ -51,17 +51,17 @@
           </div>
           <div class="nav-group-children nav-group-children-hidden">
             <clr-vertical-nav-group-children>
-              <a class="nav-link" href="{% url 'core-download_client_windows' %}">
+              <a class="nav-link" href="{% url 'download_client_windows' %}">
                 <span class="nav-text">
                   {% trans "Windows" %}
                 </span>
               </a>
-              <a class="nav-link" href="{% url 'core-download_client_macos' %}">
+              <a class="nav-link" href="{% url 'download_client_macos' %}">
                 <span class="nav-text">
                   {% trans 'macOS' %}
                 </span>
               </a>
-              <a class="nav-link" href="{% url 'core-download-sxcu' %}">
+              <a class="nav-link" href="{% url 'download-sxcu' %}">
                 <span class="nav-text">
                   {% trans "ShareX" %}
                 </span>
@@ -87,7 +87,7 @@
           </div>
           <div class="nav-group-children nav-group-children-hidden">
             <clr-vertical-nav-group-children>
-              <a class="nav-link" href="{% url 'admin:logout' %}">
+              <a class="nav-link" href="{% url 'accounts_logout' %}">
                 <span class="nav-text">
                   {% trans "Logout" %}
                 </span>

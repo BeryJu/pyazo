@@ -9,6 +9,6 @@ Standards-Version: 3.9.6
 Package: pyazo
 Architecture: all
 Recommends: mysql-server
-Depends: python3, dbconfig-mysql | dbconfig-no-thanks, ${misc:Depends}
+Depends: python3, dbconfig-mysql | dbconfig-no-thanks, ${misc:Depends}, libmagic1
 Description: Gyazo in Python/Django
 

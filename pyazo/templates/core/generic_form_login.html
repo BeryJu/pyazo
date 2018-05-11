@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static %}
+{% load socialaccount %}
 
 {% block header %}
 <title>login - pyazo</title>
@@ -48,9 +49,12 @@
       <a href="{% url link %}" class="signup">{% trans name %}</a>
       {% endfor %}
       {% endif %}
-      {% for prov in oauth_providers %}
-      <a href="{% url 'allaccess-login' prov %}" class="btn btn-primary">{% trans "Login with" %} {{ prov }}</a>
-      {% endfor %}
+      {% get_providers as socialaccount_providers %}
+      {% if socialaccount_providers %}
+        {% for provider in socialaccount_providers %}
+          <a href="{% provider_login_url provider.id process='login' %}" class="btn btn-primary">{% trans "Login with" %} {{ provider.name }}</a>
+        {% endfor %}
+      {% endif %}
     </div>
   </form>
 </div>

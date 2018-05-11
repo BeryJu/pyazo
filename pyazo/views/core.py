@@ -1,207 +1,31 @@
-"""
-pyazo core views
-"""
-import copy
-import json
+"""pyazo core views"""
 import logging
-import os.path
-import re
-from urllib.parse import urljoin, urlparse
 
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
-from django.db.utils import DataError
-from django.http import Http404, HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.decorators.cache import cache_control
-from django.views.decorators.csrf import csrf_exempt
 
-from pyazo.models import Upload, UploadView, save_from_post
-from pyazo.utils import get_remote_ip, get_reverse_dns, zip_to_response
+from pyazo.models import Upload
 
 LOGGER = logging.getLogger(__name__)
-SXCU_BASE = {
-    'Name': 'Pyazo %s',
-    'DestinationType': 'ImageUploader',
-    'RequestURL': '%s://%s/upload/',
-    'FileFormName': 'imagedata',
-    'Arguments': {
-        'id': '%rn',
-        'username': '%uln',
-    }
-}
 
 @login_required
-def index(req):
+def index(request: HttpRequest) -> HttpResponse:
     """Show overview of newest images"""
     imgfilter = Q()
-    if not req.user.is_superuser:
-        imgfilter = Q(user=req.user) | Q(user__isnull=True)
-    images = Upload.objects.filter(imgfilter).order_by('-id')[:200]
-    return render(req, 'core/index.html', {'images': images})
+    if not request.user.is_superuser:
+        imgfilter = Q(user=request.user) | Q(user__isnull=True)
+    # Per Default, on a 1080p screen, there are 7 rows with 12 tiles => 84
+    images = Paginator(Upload.objects.filter(imgfilter).order_by('-id'), 84)
 
-@csrf_exempt
-def upload(req):
-    """
-    Main upload handler. Fully Gyazo compatible.
-    """
-    if 'id' in req.POST and 'imagedata' in req.FILES:
-        client_ip = get_remote_ip(req)
-        client_dns = get_reverse_dns(client_ip)
-
-        file = save_from_post(req.FILES['imagedata'].read())
-
-        new_upload = Upload(
-            file=file,
-            type=0)
-
-        # Run auto-claim
-        if settings.AUTO_CLAIM_ENABLED and 'username' in req.POST:
-            matching = User.objects.filter(username=req.POST.get('username'))
-            if matching.exists():
-                new_upload.user = matching.first()
-                LOGGER.debug("Auto-claimed upload to user '%s'", req.POST.get('username'))
-
-        new_upload.save()
-
-        try:
-            uag = req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
-            new_upload_view = UploadView(
-                upload=new_upload,
-                viewee_ip=client_ip,
-                viewee_dns=client_dns,
-                viewee_user_agent=uag
-                )
-            new_upload_view.save()
-        except DataError:
-            LOGGER.info("Failed to create initial view with rIP '%r'", client_ip)
-
-        LOGGER.info("Uploaded %s from %s", new_upload.filename, client_ip)
-
-        # Generate url for client to open
-        upload_prop = settings.DEFAULT_RETURN_VIEW.replace('core-view_', '')
-        upload_hash = getattr(new_upload, upload_prop, 'sha256')
-        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
-        full_url = urljoin(settings.EXTERNAL_URL, url)
-        return HttpResponse(full_url)
-    return HttpResponse(status=400)
-
-@login_required
-def download_client_windows(req):
-    """
-    Download Client (Windows)
-    """
-    client_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'Pyazo.exe')
-    host = urlparse(req.build_absolute_uri()).netloc
-    filename = "Pyazo_%s.exe" % host
-    if os.path.isfile(client_path):
-        with open(client_path, 'rb') as _file:
-            response = HttpResponse(_file.read(), content_type="application/octet-stream")
-            response['Content-Disposition'] = 'inline; filename=%s' % filename
-            return response
-    raise Http404
-
-@login_required
-def download_sxcu(req):
-    """Download ShareX Custom Uploader"""
-    url = urlparse(req.build_absolute_uri())
-    data = copy.deepcopy(SXCU_BASE)
-    data['RequestURL'] = data['RequestURL'] % (url.scheme, url.netloc)
-    data['Name'] = data['Name'] % url.netloc
-    response = HttpResponse(json.dumps(data), content_type='application/json')
-    response['Content-Disposition'] = 'attachment; filename=pyazo.sxcu'
-    return response
-
-@login_required
-def download_client_macos(request):
-    """Download zipped macos client"""
-    # First we replace the `SERVER` line
-    uri = urlparse(request.build_absolute_uri())
-    # Try to take port from URI, otherwise fall back to standard ports
-    port = 443 if not uri.port else uri.port
-    # replace text in script file
-    app_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'Pyazo.app/')
-    script_file = os.path.join(app_path, "Contents/Resources/script")
-    regex_replace = {
-        r"^HOST\s=\s'(.*)'$": "HOST = '%s'" % uri.hostname,
-        r"^PORT\s=\s\d+$": "PORT = %d" % port,
-        r"use_ssl\s=>\s\w{4,5}": "use_ssl => %s" % ('true' \
-                               if uri.scheme == 'https' else 'false'),
-    }
+    page = request.GET.get('page')
     try:
-        inp = open(script_file, 'r')
-        data = inp.read()
-        inp.close()
-        for regex, repl in regex_replace.items():
-            data = re.sub(regex, repl, data, flags=re.M)
-        with open(script_file, 'w') as out:
-            out.write(data)
-        return zip_to_response(app_path, 'Pyazo.app.zip')
-    except IOError as exc:
-        LOGGER.warning(exc)
-        raise Http404
+        page_instances = images.page(page)
+    except PageNotAnInteger:
+        page_instances = images.page(1)
+    except EmptyPage:
+        page_instances = images.page(images.num_pages)
 
-def handle_view(req, uploads):
-    """
-    Show uploads
-    """
-    if uploads.exists():
-        upload = uploads.first()
-        client_ip = get_remote_ip(req)
-        client_dns = get_reverse_dns(client_ip)
-        UploadView.objects.create(
-            upload=upload,
-            viewee_ip=client_ip,
-            viewee_dns=client_dns,
-            viewee_user_agent=req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
-            )
-        LOGGER.info("Logged view for %s (%s) viewing '%s'", client_ip, client_dns, upload.md5)
-        return HttpResponse(upload.file.read(), content_type="image/png")
-    raise Http404
-
-@cache_control(max_age=3600)
-def view_md5(req, file_hash):
-    """
-    Search upload by md5 and return it
-    """
-    uploads = Upload.objects.filter(md5=file_hash)
-    return handle_view(req, uploads)
-
-@cache_control(max_age=3600)
-def view_sha256(req, file_hash):
-    """
-    Search upload by sha256 and return it
-    """
-    uploads = Upload.objects.filter(sha256=file_hash)
-    return handle_view(req, uploads)
-
-@cache_control(max_age=3600)
-def view_sha512(req, file_hash):
-    """
-    Search upload by sha512 and return it
-    """
-    uploads = Upload.objects.filter(sha512=file_hash)
-    return handle_view(req, uploads)
-
-@cache_control(max_age=3600)
-def view_sha512_short(req, file_hash):
-    """
-    Search upload by shortened sha512 and return it
-    """
-    uploads = Upload.objects.filter(sha512__startswith=file_hash)
-    return handle_view(req, uploads)
-
-@cache_control(max_age=3600)
-# pylint: disable=unused-argument
-def thumb_view_sha512(req, file_hash):
-    """
-    Search upload by sha512 and return it (don't log it tho)
-    """
-    uploads = Upload.objects.filter(sha512=file_hash)
-    if uploads.exists():
-        upload = uploads.first()
-        return HttpResponse(upload.file.read(), content_type="image/png")
-    raise Http404
+    return render(request, 'core/index.html', {'images': page_instances})

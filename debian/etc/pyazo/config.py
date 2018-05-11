@@ -17,7 +17,7 @@ EXTERNAL_URL = 'test.example.log'
 # - view_md5
 # - view_sha256
 # - view_sha512
-DEFAULT_RETURN_VIEW = 'core-view_sha256'
+DEFAULT_RETURN_VIEW = 'view_sha256'
 
 # Set this to this server's hostname or the external domain as if behind a reverse proxy
 ALLOWED_HOSTS = ['test.example.org']

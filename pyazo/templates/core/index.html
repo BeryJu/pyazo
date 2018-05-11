@@ -2,16 +2,31 @@
 
 {% load i18n %}
 
+{% block header %}
+<style>
+  .pagination-container {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 12px;
+    margin-top: -12px;
+  }
+</style>
+{% endblock %}
 
 {% block content_area %}
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <h3>{% trans 'All Images' %}</h3>
+  </div>
+  <div class="col-md-6 pagination-container">
+    {% include 'blocks/block_pagination.html' with pages=images %}
+  </div>
+  <div class="col-md-12">
     <hr>
   </div>
   {% for upl in images %}
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1 col-xl-1">
-      <a href="{% url 'core-image_view' file_hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'core-thumb-view_sha512' file_hash=upl.sha512 %}) no-repeat center;min-width:100%;min-height:100px;"></a>
+      <a href="{% url 'upload_view' file_hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'thumb-view_sha512' file_hash=upl.sha512 %}) no-repeat center;min-width:100%;min-height:100px;"></a>
     </div>
   {% empty %}
     <p>No Pictures yet!</p>

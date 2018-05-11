@@ -30,7 +30,7 @@ EXTERNAL_URL = 'http://localhost:8000'
 # - view_md5
 # - view_sha256
 # - view_sha512
-DEFAULT_RETURN_VIEW = 'core-view_sha256'
+DEFAULT_RETURN_VIEW = 'view_sha256'
 # Set this to true if you only want to use external authentication
 EXTERNAL_AUTH_ONLY = False
 # If this is true, images are automatically claimed if the windows user exists
@@ -52,9 +52,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-LOGIN_REDIRECT_URL = 'core-index'
+LOGIN_REDIRECT_URL = 'index'
 # Application definition
-LOGOUT_REDIRECT_URL = 'core-accounts_login'
+LOGOUT_REDIRECT_URL = 'accounts_login'
 
 CHERRYPY_SERVER = {
     'socket_host': '0.0.0.0',
@@ -69,16 +69,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'allaccess',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth_supervisr',
     'pyazo',
     'raven.contrib.django.raven_compat',
 ]
 
 AUTHENTICATION_BACKENDS = (
-    # Default backend
     'django.contrib.auth.backends.ModelBackend',
-    # Additional backend
-    'allaccess.backends.AuthorizedServiceBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 MIDDLEWARE = [
@@ -167,6 +169,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
+
 LOG_LEVEL_FILE = 'DEBUG'
 LOG_FILE = '/dev/null'
 
@@ -177,9 +181,7 @@ STATIC_URL = '/static/'
 sys.path.append('/etc/pyazo')
 
 def load_local_settings(mod):
-    """
-    Load module *mod* and apply contents to ourselves
-    """
+    """Load module *mod* and apply contents to ourselves"""
     try:
         loaded_module = importlib.import_module(mod, package=None)
         for key, val in loaded_module.__dict__.items():
@@ -237,7 +239,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'allaccess': {
+        'allauth': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': True,

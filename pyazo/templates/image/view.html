@@ -11,7 +11,7 @@
   <div class="col-sm-12 col-lg-6">
     <h3>{% trans 'Image' %}</h3>
     <hr>
-    <img style="max-width:100%" src="{% url 'core-thumb-view_sha512' file_hash=image.sha512 %}" alt="">
+    <img style="max-width:100%" src="{% url 'thumb-view_sha512' file_hash=image.sha512 %}" alt="">
   </div>
   <div class="row col-sm-12 col-lg-6">
     <div class="col-sm-12 col-lg-6">
@@ -52,7 +52,7 @@
       <h3>{% trans 'Actions' %}</h3>
       <hr>
       {% if not image.user or image.user.is_superuser %}
-        <a class="btn btn-primary" href="{% url 'core-image_claim' file_hash=image.sha512 %}">{% trans 'Claim' %}</a>
+        <a class="btn btn-primary" href="{% url 'upload_claim' file_hash=image.sha512 %}">{% trans 'Claim' %}</a>
       {% endif %}
     </div>
     <div class="col-sm-12">
