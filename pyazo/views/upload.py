@@ -75,7 +75,9 @@ def upload(request: HttpRequest) -> HttpResponse:
         # Run auto-claim
         if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
             matching = User.objects.filter(username=request.POST.get('username'))
+            # pylint: disable=no-member
             if matching.exists():
+                # pylint: disable=no-member
                 new_upload.user = matching.first()
                 LOGGER.debug("Auto-claimed upload to user '%s'", request.POST.get('username'))
 

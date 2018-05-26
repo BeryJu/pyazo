@@ -25,6 +25,8 @@ ALLOWED_HOSTS = ['test.example.org']
 # Set this to true if you only want to use external authentication
 EXTERNAL_AUTH_ONLY = False
 
+# Enable Error Reporting (Sends error to sentry.services.beryju.org)
+ERROR_REPORT_ENABLED = False
 
 DEBUG = False
 
