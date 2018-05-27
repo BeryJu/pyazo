@@ -195,6 +195,7 @@ def load_local_settings(mod):
     except PermissionError:
         return False
 
+
 for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
     if load_local_settings(modu):
         break
