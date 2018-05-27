@@ -75,7 +75,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth_supervisr',
     'pyazo',
-    'raven.contrib.django.raven_compat',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -123,6 +122,7 @@ try:
                                        '--show', 'pyazo']).decode('utf-8')[1:-1]
 except Exception: # pylint: disable=broad-except
     VERSION = raven.fetch_git_sha(os.path.dirname(os.pardir))
+ERROR_REPORT_ENABLED = False
 
 WSGI_APPLICATION = 'pyazo.wsgi.application'
 
@@ -199,6 +199,9 @@ def load_local_settings(mod):
 for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
     if load_local_settings(modu):
         break
+
+if ERROR_REPORT_ENABLED:
+    INSTALLED_APPS += ['raven.contrib.django.raven_compat']
 
 RAVEN_CONFIG = {
     'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'

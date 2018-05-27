@@ -1,3 +1,4 @@
+"""supervisr adapter"""
 import requests
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.oauth2.views import (OAuth2Adapter,
@@ -8,8 +9,9 @@ from allauth_supervisr.provider import SupervisrProvider
 
 
 class SupervisrOAuth2Adapter(OAuth2Adapter):
+    """supervisr OAuth2 Adapter"""
     provider_id = SupervisrProvider.id
-    settings = app_settings.PROVIDERS.get(provider_id, {})
+    settings = app_settings.PROVIDERS.get(provider_id, {}) # noqa
     provider_base_url = settings.get("SUPERVISR_URL", 'https://my.beryju.org')
 
     access_token_url = '{0}/app/mod/auth/oauth/provider/token/'.format(provider_base_url)
@@ -31,5 +33,5 @@ class SupervisrOAuth2Adapter(OAuth2Adapter):
         )
 
 
-oauth2_login = OAuth2LoginView.adapter_view(SupervisrOAuth2Adapter)
-oauth2_callback = OAuth2CallbackView.adapter_view(SupervisrOAuth2Adapter)
+oauth2_login = OAuth2LoginView.adapter_view(SupervisrOAuth2Adapter) # noqa
+oauth2_callback = OAuth2CallbackView.adapter_view(SupervisrOAuth2Adapter) # noqa

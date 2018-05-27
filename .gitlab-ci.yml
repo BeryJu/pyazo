@@ -7,11 +7,11 @@ before_script:
 stages:
   - test
   - build
-image: python:3.6
+image: python:3.5
 
 isort:
   script:
-    - "isort -c -vb -sg env -b importlib"
+    - "isort -c -vb -sg env"
   stage: test
   cache:
     paths:
@@ -32,7 +32,7 @@ prospector:
       - env/
 pylint:
   script:
-    - "pylint --load-plugins pylint_django pyazo"
+    - "pylint pyazo"
   stage: test
   cache:
     paths:

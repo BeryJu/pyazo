@@ -17,5 +17,13 @@ pymysql.install_as_MySQLdb()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.settings")
 
+# Import django settings after setting DJANGO_SETTINGS_MODULE
+# pylint: disable=wrong-import-position, ungrouped-imports
+from django.conf import settings # noaq isort:skip
+
 # pylint: disable=invalid-name
-application = Sentry(get_wsgi_application())
+application = None
+if settings.ERROR_REPORT_ENABLED:
+    application = Sentry(get_wsgi_application())
+else:
+    application = get_wsgi_application()
