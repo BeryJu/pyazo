@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth_supervisr',
     'pyazo',
+    'raven.contrib.django.raven_compat',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -200,9 +201,6 @@ for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'co
     if load_local_settings(modu):
         break
 
-if ERROR_REPORT_ENABLED:
-    INSTALLED_APPS += ['raven.contrib.django.raven_compat']
-
 RAVEN_CONFIG = {
     'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
            '3372ecce5d548a5@sentry.services.beryju.org/4',
@@ -210,6 +208,9 @@ RAVEN_CONFIG = {
     'environment': 'production' if DEBUG is False else 'development',
     'tags': {'external_domain': EXTERNAL_URL}
 }
+
+if not ERROR_REPORT_ENABLED:
+    RAVEN_CONFIG['dsn'] = ''
 
 LOGGING = {
     'version': 1,
