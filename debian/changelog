@@ -1,3 +1,10 @@
+pyazo (1.6.2) stable; urgency=medium
+
+  * fix missing line in pyazo/settings
+  * Fix raven not being loaded if ERROR_REPORT_ENABLED is disabled (default)
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Thu, 05 Jul 2018 18:18:43 +0000
+
 pyazo (1.6.1) stable; urgency=medium
 
   * to be gdpr compliant disable error reporting by default
