@@ -46,13 +46,12 @@ package:
     - python3 -m pip install -U virtualenv
     - debuild -us -uc
     - export GPG_TTY=$(tty)
-    - mkdir .gnupg/
     - mkdir -p ~/.gnupg/private-keys-v1.d
     - chmod 700 ~/.gnupg/private-keys-v1.d
     - echo "allow-loopback-pinentry" > .gnupg/gpg-agent.conf
     - gpg-agent --daemon &
     - echo "${CI_GPG_PRIVATE}" | gpg --import --batch
-    - echo "${CI_GPG_KEY}" | gpg --batch --pinentry-mode loopback --yes --passphrase-fd 0 -a --output pyazo_singed.deb --detach-sig pyazo_*.deb
+    - echo "${CI_GPG_KEY}" | gpg --batch --pinentry-mode loopback --yes --passphrase-fd 0 -a --output pyazo_singed.deb --detach-sig ../pyazo_*.deb
   stage: build
   artifacts:
     paths:
