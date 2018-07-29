@@ -40,15 +40,13 @@ def login(req):
                     return redirect(req.GET.get('next'))
                 # Otherwise just index
                 return redirect(reverse('index'))
-            else:
-                # Check if the user's account is pending
-                # and inform that, they need to check their usernames
-                # users = User.objects.filter(username=form.cleaned_data.get('username'))
-                messages.error(req, _("Invalid Login"))
-                LOGGER.info("Failed to log in %s", form.cleaned_data.get('username'))
-                return redirect(reverse('accounts_login'))
-        else:
-            print("Form invalid")
+            # Check if the user's account is pending
+            # and inform that, they need to check their usernames
+            # users = User.objects.filter(username=form.cleaned_data.get('username'))
+            messages.error(req, _("Invalid Login"))
+            LOGGER.info("Failed to log in %s", form.cleaned_data.get('username'))
+            return redirect(reverse('accounts_login'))
+        LOGGER.info("Form invalid")
     else:
         form = LoginForm()
     return render(req, 'account/login.html', {

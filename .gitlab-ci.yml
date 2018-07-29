@@ -11,7 +11,7 @@ image: python:3.5
 
 isort:
   script:
-    - "isort -c -vb -sg env"
+    - "isort -c -sg env"
   stage: test
   cache:
     paths:
