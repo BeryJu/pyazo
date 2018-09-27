@@ -42,7 +42,8 @@ def sxcu(request: HttpRequest) -> HttpResponse:
     """Download ShareX Custom Uploader"""
     url = urlparse(request.build_absolute_uri())
     data = copy.deepcopy(SXCU_BASE)
-    data['RequestURL'] = data['RequestURL'] % (url.scheme, url.netloc)
+    scheme = 'https' if request.is_secure() else 'http'
+    data['RequestURL'] = data['RequestURL'] % (scheme, url.netloc)
     data['Name'] = data['Name'] % url.netloc
     response = JsonResponse(data)
     response['Content-Disposition'] = 'attachment; filename=pyazo.sxcu'

@@ -1,6 +1,4 @@
-"""
-pyazo cherrypy server
-"""
+"""pyazo cherrypy server"""
 import cherrypy
 from django.conf import settings
 
@@ -8,11 +6,11 @@ from pyazo.wsgi import application
 
 
 # pylint: disable=too-few-public-methods
-class NullObject(object):
-    """
-    empty class to serve static files with cherrypy
-    """
+class NullObject:
+    """empty class to serve static files with cherrypy"""
     pass
+
+
 cherrypy.config.update({'log.screen': True,
                         'log.access_file': '',
                         'log.error_file': ''

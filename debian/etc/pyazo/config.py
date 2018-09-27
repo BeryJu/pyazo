@@ -19,6 +19,11 @@ EXTERNAL_URL = 'test.example.log'
 # - view_sha512
 DEFAULT_RETURN_VIEW = 'view_sha256'
 
+# Uncomment this if pyazo is behind a reverse proxy which does SSL
+# The first value is the Header name, in all caps, with underscores instead of dashes
+# The second value is the value which pyazo will accept as secure. This is mostly https or ssl.
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Set this to this server's hostname or the external domain as if behind a reverse proxy
 ALLOWED_HOSTS = ['test.example.org']
 
