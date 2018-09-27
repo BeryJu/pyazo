@@ -1,3 +1,16 @@
+pyazo (1.6.3) stable; urgency=medium
+
+  * try new gpg argument for CI build
+  * fix lint style errors
+  * better define dev requirements
+  * re-add mac app
+  * fix CI deb package building
+  * fix CI deb paths, agian
+  * fix more CI paths
+  * Fix URL being http behind reverse proxy
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Thu, 27 Sep 2018 19:34:46 +0000
+
 pyazo (1.6.2) stable; urgency=medium
 
   * fix missing line in pyazo/settings
