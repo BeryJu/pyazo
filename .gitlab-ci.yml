@@ -26,17 +26,18 @@ pylint:
     - "pylint pyazo"
   stage: test
 
-package:
+package-3.5:
   before_script:
     - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr gpgv2
   image: debian
   script:
     - python3 -m pip install -U virtualenv
     - debuild -us -uc
+    - mv ../pyazo*.deb .
   stage: build
   artifacts:
     paths:
-    - ../pyazo*.deb
+    - pyazo*.deb
     expire_in: 2 days
 package-3.6:
   before_script:
@@ -45,9 +46,10 @@ package-3.6:
   script:
     - python3 -m pip install -U virtualenv
     - debuild -us -uc
+    - mv ../pyazo*.deb .
   stage: build
   artifacts:
     paths:
-    - ../pyazo*.deb
+    - pyazo*.deb
     expire_in: 2 days
 
