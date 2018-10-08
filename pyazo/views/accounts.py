@@ -45,7 +45,7 @@ def login(req):
             # users = User.objects.filter(username=form.cleaned_data.get('username'))
             messages.error(req, _("Invalid Login"))
             LOGGER.info("Failed to log in %s", form.cleaned_data.get('username'))
-            return redirect(reverse('accounts_login'))
+            return redirect(reverse('accounts-login'))
         LOGGER.info("Form invalid")
     else:
         form = LoginForm()

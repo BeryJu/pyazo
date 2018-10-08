@@ -53,7 +53,8 @@ ALLOWED_HOSTS = CONFIG.get('domains')
 
 LOGIN_REDIRECT_URL = 'index'
 # Application definition
-LOGOUT_REDIRECT_URL = 'accounts_login'
+LOGIN_URL = 'accounts-login'
+LOGOUT_REDIRECT_URL = 'accounts-login'
 
 with CONFIG.cd('web'):
     CHERRYPY_SERVER = {
@@ -105,7 +106,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['.'],
+        'DIRS': [os.path.join(BASE_DIR, 'pyazo/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -198,8 +199,8 @@ with CONFIG.cd('log'):
         'disable_existing_loggers': True,
         'formatters': {
             'default': {
-                'format': ('[%(asctime)s] %(levelname)s '
-                           '[%(name)s::%(funcName)s::%(lineno)s] %(message)s'),
+                'format': ('%(asctime)s %(levelname)-8s %(name)-55s '
+                           '%(funcName)-20s %(message)s'),
             },
         },
         'handlers': {
@@ -242,3 +243,7 @@ with CONFIG.cd('log'):
             },
         }
     }
+
+if DEBUG is True:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
