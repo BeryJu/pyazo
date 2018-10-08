@@ -29,7 +29,8 @@ pylint:
 package-3.5:
   before_script:
     - apt update && apt install -y build-essential debhelper devscripts equivs
-    - mk-build-deps --install debian/control
+    - mk-build-deps debian/control
+    - apt install ./*build-deps*deb -f -y
   image: debian
   script:
     - python3 -m pip install -U virtualenv
@@ -43,7 +44,8 @@ package-3.5:
 package-3.6:
   before_script:
     - apt update && apt install -y build-essential debhelper devscripts equivs
-    - mk-build-deps --install debian/control
+    - mk-build-deps debian/control
+    - apt install ./*build-deps*deb -f -y
   image: debian:buster
   script:
     - python3 -m pip install -U virtualenv
