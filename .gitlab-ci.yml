@@ -34,6 +34,7 @@ package-3.5:
     - apt install ./*build-deps*deb -f -y
   image: debian
   script:
+    - cp debian/control-3.5 debian/control
     - debuild -us -uc
     - mv ../pyazo*.deb .
   stage: build
@@ -49,6 +50,7 @@ package-3.6:
     - apt install ./*build-deps*deb -f -y
   image: debian:buster
   script:
+    - cp debian/control-3.6 debian/control
     - debuild -us -uc
     - mv ../pyazo*.deb .
   stage: build
