@@ -37,12 +37,12 @@ package-3.5:
   stage: build
   artifacts:
     paths:
-    - pyazo*.deb
+    - pyazo-python3.5*deb
     expire_in: 2 days
 package-3.6:
   before_script:
     - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr gpgv2
-  image: python:3.6
+  image: debian:buster
   script:
     - python3 -m pip install -U virtualenv
     - debuild -us -uc
@@ -50,6 +50,6 @@ package-3.6:
   stage: build
   artifacts:
     paths:
-    - pyazo*.deb
+    - pyazo-python3.6*deb
     expire_in: 2 days
 
