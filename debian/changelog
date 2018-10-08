@@ -1,3 +1,24 @@
+pyazo (1.7) stable; urgency=medium
+
+  * [ci] add packaging for python3.6
+  * [ci] fix only signature being uploaded
+  * [ci] build python3.5 and 3.6 package properly
+  * [ci] move deb files into build dir
+  * [ci] build python 3.6 on Debian buster
+  * [build] fix Debian build not using python3
+  * [debian] don’t install . And use builtin env
+  * build: add dependency on python3-venv
+  * [ci] automatically install dependencies
+  * build: remove virtualenv call
+  * Switch to yml-based config files
+  * switch from manage.sh to pyazo.sh
+  * move runserver.py and generate-secret-key into Django management commands
+  * fix linking errors
+  * Fix default database name to be git-ignored
+  * fix URL names
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 08 Oct 2018 12:06:20 +0000
+
 pyazo (1.6.3) stable; urgency=medium
 
   * try new gpg argument for CI build
