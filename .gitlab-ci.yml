@@ -28,12 +28,12 @@ pylint:
 
 package-3.5:
   before_script:
-    - apt update && apt install -y build-essential debhelper devscripts equivs
+    - apt update
+    - apt install -y build-essential debhelper devscripts equivs
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
   image: debian
   script:
-    - python3 -m pip install -U virtualenv
     - debuild -us -uc
     - mv ../pyazo*.deb .
   stage: build
@@ -43,12 +43,12 @@ package-3.5:
     expire_in: 2 days
 package-3.6:
   before_script:
-    - apt update && apt install -y build-essential debhelper devscripts equivs
+    - apt update
+    - apt install -y build-essential debhelper devscripts equivs
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
   image: debian:buster
   script:
-    - python3 -m pip install -U virtualenv
     - debuild -us -uc
     - mv ../pyazo*.deb .
   stage: build
