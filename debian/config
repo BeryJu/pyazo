@@ -1,6 +1,6 @@
 #!/bin/sh
 # config maintainer script for pyazo
-     
+
 # source debconf stuff
 . /usr/share/debconf/confmodule
 

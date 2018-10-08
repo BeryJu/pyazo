@@ -2,9 +2,7 @@ pyazo			/usr/share/pyazo/
 allauth_supervisr	/usr/share/pyazo/
 static			/usr/share/pyazo/
 manage.py		/usr/share/pyazo/
-manage.sh		/usr/share/pyazo/
-generate-secret-key	/usr/share/pyazo/
-runserver.py		/usr/share/pyazo/
+pyazo.sh		/usr/share/pyazo/
 
 debian/etc/pyazo	/etc/
 win/PyazoWin/bin/Release/Pyazo.exe	/usr/share/pyazo/bin/

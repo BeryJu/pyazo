@@ -1,3 +1,4 @@
+-r requirements.txt
 coverage
 isort
 astroid
@@ -6,3 +7,4 @@ pylint-django
 prospector
 django-debug-toolbar
 pycodestyle<2.4.0,>=2.0.0
+bumpversion

@@ -1,0 +1,42 @@
+debug: false
+admins:
+    - admin <admin@domain.tld>
+http:
+    host: 0.0.0.0
+    port: 8000
+secret_key_file: /etc/pyazo/secret_key
+log:
+    level:
+        console: INFO
+        file: DEBUG
+    file: /var/log/pyazo/pyazo.log
+# Error reporting, disabled by default
+# error_report_enabled: true
+
+# Set this to the server's external address.
+# This is used to generate external URLs
+external_url: image.example.com
+
+# This dictates how the Path is generated
+# can be either of:
+# - view_sha512_short
+# - view_md5
+# - view_sha256
+# - view_sha512
+default_return_view: view_sha256
+
+# Uncomment this if pyazo is behind a reverse proxy which does SSL
+# The first value is the Header name, in all caps, with underscores instead of dashes
+# The second value is the value which pyazo will accept as secure. This is mostly https or ssl.
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Set this to this server's hostname or the external domain as if behind a reverse proxy
+domains:
+  - image.example.com
+
+# Set this to true if you only want to use external authentication
+external_auth_only: false
+
+# If this is true, images are automatically claimed if the windows user exists
+# in django
+auto_claim_enabled: true

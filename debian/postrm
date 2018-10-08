@@ -12,11 +12,11 @@ fi
 
 
 if [ "$1" = "purge" ]; then
-        if which ucf >/dev/null 2>&1; then
-                ucf --purge /etc/pyazo/database-config
-                ucfr --purge pyazo /etc/pyazo/database-config
-	fi
-        rm -rf /etc/pyazo/
+    if which ucf >/dev/null 2>&1; then
+            ucf --purge /etc/pyazo/config.d/database.yml
+            ucfr --purge pyazo /etc/pyazo/config.d/database.yml
+    fi
+    rm -rf /etc/pyazo/
 fi
 
 #DEBHELPER#

@@ -1,6 +1,4 @@
-"""
-Pyazo Reindex management command
-"""
+"""Pyazo Reindex management command"""
 
 import hashlib
 import logging
@@ -15,9 +13,7 @@ BUF_SIZE = 65536
 LOGGER = logging.getLogger(__name__)
 
 class Command(BaseCommand):
-    """
-    Turns maintenance Mode on or off via manage.py
-    """
+    """Reindex Images"""
 
     help = "Reindex Images in '%s'" % settings.MEDIA_ROOT
 
@@ -40,7 +36,10 @@ class Command(BaseCommand):
             # Check if that hash exists
             matching = Upload.objects.filter(sha512=sha512)
             if matching.exists():
-                LOGGER.info("File %s is in DB already", file)
+                upload = matching.first()
+                upload.file.name = file
+                upload.save()
+                LOGGER.info("File %s is in DB already, updating path", file)
             else:
                 Upload.objects.create(
                     file=file, type=0)

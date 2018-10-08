@@ -1,0 +1,23 @@
+# This is the default configuration file
+databases:
+  default:
+    engine: 'django.db.backends.sqlite3'
+    name: 'supervisr_test'
+log:
+  level:
+    console: DEBUG
+    file: DEBUG
+  file: /dev/null
+email:
+  host: localhost
+  port: 25
+  user: ''
+  password: ''
+  use_tls: false
+  use_ssl: false
+  from: pyazo <pyazo@domain.tld>
+web:
+  listen: 0.0.0.0
+  port: 8000
+  threads: 30
+debug: true

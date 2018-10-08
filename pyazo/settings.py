@@ -18,24 +18,27 @@ import sys
 
 import raven
 
+from pyazo import __version__
+from pyazo.utils.config import CONFIG
+
 LOGGER = logging.getLogger(__name__)
 
 
 
 # This is the base url used for image URLs
-EXTERNAL_URL = 'http://localhost:8000'
+EXTERNAL_URL = CONFIG.get('external_url')
 # This dictates how the Path is generated
 # can be either of:
 # - view_sha512_short
 # - view_md5
 # - view_sha256
 # - view_sha512
-DEFAULT_RETURN_VIEW = 'view_sha256'
+DEFAULT_RETURN_VIEW = CONFIG.get('default_return_view')
 # Set this to true if you only want to use external authentication
-EXTERNAL_AUTH_ONLY = False
+EXTERNAL_AUTH_ONLY = CONFIG.get('external_auth_only')
 # If this is true, images are automatically claimed if the windows user exists
 # in django
-AUTO_CLAIM_ENABLED = True
+AUTO_CLAIM_ENABLED = CONFIG.get('auto_claim_enabled')
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -45,22 +48,27 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '48e9z8tw=_z0e#m*x70&)u%cgo8#=16uzdze&i8q=*#**)@cp&' # noqa Debug SECRET_KEY
+SECRET_KEY = CONFIG.get('secret_key',
+                        '48e9z8tw=_z0e#m*x70&)u%cgo8#=16uzdze&i8q=*#**)@cp&')  # noqa Debug
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = CONFIG.get('debug')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = CONFIG.get('domains')
 
 LOGIN_REDIRECT_URL = 'index'
 # Application definition
 LOGOUT_REDIRECT_URL = 'accounts_login'
 
-CHERRYPY_SERVER = {
-    'socket_host': '0.0.0.0',
-    'socket_port': 8000,
-    'thread_pool': 30
-}
+with CONFIG.cd('web'):
+    CHERRYPY_SERVER = {
+        'server.socket_host': CONFIG.get('listen', '0.0.0.0'),  # nosec
+        'server.socket_port': CONFIG.get('port', 8000),
+        'server.thread_pool': CONFIG.get('threads', 30),
+        'log.screen': False,
+        'log.access_file': '',
+        'log.error_file': '',
+    }
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -102,9 +110,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'pyazo/templates')
-        ],
+        'DIRS': ['.'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,26 +123,33 @@ TEMPLATES = [
     },
 ]
 
-VERSION = 'dev'
-try:
-    VERSION = subprocess.check_output(['dpkg-query', "--showformat='${Version}'",
-                                       '--show', 'pyazo']).decode('utf-8')[1:-1]
-except Exception: # pylint: disable=broad-except
-    VERSION = raven.fetch_git_sha(os.path.dirname(os.pardir))
-ERROR_REPORT_ENABLED = False
+VERSION = __version__
 
 WSGI_APPLICATION = 'pyazo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+DATABASES = {}
+for db_alias, db_config in CONFIG.get('databases').items():
+    DATABASES[db_alias] = {
+        'ENGINE': db_config.get('engine'),
+        'HOST': db_config.get('host'),
+        'NAME': db_config.get('name'),
+        'USER': db_config.get('user'),
+        'PASSWORD': db_config.get('password'),
+        'OPTIONS': db_config.get('options', {}),
     }
-}
 
+with CONFIG.cd('email'):
+    EMAIL_HOST = CONFIG.get('host', default='localhost')
+    EMAIL_PORT = CONFIG.get('port', default=25)
+    EMAIL_HOST_USER = CONFIG.get('user', default='')
+    EMAIL_HOST_PASSWORD = CONFIG.get('password', default='')
+    EMAIL_USE_TLS = CONFIG.get('use_tls', default=False)
+    EMAIL_USE_SSL = CONFIG.get('use_ssl', default=False)
+    EMAIL_FROM = CONFIG.get('from')
+    SERVER_EMAIL = CONFIG.get('from')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -161,45 +174,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 SITE_ID = 1
-
-LOG_LEVEL_FILE = 'DEBUG'
-LOG_FILE = '/dev/null'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-sys.path.append('/etc/pyazo')
-
-def load_local_settings(mod):
-    """Load module *mod* and apply contents to ourselves"""
-    try:
-        loaded_module = importlib.import_module(mod, package=None)
-        for key, val in loaded_module.__dict__.items():
-            if not key.startswith('__') and not key.endswith('__'):
-                globals()[key] = val
-        LOGGER.warning("Loaded '%s' as local_settings", mod)
-        return True
-    except ImportError as exception:
-        LOGGER.info('Not loaded %s because %s', mod, exception)
-        return False
-    except PermissionError:
-        return False
-
-
-for modu in [os.environ.get('PYAZO_LOCAL_SETTINGS', 'pyazo.local_settings'), 'config']:
-    if load_local_settings(modu):
-        break
 
 RAVEN_CONFIG = {
     'dsn': 'https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b'
@@ -209,55 +193,56 @@ RAVEN_CONFIG = {
     'tags': {'external_domain': EXTERNAL_URL}
 }
 
-if not ERROR_REPORT_ENABLED:
+if not CONFIG.get('error_report_enabled', False):
     RAVEN_CONFIG['dsn'] = ''
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'default': {
-            'format': ('[%(asctime)s] %(levelname)s '
-                       '[%(name)s::%(funcName)s::%(lineno)s] %(message)s'),
+with CONFIG.cd('log'):
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'formatters': {
+            'default': {
+                'format': ('[%(asctime)s] %(levelname)s '
+                        '[%(name)s::%(funcName)s::%(lineno)s] %(message)s'),
+            },
         },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'default',
+        'handlers': {
+            'console': {
+                'level': CONFIG.get('level').get('console'),
+                'class': 'logging.StreamHandler',
+                'formatter': 'default',
+            },
+            'mail_admins': {
+                'level': 'ERROR',
+                'class': 'django.utils.log.AdminEmailHandler',
+            },
+            'file': {
+                'level': CONFIG.get('level').get('file'),
+                'class': 'logging.FileHandler',
+                'formatter': 'default',
+                'filename': CONFIG.get('file'),
+            },
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-        },
-        'file': {
-            'level': LOG_LEVEL_FILE,
-            'class': 'logging.FileHandler',
-            'formatter': 'default',
-            'filename': LOG_FILE,
-        },
-    },
-    'loggers': {
-        'pyazo': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'allauth': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'cherrypy': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
+        'loggers': {
+            'pyazo': {
+                'handlers': ['console', 'file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+            'allauth': {
+                'handlers': ['console', 'file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+            'cherrypy': {
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+            'django': {
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+        }
     }
-}
