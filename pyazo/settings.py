@@ -10,13 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import importlib
 import logging
 import os
-import subprocess
-import sys
-
-import raven
 
 from pyazo import __version__
 from pyazo.utils.config import CONFIG
@@ -203,7 +198,7 @@ with CONFIG.cd('log'):
         'formatters': {
             'default': {
                 'format': ('[%(asctime)s] %(levelname)s '
-                        '[%(name)s::%(funcName)s::%(lineno)s] %(message)s'),
+                           '[%(name)s::%(funcName)s::%(lineno)s] %(message)s'),
             },
         },
         'handlers': {
