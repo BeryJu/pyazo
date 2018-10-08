@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: BeryJu.org <support@beryju.org>
 Uploaders: Jens Langhammer <jens@beryju.org>, BeryJu.org <support@beryju.org>
-Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5), dh-exec, wget, dh-virtualenv, dh-exec
+Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5), dh-exec, wget, dh-virtualenv, dh-exec, python3-venv
 Standards-Version: 3.9.6
 
 Package: pyazo-python3.5

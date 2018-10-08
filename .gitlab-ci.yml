@@ -28,7 +28,8 @@ pylint:
 
 package-3.5:
   before_script:
-    - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr gpgv2
+    - apt update && apt install -y build-essential debhelper devscripts equivs
+    - mk-build-deps --install debian/control
   image: debian
   script:
     - python3 -m pip install -U virtualenv
@@ -41,7 +42,8 @@ package-3.5:
     expire_in: 2 days
 package-3.6:
   before_script:
-    - apt update && apt install -y python3 libssl-dev libffi-dev python-dev dh-systemd dh-exec wget dh-virtualenv debhelper git-buildpackage python3-pip dirmngr gpgv2
+    - apt update && apt install -y build-essential debhelper devscripts equivs
+    - mk-build-deps --install debian/control
   image: debian:buster
   script:
     - python3 -m pip install -U virtualenv
