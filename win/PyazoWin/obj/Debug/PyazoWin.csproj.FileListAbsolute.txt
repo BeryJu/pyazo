@@ -1,6 +1,0 @@
-D:\dev\pyazo\win\PyazoWin\bin\Debug\Pyazo.exe.config
-D:\dev\pyazo\win\PyazoWin\bin\Debug\Pyazo.exe
-D:\dev\pyazo\win\PyazoWin\bin\Debug\Pyazo.pdb
-D:\dev\pyazo\win\PyazoWin\obj\Debug\PyazoWin.csproj.CoreCompileInputs.cache
-D:\dev\pyazo\win\PyazoWin\obj\Debug\Pyazo.exe
-D:\dev\pyazo\win\PyazoWin\obj\Debug\Pyazo.pdb

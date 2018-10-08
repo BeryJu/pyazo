@@ -4,7 +4,7 @@ static			/usr/share/pyazo/
 manage.py		/usr/share/pyazo/
 pyazo.sh		/usr/share/pyazo/
 
-debian/etc/pyazo	/etc/
-debian/templates/database.yml		/usr/share/pyazo/
-win/PyazoWin/bin/Release/Pyazo.exe	/usr/share/pyazo/bin/
-mac/Build/Pyazo/Build/Products/Debug/Pyazo.app /usr/share/pyazo/bin/
+debian/etc/pyazo												/etc/
+debian/templates/database.yml									/usr/share/pyazo/
+client/win/PyazoWin/bin/Release/Pyazo.exe						/usr/share/pyazo/bin/
+client/mac_legacy/Build/Pyazo/Build/Products/Debug/Pyazo.app	/usr/share/pyazo/bin/
