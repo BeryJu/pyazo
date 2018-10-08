@@ -30,11 +30,11 @@ package-3.5:
   before_script:
     - apt update
     - apt install -y build-essential debhelper devscripts equivs
+    - cp debian/control-3.5 debian/control
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
   image: debian
   script:
-    - cp debian/control-3.5 debian/control
     - debuild -us -uc
     - mv ../pyazo*.deb .
   stage: build
@@ -46,11 +46,11 @@ package-3.6:
   before_script:
     - apt update
     - apt install -y build-essential debhelper devscripts equivs
+    - cp debian/control-3.6 debian/control
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
   image: debian:buster
   script:
-    - cp debian/control-3.6 debian/control
     - debuild -us -uc
     - mv ../pyazo*.deb .
   stage: build
