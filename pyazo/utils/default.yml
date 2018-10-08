@@ -2,7 +2,7 @@
 databases:
   default:
     engine: 'django.db.backends.sqlite3'
-    name: 'supervisr_test'
+    name: 'db.sqlite3'
 log:
   level:
     console: DEBUG

@@ -188,7 +188,8 @@ RAVEN_CONFIG = {
     'tags': {'external_domain': EXTERNAL_URL}
 }
 
-if not CONFIG.get('error_report_enabled', False):
+ERROR_REPORT_ENABLED = CONFIG.get('error_report_enabled', False)
+if not ERROR_REPORT_ENABLED:
     RAVEN_CONFIG['dsn'] = ''
 
 with CONFIG.cd('log'):
