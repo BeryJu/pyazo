@@ -35,7 +35,7 @@ EXTERNAL_AUTH_ONLY = CONFIG.get('external_auth_only')
 # in django
 AUTO_CLAIM_ENABLED = CONFIG.get('auto_claim_enabled')
 
-SECURE_PROXY_SSL_HEADER = CONFIG.get('secure_proxy_header', None).items()
+SECURE_PROXY_SSL_HEADER = tuple(CONFIG.get('secure_proxy_header', {}).items())
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
