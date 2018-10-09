@@ -25,12 +25,7 @@ external_url: image.example.com
 # - view_sha512
 default_return_view: view_sha256
 
-# Uncomment this if pyazo is behind a reverse proxy which does SSL
-# The first value is the Header name, in all caps, with underscores instead of dashes
-# The second value is the value which pyazo will accept as secure. This is mostly https or ssl.
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Set this to this server's hostname or the external domain as if behind a reverse proxy
+# Set this to this server's hostname or the external domain if behind a reverse proxy
 domains:
   - image.example.com
 
