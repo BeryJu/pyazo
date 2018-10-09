@@ -1,4 +1,5 @@
 etc/pyazo/
+etc/pyazo/config.d/
 var/log/pyazo/
 usr/share/pyazo/
 usr/share/pyazo/media/
