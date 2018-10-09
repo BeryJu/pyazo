@@ -35,6 +35,7 @@ EXTERNAL_AUTH_ONLY = CONFIG.get('external_auth_only')
 # in django
 AUTO_CLAIM_ENABLED = CONFIG.get('auto_claim_enabled')
 
+SECURE_PROXY_SSL_HEADER = CONFIG.get('secure_proxy_header', None).items()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,8 +47,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = CONFIG.get('secret_key',
                         '48e9z8tw=_z0e#m*x70&)u%cgo8#=16uzdze&i8q=*#**)@cp&')  # noqa Debug
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = CONFIG.get('debug')
+CORS_ORIGIN_ALLOW_ALL = DEBUG
 
 ALLOWED_HOSTS = CONFIG.get('domains')
 

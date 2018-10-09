@@ -40,3 +40,8 @@ external_auth_only: false
 # If this is true, images are automatically claimed if the windows user exists
 # in django
 auto_claim_enabled: true
+
+# If you run pyazo behind a reverse-proxy which does SSL, uncomment this.
+# The Header `X-Forwarded-Proto` should be set to `https` in your webserver.
+# secure_proxy_header:
+#   HTTP_X_FORWARDED_PROTO: https

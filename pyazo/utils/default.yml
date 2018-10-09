@@ -21,3 +21,5 @@ web:
   port: 8000
   threads: 30
 debug: true
+secure_proxy_header:
+  HTTP_X_FORWARDED_PROTO: https
