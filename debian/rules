@@ -15,7 +15,7 @@ override_dh_auto_build:
 	env/bin/invoke compile-reqs
 
 override_dh_virtualenv:
-	dh_virtualenv --python /usr/bin/python3 --use-system-packages --skip-install --upgrade-pip --builtin-venv --install-suffix env
+	dh_virtualenv --python /usr/bin/python3 --skip-install --upgrade-pip --builtin-venv --install-suffix env
 
 # override_dh_usrlocal to do nothing
 override_dh_usrlocal:
