@@ -1,3 +1,17 @@
+pyazo (1.7.1) stable; urgency=medium
+
+  * CI: separate Debian control files
+  * CI: copy control file before installing dependencies
+  * Convert assets to AI file
+  * move windows and macOS clients into subdirecotry
+  * ui: switch to yarn and fix layout when uploading
+  * build: create missing config.d dir and don't use system-packages
+  * build: postinst: adjust permissions before generating secret_keyt
+  * Ui: adjust colour for admin
+  * add secure_proxy_header setting for installs behind reverse-proxy
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 09 Oct 2018 20:09:38 +0000
+
 pyazo (1.7) stable; urgency=medium
 
   * [ci] add packaging for python3.6
