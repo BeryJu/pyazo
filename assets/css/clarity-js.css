@@ -1,5 +1,40 @@
-  .nav-group-children-hidden {
-    height: 0px;
-    overflow-y: hidden;
-    visibility: hidden;
-  }
+.nav-group-children-hidden {
+  height: 0px;
+  overflow-y: hidden;
+  visibility: hidden;
+}
+
+/* Admin */
+
+label.required {
+  color: #E9ECEF !important;
+}
+
+.form-row {
+  border-bottom-color: #22343C !important;
+}
+
+.submit-row {
+  background: #22343C !important;
+  border-color: transparent !important;
+}
+
+#changelist .paginator {
+  background-color: #22343C !important;
+  color: #ADBBC4 !important;
+  border-color: transparent !important;
+}
+
+#changelist .actions {
+  background-color: #22343C !important;
+  color: #ADBBC4 !important;
+}
+
+thead th {
+  background: #29414E !important;
+  color: #ADBBC4 !important;
+  border-color: transparent !important;
+}
+.row1, .row2 {
+  background: #324F61 !important;
+}
