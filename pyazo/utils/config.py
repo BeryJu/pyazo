@@ -64,13 +64,14 @@ class ConfigLoader:
 
     def update_from_file(self, path: str):
         """Update config from file contents"""
-        with open(path) as file:
-            try:
-                self.update(self.__config, yaml.safe_load(file))
-            except yaml.YAMLError as exc:
-                raise ImproperlyConfigured from exc
-            except PermissionError as exc:
-                LOGGER.warning('Permission denied while reading %s', path)
+        try:
+            with open(path) as file:
+                try:
+                    self.update(self.__config, yaml.safe_load(file))
+                except yaml.YAMLError as exc:
+                    raise ImproperlyConfigured from exc
+        except PermissionError as exc:
+            LOGGER.warning('Permission denied while reading %s', path)
 
     def update_from_dict(self, update: dict):
         """Update config from dict"""
