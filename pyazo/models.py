@@ -15,10 +15,10 @@ def save_from_post(content, extension):
     """Takes a file from post, calculates sha512, saves it to media dir and returns path"""
     sha512 = hashlib.sha512()
     sha512.update(content)
-    filename = '%s/%s' % (settings.MEDIA_ROOT, sha512.hexdigest())
+    filename = '%s/%s.%s' % (settings.MEDIA_ROOT, sha512.hexdigest(), extension)
     with open(filename, 'wb') as out_file:
         out_file.write(content)
-    return filename + extension
+    return filename
 
 class Upload(models.Model):
     """Store data about a single upload"""
