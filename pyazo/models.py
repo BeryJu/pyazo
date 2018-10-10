@@ -33,6 +33,11 @@ class Upload(models.Model):
     collection = models.ForeignKey('Collection', on_delete=models.SET_NULL, default=None, null=True)
     mime_type = models.TextField()
 
+    @property
+    def mime_type_category(self):
+        """return only the category of the mime_type"""
+        return self.mime_type.split('/')[0]
+
     def update_hashes(self):
         """Update hash properties"""
         md5 = hashlib.md5()
