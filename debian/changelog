@@ -10,6 +10,8 @@ pyazo (1.8) stable; urgency=medium
   * pyazo: fix generation of filetype thumbnails
   * debian: fix package creation with pillow dependency
   * js: use localStorage to remember sidebar state
+  * debian: fix LD Search path for pillow
+  * pyazo: show non-image files in iframe
 
  -- Jens Langhammer <jens.langhammer@beryju.org>  Wed, 10 Oct 2018 12:42:49 +0000
 
