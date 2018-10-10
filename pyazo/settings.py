@@ -57,6 +57,31 @@ LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'accounts-login'
 LOGOUT_REDIRECT_URL = 'accounts-login'
 
+# Redis settings
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://%s" % CONFIG.get('redis'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+DJANGO_REDIS_IGNORE_EXCEPTIONS = True
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
+SESSION_CACHE_ALIAS = "default"
+
+# Celery settings
+# Add a 10 minute timeout to all Celery tasks.
+CELERY_TASK_SOFT_TIME_LIMIT = 600
+CELERY_BEAT_SCHEDULE = {}
+CELERY_CREATE_MISSING_QUEUES = True
+CELERY_TASK_DEFAULT_QUEUE = 'pyazo'
+CELERY_BROKER_URL = 'redis://%s' % CONFIG.get('redis')
+CELERY_RESULT_BACKEND = 'redis://%s' % CONFIG.get('redis')
+CELERY_IMPORTS = ('pyazo.tasks', )
+
+
 with CONFIG.cd('web'):
     CHERRYPY_SERVER = {
         'server.socket_host': CONFIG.get('listen', '0.0.0.0'),  # nosec
@@ -103,6 +128,10 @@ ROOT_URLCONF = 'pyazo.urls'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+THUMBNAIL_ROOT = os.path.join(BASE_DIR, 'media/thumbnail/')
+
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+os.makedirs(THUMBNAIL_ROOT, exist_ok=True)
 
 TEMPLATES = [
     {
@@ -240,6 +269,11 @@ with CONFIG.cd('log'):
             'django': {
                 'handlers': ['console', 'file'],
                 'level': 'INFO',
+                'propagate': True,
+            },
+            'celery': {
+                'handlers': ['console', 'file'],
+                'level': 'WARNING',
                 'propagate': True,
             },
         }

@@ -1,0 +1,14 @@
+[Unit]
+Description=pyazo - Opensource Gyazo-compatible Imageserver (Background worker)
+After=syslog.target network.target
+Requires=network.target
+
+[Service]
+User=pyazo
+Group=pyazo
+WorkingDirectory=/usr/share/pyazo
+Type=simple
+ExecStart=/usr/share/pyazo/pyazo.sh worker
+
+[Install]
+WantedBy=multi-user.target

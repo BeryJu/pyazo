@@ -9,6 +9,7 @@ def update_mime_type(apps, schema_editor):
     Upload = apps.get_model('pyazo', 'Upload')
     for upload in Upload.objects.all():
         upload.mime_type = get_mime_type(upload.file.name)
+        upload.save()
 
 class Migration(migrations.Migration):
 

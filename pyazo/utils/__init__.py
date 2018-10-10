@@ -3,8 +3,8 @@
 import os
 import socket
 import zipfile
-import magic
 from io import BytesIO
+import magic
 
 from django.http import HttpResponse, HttpRequest
 

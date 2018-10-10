@@ -7,9 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from user_agents import parse
 
-UPLOAD_TYPES = (
-    (0, 'Picture'),
-)
+from pyazo.utils import get_mime_type
 
 BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
 
@@ -26,7 +24,7 @@ class Upload(models.Model):
     """Store data about a single upload"""
 
     file = models.FileField(max_length=512)
-    type = models.IntegerField(choices=UPLOAD_TYPES)
+    thumbnail = models.FileField(blank=True, upload_to='thumbnail/')
     user = models.ForeignKey(User, default=None, null=True, blank=True,
                              on_delete=models.SET_DEFAULT)
     md5 = models.CharField(max_length=32, blank=True)
@@ -54,8 +52,13 @@ class Upload(models.Model):
         self.sha256 = sha256.hexdigest()
         self.sha512 = sha512.hexdigest()
 
+    def update_mime(self):
+        """Update mime_types from file"""
+        self.mime_type = get_mime_type(self.file.name)
+
     def save(self, *args, **kwargs):
         self.update_hashes()
+        self.update_mime()
         return super().save(*args, **kwargs)
 
     @property
