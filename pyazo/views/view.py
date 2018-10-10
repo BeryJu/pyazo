@@ -1,7 +1,6 @@
 """pyazo viewing views"""
 from logging import getLogger
 
-import magic
 from django.db.models import Q, QuerySet
 from django.http import Http404, HttpRequest, HttpResponse
 from django.utils.decorators import method_decorator
@@ -11,14 +10,16 @@ from django.views.generic import View
 from pyazo.models import Upload
 from pyazo.models import UploadView as UploadViewObject
 from pyazo.utils import get_mime_type, get_remote_ip, get_reverse_dns
+from pyazo.tasks import make_thumbnail
 
 LOGGER = getLogger(__name__)
 
 @method_decorator(cache_control(max_age=3600), name='dispatch')
-class UploadView(View):
+class UploadViewFile(View):
     """View to show upload"""
 
-    def count_view(self, upload: Upload, request: HttpRequest):
+    @staticmethod
+    def count_view(upload: Upload, request: HttpRequest):
         """Create UploadView entry from request"""
         client_ip = get_remote_ip(request)
         client_dns = get_reverse_dns(client_ip)
@@ -53,6 +54,11 @@ class UploadView(View):
             raise Http404
         upload = matching.first()
         content_type = get_mime_type(upload.file.name)
-        if 'thumb' not in request.GET:
+        if 'thumb' in request.GET:
+            if not upload.thumbnail:
+                make_thumbnail.delay(upload.pk).get()
+                upload.refresh_from_db()
+            return HttpResponse(upload.thumbnail.read(), content_type='image/png')
+        else:
             self.count_view(upload, request)
-        return HttpResponse(upload.file.read(), content_type=content_type)
+            return HttpResponse(upload.file.read(), content_type=content_type)

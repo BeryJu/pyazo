@@ -4,25 +4,24 @@ from urllib.parse import urljoin
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.db.utils import DataError
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 
 from pyazo.forms.view import CollectionAssignForm
-from pyazo.models import Collection, Upload, UploadView, save_from_post
-from pyazo.utils import get_remote_ip, get_reverse_dns
+from pyazo.models import Collection, Upload, save_from_post
+from pyazo.views.view import UploadViewFile
 
 LOGGER = logging.getLogger(__name__)
 
 
-class View(LoginRequiredMixin, TemplateView):
+class UploadView(LoginRequiredMixin, TemplateView):
     """Show statistics about image and allow user to manage it."""
 
     template_name = 'upload/view.html'
@@ -62,88 +61,54 @@ class ClaimView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         upload = get_object_or_404(Upload, sha512=self.kwargs.get('file_hash'))
-        context['object'] = 'Upload %s' % upload.md5,
+        context['object'] = 'Upload %s' % upload.md5
         context['delete_url'] = reverse('upload_claim', kwargs={
             'file_hash': self.kwargs.get('file_hash')
         }),
-        context['action'] = _('claim'),
+        context['action'] = _('claim')
         context['primary_action'] = _('Confirm Claim')
 
-@csrf_exempt
-def upload(request: HttpRequest) -> HttpResponse:
-    """Main upload handler. Fully Gyazo compatible."""
-    if 'id' in request.POST and 'imagedata' in request.FILES:
-        client_ip = get_remote_ip(request)
-        client_dns = get_reverse_dns(client_ip)
 
-        file = save_from_post(request.FILES['imagedata'].read())
+@method_decorator(csrf_exempt, name='dispatch')
+class LegacyUploadView(View):
+    """Legacy Upload (for gyazo-based clients)"""
 
-        new_upload = Upload(
-            file=file,
-            type=0)
-
-        # Run auto-claim
-        if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
-            matching = User.objects.filter(username=request.POST.get('username'))
-            # pylint: disable=no-member
-            if matching.exists():
-                # pylint: disable=no-member
-                new_upload.user = matching.first()
-                LOGGER.debug("Auto-claimed upload to user '%s'", request.POST.get('username'))
-
-        new_upload.save()
-
-        try:
-            uag = request.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in request.META else ''
-            new_upload_view = UploadView(
-                upload=new_upload,
-                viewee_ip=client_ip,
-                viewee_dns=client_dns,
-                viewee_user_agent=uag
-                )
-            new_upload_view.save()
-        except DataError:
-            LOGGER.info("Failed to create initial view with rIP '%r'", client_ip)
-
-        LOGGER.info("Uploaded %s from %s", new_upload.filename, client_ip)
-
-        # Generate url for client to open
-        upload_prop = settings.DEFAULT_RETURN_VIEW.replace('view_', '')
-        upload_hash = getattr(new_upload, upload_prop, 'sha256')
-        url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
-        full_url = urljoin(settings.EXTERNAL_URL, url)
-        return HttpResponse(full_url)
-    return HttpResponse(status=400)
-
-
-@login_required
-def upload_browser(req):
-    """Handle uploads from browser"""
-    if req.method == 'POST':
-        # do stuff
-        for filen in req.FILES:
-            client_ip = get_remote_ip(req)
-            client_dns = get_reverse_dns(client_ip)
-
-            file = save_from_post(req.FILES[filen].read())
-
-            new_upload = Upload(
-                file=file,
-                type=0,
-                user=req.user)
+    def post(self, request: HttpRequest) -> HttpResponse:
+        """Main upload handler. Fully Gyazo compatible."""
+        if 'id' in request.POST and 'imagedata' in request.FILES:
+            new_upload = Upload(file=save_from_post(request.FILES['imagedata'].read()))
+            # Run auto-claim
+            if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
+                matching = User.objects.filter(username=request.POST.get('username'))
+                if matching.exists():
+                    new_upload.user = matching.first()
+                    LOGGER.debug("Auto-claimed upload to user '%s'", request.POST.get('username'))
             new_upload.save()
+            # Count initial view
+            UploadViewFile.count_view(new_upload, request)
+            LOGGER.info("Uploaded %s", new_upload.filename)
+            # Generate url for client to open
+            upload_prop = settings.DEFAULT_RETURN_VIEW.replace('view_', '')
+            upload_hash = getattr(new_upload, upload_prop, 'sha256')
+            url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
+            full_url = urljoin(settings.EXTERNAL_URL, url)
+            return HttpResponse(full_url)
+        return HttpResponse(status=400)
 
-            try:
-                uag = req.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in req.META else ''
-                new_upload_view = UploadView(
-                    upload=new_upload,
-                    viewee_ip=client_ip,
-                    viewee_dns=client_dns,
-                    viewee_user_agent=uag
-                    )
-                new_upload_view.save()
-            except DataError:
-                LOGGER.info("Failed to create initial view with rIP '%r'", client_ip)
 
-            LOGGER.info("Uploaded %s from %s", new_upload.filename, client_ip)
-    return render(req, 'upload/upload.html')
+class BrowserUploadView(LoginRequiredMixin, TemplateView):
+    """Handle uploads from browser"""
+
+    template_name = 'upload/upload.html'
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        """Create Upload objects from request"""
+        for file in request.FILES:
+            new_upload = Upload(
+                file=save_from_post(request.FILES[file].read()),
+                user=request.user)
+            new_upload.save()
+            # Count initial view
+            UploadViewFile.count_view(new_upload, request)
+            LOGGER.info("Uploaded %s", new_upload.filename)
+        return HttpResponse(status_code=204)

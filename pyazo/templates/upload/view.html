@@ -11,7 +11,7 @@
   <div class="col-sm-12 col-lg-6">
     <h3>{% trans 'Image' %}</h3>
     <hr>
-    <img style="max-width:100%" src="{% url 'view_sha512' file_hash=upload.sha512 %}?thumb" alt="">
+    <img style="max-width:100%" src="{% url 'view_sha512' file_hash=upload.sha512 %}" alt="">
   </div>
   <div class="row col-sm-12 col-lg-6">
     <div class="col-sm-12 col-lg-6">
@@ -27,7 +27,11 @@
         <tbody>
           <tr>
             <td>{% trans 'User' %}</td>
-            <td>{{ upload.user }} ({{upload.user.email}})</td>
+            {% if upload.user %}
+              <td>{{ upload.user }} ({{upload.user.email}})</td>
+            {% else %}
+              <td>-</td>
+            {% endif %}
           </tr>
           <tr>
             <td>{% trans 'Size' %}</td>
@@ -54,8 +58,9 @@
       {% if not upload.user or upload.user.is_superuser %}
         <a class="btn btn-primary" href="{% url 'upload_claim' file_hash=upload.sha512 %}">{% trans 'Claim' %}</a>
       {% endif %}
+      <hr>
       {% if collections %}
-      {{ collections }}
+      {{ collections_form }}
       {% endif %}
     </div>
     <div class="col-sm-12">

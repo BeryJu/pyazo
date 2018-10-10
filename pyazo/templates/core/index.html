@@ -10,26 +10,30 @@
     margin-bottom: 12px;
     margin-top: -12px;
   }
+  .card.clickable {
+    min-width: 100%;
+    min-height: 100px
+  }
 </style>
 {% endblock %}
 
 {% block content_area %}
 <div class="row">
   <div class="col-md-6">
-    <h3>{% trans 'All Images' %}</h3>
+    <h3>{% trans 'All Uploads' %}</h3>
   </div>
   <div class="col-md-6 pagination-container">
-    {% include 'blocks/block_pagination.html' with pages=images %}
+    {% include 'blocks/block_pagination.html' with pages=uploads %}
   </div>
   <div class="col-md-12">
     <hr>
   </div>
-  {% for upl in images %}
+  {% for upl in uploads %}
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1 col-xl-1">
-      <a href="{% url 'upload_view' file_hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'view_sha512' file_hash=upl.sha512 %}?thumb) no-repeat center;min-width:100%;min-height:100px;"></a>
+      <a href="{% url 'upload_view' file_hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'view_sha512' file_hash=upl.sha512 %}?thumb) no-repeat center;"></a>
     </div>
   {% empty %}
-    <p>No Pictures yet!</p>
+    <p>No Uploads yet!</p>
   {% endfor %}
 </div>
 {% endblock %}
