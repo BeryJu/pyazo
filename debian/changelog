@@ -7,10 +7,13 @@ pyazo (1.8) stable; urgency=medium
   * pyazo: rewrite more views to be CBV
   * pyazo: fix re-index to only try files
   * pyazo: fix thumbnail generation, show collections in sidebar, show loading spinner when thumbnails are generated
+  * pyazo: fix generation of filetype thumbnails
+  * debian: fix package creation with pillow dependency
+  * js: use localStorage to remember sidebar state
 
  -- Jens Langhammer <jens.langhammer@beryju.org>  Wed, 10 Oct 2018 12:42:49 +0000
 
-+pyazo (1.7.2) stable; urgency=medium
+pyazo (1.7.2) stable; urgency=medium
 
   * debian: clear up default config
   * config: better handle permission errors

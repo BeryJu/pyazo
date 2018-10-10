@@ -8,20 +8,16 @@ export DH_VIRTUALENV_INSTALL_SUFFIX=env
 %:
 	dh $@ --with=systemd --with=python-virtualenv
 
-override_dh_auto_clean:
-	env/bin/invoke clean
-
-override_dh_auto_build:
-	env/bin/invoke compile-reqs
+LD_LIBRARY_PATH:=$(LD_LIBRARY_PATH):./debian/pyazo-python3.5/usr/share/pyazo/env/lib/python3.5/site-packages/PIL/.libs/:./debian/pyazo-python3.6/usr/share/pyazo/env/lib/python3.6/site-packages/PIL/.libs/
 
 override_dh_virtualenv:
-	dh_virtualenv
-		--python /usr/bin/python3
-		--skip-instal
-		--upgrade-pip
-		--builtin-venv
-		--install-suffix env
-		--extra-pip-arg --no-binary
+	dh_virtualenv \
+		--python /usr/bin/python3 \
+		--skip-instal \
+		--upgrade-pip \
+		--builtin-venv \
+		--install-suffix env \
+		--extra-pip-arg --no-binary \
 		--extra-pip-arg --no-compile
 
 # override_dh_usrlocal to do nothing
