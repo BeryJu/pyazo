@@ -1,4 +1,16 @@
-pyazo (1.7.2) stable; urgency=medium
+pyazo (1.8) stable; urgency=medium
+
+  * pyazo: fix loading of secure_ssl_headers again
+  * pyazo: Add Collection DB Model, save mime_type in DB
+  * pyazo: rewrite models to use CBV, cleanup views
+  * pyazo: add celery worker to create thumbnails
+  * pyazo: rewrite more views to be CBV
+  * pyazo: fix re-index to only try files
+  * pyazo: fix thumbnail generation, show collections in sidebar, show loading spinner when thumbnails are generated
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Wed, 10 Oct 2018 12:42:49 +0000
+
++pyazo (1.7.2) stable; urgency=medium
 
   * debian: clear up default config
   * config: better handle permission errors
