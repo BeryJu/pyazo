@@ -23,3 +23,4 @@ web:
 debug: true
 secure_proxy_header:
   HTTP_X_FORWARDED_PROTO: https
+redis: localhost

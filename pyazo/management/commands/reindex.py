@@ -1,7 +1,7 @@
 """Pyazo Reindex management command"""
-
 import hashlib
 import logging
+import os
 from glob import glob
 
 from django.conf import settings
@@ -30,18 +30,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         LOGGER.info("Looking in '%s'...", settings.MEDIA_ROOT)
-        files = glob(settings.MEDIA_ROOT + '**')
+        files = glob(settings.MEDIA_ROOT + '*')
         for file in files:
-            # Get hash to compare with
-            sha512 = Command._file_get_sha_512(file)
-            # Check if that hash exists
-            matching = Upload.objects.filter(sha512=sha512)
-            if matching.exists():
-                upload = matching.first()
-                upload.file.name = file
-                upload.save()
-                LOGGER.info("File %s is in DB already, updating path", file)
-            else:
-                Upload.objects.create(
-                    file=file, type=0)
-                LOGGER.info("Imported %s into DB", file)
+            if os.path.isfile(file):
+                # Get hash to compare with
+                sha512 = Command._file_get_sha_512(file)
+                # Check if that hash exists
+                matching = Upload.objects.filter(sha512=sha512)
+                if matching.exists():
+                    upload = matching.first()
+                    upload.file.name = file
+                    upload.save()
+                    LOGGER.info("File %s is in DB already, updating path", file)
+                else:
+                    Upload.objects.create(
+                        file=file, type=0)
+                    LOGGER.info("Imported %s into DB", file)

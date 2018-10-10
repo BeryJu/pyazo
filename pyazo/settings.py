@@ -106,6 +106,8 @@ INSTALLED_APPS = [
     'allauth_supervisr',
     'pyazo',
     'raven.contrib.django.raven_compat',
+    'oauth2_provider',
+    'corsheaders',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -122,6 +124,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'pyazo.urls'
