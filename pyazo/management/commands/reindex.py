@@ -29,6 +29,7 @@ class Command(BaseCommand):
         return sha512.hexdigest()
 
     def handle(self, *args, **options):
+        LOGGER.info("Looking in '%s'...", settings.MEDIA_ROOT)
         files = glob(settings.MEDIA_ROOT + '**')
         for file in files:
             # Get hash to compare with

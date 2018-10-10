@@ -3,6 +3,7 @@
 import os
 import socket
 import zipfile
+import magic
 from io import BytesIO
 
 from django.http import HttpResponse, HttpRequest
@@ -16,6 +17,9 @@ def get_remote_ip(request: HttpRequest) -> str:
         return request.META.get('HTTP_X_FORWARDED_FOR')
     return request.META.get('REMOTE_ADDR')
 
+def get_mime_type(file_path: str) -> str:
+    """Return mime-type for file"""
+    return magic.from_file(file_path, mime=True)
 
 def get_reverse_dns(ipaddress: str) -> str:
     """Does a reverse DNS lookup and returns the first IP"""
