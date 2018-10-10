@@ -1,6 +1,4 @@
-"""
-pyazo models
-"""
+"""pyazo models"""
 
 import hashlib
 
@@ -16,9 +14,7 @@ UPLOAD_TYPES = (
 BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
 
 def save_from_post(content):
-    """
-    Takes a file from post, calculates sha512, saves it to media dir and returns path
-    """
+    """Takes a file from post, calculates sha512, saves it to media dir and returns path"""
     sha512 = hashlib.sha512()
     sha512.update(content)
     filename = '%s/%s' % (settings.MEDIA_ROOT, sha512.hexdigest())
@@ -36,11 +32,11 @@ class Upload(models.Model):
     md5 = models.CharField(max_length=32, blank=True)
     sha256 = models.CharField(max_length=64, blank=True)
     sha512 = models.CharField(max_length=128, blank=True)
+    collection = models.ForeignKey('Collection', on_delete=models.SET_NULL, default=None, null=True)
+    mime_type = models.TextField()
 
     def update_hashes(self):
-        """
-        Update hash properties
-        """
+        """Update hash properties"""
         md5 = hashlib.md5()
         sha256 = hashlib.sha256()
         sha512 = hashlib.sha512()
@@ -60,7 +56,7 @@ class Upload(models.Model):
 
     def save(self, *args, **kwargs):
         self.update_hashes()
-        return super(Upload, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     @property
     def sha512_short(self):
@@ -82,7 +78,7 @@ class Upload(models.Model):
 
 class UploadView(models.Model):
     """Store information about a single view"""
-    upload = models.ForeignKey(Upload, on_delete=models.CASCADE)
+    upload = models.ForeignKey('Upload', on_delete=models.CASCADE)
     viewee = models.ForeignKey(User, blank=True, default=1, on_delete=models.CASCADE)
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)
     viewee_dns = models.TextField(blank=True)
@@ -93,9 +89,20 @@ class UploadView(models.Model):
 
     @property
     def user_agent(self):
-        """
-        Return user_agent instance
-        """
+        """Return user_agent instance"""
         if not self._ua_inst:
             self._ua_inst = parse(self.viewee_user_agent)
         return self._ua_inst
+
+class Collection(models.Model):
+    """Collection to group Uploads together"""
+
+    name = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+
+        unique_together = (('name', 'owner', ), )

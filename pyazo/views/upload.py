@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.utils import DataError
 from django.http import HttpRequest, HttpResponse
@@ -12,52 +13,61 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 
-from pyazo.models import Upload, UploadView, save_from_post
+from pyazo.forms.view import CollectionAssignForm
+from pyazo.models import Collection, Upload, UploadView, save_from_post
 from pyazo.utils import get_remote_ip, get_reverse_dns
 
 LOGGER = logging.getLogger(__name__)
 
 
-@login_required
-def view(req, file_hash):
-    """Show stats about image and allow user to claim it"""
-    upload = get_object_or_404(Upload, sha512=file_hash)
+class View(LoginRequiredMixin, TemplateView):
+    """Show statistics about image and allow user to manage it."""
 
-    url_prefix = req.build_absolute_uri('/')
+    template_name = 'upload/view.html'
 
-    views = upload.uploadview_set.order_by('-viewee_date')[:10]
-    return render(req, 'image/view.html', {
-        'image': upload,
-        'url_prefix': url_prefix,
-        'views': views
-    })
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['upload'] = get_object_or_404(Upload, sha512=self.kwargs.get('file_hash'))
+        context['url_prefix'] = self.request.build_absolute_uri('/')
+        context['views'] = context['upload'].uploadview_set.order_by('-viewee_date')[:10]
+        context['collections'] = Collection.objects.filter(owner=self.request.user)
+        context['forms'] = {
+            'collection': CollectionAssignForm(
+                prefix='collection',
+                data=self.request.POST if any(
+                    'collection' in k for k in self.request.POST.keys()) else None
+            )
+        }
+        return context
 
 
-@login_required
-def claim(req, file_hash):
-    """Attempt to claim a picture"""
-    upload = get_object_or_404(Upload, sha512=file_hash)
+class ClaimView(LoginRequiredMixin, TemplateView):
+    """Claim an upload"""
 
-    if req.method == 'POST' \
-        and 'confirmdelete' in req.POST \
-        and (req.user.is_superuser
-             or not upload.user):
-        # User confirmed deletion
-        upload.user = req.user
-        upload.save()
-        messages.success(req, _('Upload successfully claimed'))
+    template_name = 'core/generic_delete.html'
+
+    def post(self, request: HttpRequest, file_hash: str) -> HttpResponse:
+        """Claim upload to user (only if upload has no owner yet or user is superuser)"""
+        upload = get_object_or_404(Upload, sha512=file_hash)
+        if request.user.is_superuser or not upload.user:
+            upload.user = request.user
+            upload.save()
+            messages.success(request, _('Upload successfully claimed'))
+        else:
+            messages.warning(request, _('Permission denied'))
         return redirect(reverse('upload_view', kwargs={'file_hash': file_hash}))
 
-    return render(req, 'core/generic_delete.html', {
-        'object': 'Upload %s' % upload.md5,
-        'delete_url': reverse('upload_claim', kwargs={
-            'file_hash': file_hash
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        upload = get_object_or_404(Upload, sha512=self.kwargs.get('file_hash'))
+        context['object'] = 'Upload %s' % upload.md5,
+        context['delete_url'] = reverse('upload_claim', kwargs={
+            'file_hash': self.kwargs.get('file_hash')
         }),
-        'action': _('claim'),
-        'primary_action': _('Confirm Claim')
-    })
-
+        context['action'] = _('claim'),
+        context['primary_action'] = _('Confirm Claim')
 
 @csrf_exempt
 def upload(request: HttpRequest) -> HttpResponse:
@@ -136,4 +146,4 @@ def upload_browser(req):
                 LOGGER.info("Failed to create initial view with rIP '%r'", client_ip)
 
             LOGGER.info("Uploaded %s from %s", new_upload.filename, client_ip)
-    return render(req, 'image/upload.html')
+    return render(req, 'upload/upload.html')

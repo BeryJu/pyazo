@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}
-{{ image.md5 }} - pyazo
+{{ upload.md5 }} - pyazo
 {% endblock %}
 
 {% block content_area %}
@@ -11,7 +11,7 @@
   <div class="col-sm-12 col-lg-6">
     <h3>{% trans 'Image' %}</h3>
     <hr>
-    <img style="max-width:100%" src="{% url 'thumb-view_sha512' file_hash=image.sha512 %}" alt="">
+    <img style="max-width:100%" src="{% url 'view_sha512' file_hash=upload.sha512 %}?thumb" alt="">
   </div>
   <div class="row col-sm-12 col-lg-6">
     <div class="col-sm-12 col-lg-6">
@@ -27,23 +27,23 @@
         <tbody>
           <tr>
             <td>{% trans 'User' %}</td>
-            <td>{{ image.user }} ({{image.user.email}})</td>
+            <td>{{ upload.user }} ({{upload.user.email}})</td>
           </tr>
           <tr>
             <td>{% trans 'Size' %}</td>
-            <td>{{ image.file.size|filesizeformat }}</td>
+            <td>{{ upload.file.size|filesizeformat }}</td>
           </tr>
           <tr>
             <td>{% trans 'MD5' %}</td>
-            <td><a href="{{ url_prefix }}{{ image.md5 }}.png">{% trans 'Here' %}</a></td>
+            <td><a href="{{ url_prefix }}{{ upload.md5 }}.png">{% trans 'Here' %}</a></td>
           </tr>
           <tr>
             <td>{% trans 'SHA256' %}</td>
-            <td><a href="{{ url_prefix }}{{ image.sha256 }}.png">{% trans 'Here' %}</a></td>
+            <td><a href="{{ url_prefix }}{{ upload.sha256 }}.png">{% trans 'Here' %}</a></td>
           </tr>
           <tr>
             <td>{% trans 'SHA512' %}</td>
-            <td><a href="{{ url_prefix }}{{ image.sha512 }}.png">{% trans 'Here' %}</a></td>
+            <td><a href="{{ url_prefix }}{{ upload.sha512 }}.png">{% trans 'Here' %}</a></td>
           </tr>
         </tbody>
       </table>
@@ -51,15 +51,18 @@
     <div class="col-sm-12 col-lg-6">
       <h3>{% trans 'Actions' %}</h3>
       <hr>
-      {% if not image.user or image.user.is_superuser %}
-        <a class="btn btn-primary" href="{% url 'upload_claim' file_hash=image.sha512 %}">{% trans 'Claim' %}</a>
+      {% if not upload.user or upload.user.is_superuser %}
+        <a class="btn btn-primary" href="{% url 'upload_claim' file_hash=upload.sha512 %}">{% trans 'Claim' %}</a>
+      {% endif %}
+      {% if collections %}
+      {{ collections }}
       {% endif %}
     </div>
     <div class="col-sm-12">
       <h3>{% trans 'Statistics' %}</h3>
       <hr>
-      <h1>{% trans 'Views: ' %}{{ image.uploadview_set.count }}</h1>
-      {% if not image.user or image.user == request.user or request.user.is_superuser %}
+      <h1>{% trans 'Views: ' %}{{ upload.uploadview_set.count }}</h1>
+      {% if not upload.user or upload.user == request.user or request.user.is_superuser %}
       <table class="table">
         <thead>
           <tr>
