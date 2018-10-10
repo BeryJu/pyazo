@@ -105,7 +105,7 @@ class UploadView(models.Model):
 class Collection(models.Model):
     """Collection to group Uploads together"""
 
-    name = models.TextField()
+    name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
