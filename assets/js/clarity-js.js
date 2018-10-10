@@ -191,7 +191,18 @@ var clrSidenav = function (containerSelector) {
             navTriggerIcon.attr('dir', 'left');
         }
         isCollapsed = !isCollapsed;
+        localStorage.setItem('sidenav_state', isCollapsed === true ? 'collapsed': 'expanded');
     };
+
+    // Load state from localStorage
+    var state = localStorage.getItem('sidenav_state');
+    if (state === 'collapsed') {
+        isCollapsed = false;
+        updateCollapse();
+    } else {
+        isCollapsed = true;
+        updateCollapse();
+    }
 
     navTrigger.on('click', function () {
         updateCollapse();
