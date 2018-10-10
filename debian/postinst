@@ -11,9 +11,6 @@ dbc_generate_include=template:/etc/pyazo/config.d/database.yml
 dbc_generate_include_args="-o template_infile=/usr/share/pyazo/database.yml"
 dbc_go pyazo "$@"
 
-chown -R pyazo: /var/log/pyazo/
-chown -R pyazo: /usr/share/pyazo/
-chown -R pyazo: /etc/pyazo/
 if [ -z "`getent group pyazo`" ]; then
   addgroup --quiet --system pyazo
 fi
@@ -21,6 +18,9 @@ if [ -z "`getent passwd pyazo`" ]; then
   echo " * Creating user and group pyazo..."
   adduser --quiet --system --home /usr/share/pyazo --shell /bin/false --ingroup pyazo --disabled-password --disabled-login --gecos "pyazo User" pyazo
 fi
+chown -R pyazo: /var/log/pyazo/
+chown -R pyazo: /usr/share/pyazo/
+chown -R pyazo: /etc/pyazo/
 if [ ! -f '/etc/pyazo/secret_key' ]; then
   echo " * Generating Secret Key"
   /usr/share/pyazo/pyazo.sh generate_secret_key > /etc/pyazo/secret_key 2> /dev/null
