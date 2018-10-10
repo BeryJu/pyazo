@@ -16,5 +16,5 @@ def generate_ext_thumb(extension):
         settings.STATIC_ROOT+'fonts/Metropolis-Regular.ttf', 18)
     text_width, text_height = draw.textsize(extension, font=font)
     draw.text(((image_width-text_width)/2,
-               (image_height-text_height)/2), extension, fill="#E9ECEF")
+               (image_height-text_height)/2), extension, fill="#E9ECEF", font=font)
     img.save(settings.THUMBNAIL_ROOT+out_name+'.png', 'PNG')

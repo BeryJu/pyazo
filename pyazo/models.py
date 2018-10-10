@@ -11,14 +11,14 @@ from pyazo.utils import get_mime_type
 
 BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
 
-def save_from_post(content):
+def save_from_post(content, extension):
     """Takes a file from post, calculates sha512, saves it to media dir and returns path"""
     sha512 = hashlib.sha512()
     sha512.update(content)
     filename = '%s/%s' % (settings.MEDIA_ROOT, sha512.hexdigest())
     with open(filename, 'wb') as out_file:
         out_file.write(content)
-    return filename
+    return filename + extension
 
 class Upload(models.Model):
     """Store data about a single upload"""

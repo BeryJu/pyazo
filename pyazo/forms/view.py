@@ -4,7 +4,7 @@ from django import forms
 from django.db.models import QuerySet
 
 
-class CollectionAssignForm(forms.Form):
+class CollectionSelectForm(forms.Form):
     """Assign Upload to collection"""
 
-    collections = forms.ModelChoiceField(queryset=QuerySet().none())
+    collection = forms.ModelChoiceField(queryset=QuerySet().none(), required=False)

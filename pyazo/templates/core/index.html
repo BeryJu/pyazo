@@ -12,7 +12,12 @@
   }
   .card.clickable {
     min-width: 100%;
-    min-height: 100px
+    min-height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .card.clickable > .spinner {
+    margin: 24px;
   }
 </style>
 {% endblock %}
@@ -20,7 +25,15 @@
 {% block content_area %}
 <div class="row">
   <div class="col-md-6">
-    <h3>{% trans 'All Uploads' %}</h3>
+    {% if not collection %}
+      <h3>{% trans 'All Uploads' %}</h3>
+    {% else %}
+      <h3>
+        {% blocktrans with collection=collection %}
+        Uploads in '{{ collection }}'
+        {% endblocktrans %}
+      </h3>
+    {% endif %}
   </div>
   <div class="col-md-6 pagination-container">
     {% include 'blocks/block_pagination.html' with pages=uploads %}
@@ -30,10 +43,28 @@
   </div>
   {% for upl in uploads %}
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1 col-xl-1">
-      <a href="{% url 'upload_view' file_hash=upl.sha512 %}" class="card clickable" style="background: url(.{% url 'view_sha512' file_hash=upl.sha512 %}?thumb) no-repeat center;"></a>
+      <a href="{% url 'upload_view' file_hash=upl.sha512 %}" class="card clickable" data-url="{% url 'view_sha512' file_hash=upl.sha512 %}?thumb">
+        <span class="spinner"></span>
+      </a>
     </div>
   {% empty %}
     <p>No Uploads yet!</p>
   {% endfor %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  $(document).ready(function () {
+    $('[data-url]').each(function (_, card) {
+      var image = new Image;
+      image.onload = function () {
+        $(card).children().remove();
+        $(card).css('background-image', 'url(..' + $(card).data('url') + ')');
+      }
+      image.src = $(card).data('url');
+    });
+  });
+</script>
 {% endblock %}

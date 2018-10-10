@@ -10,7 +10,7 @@ admin.site.index_title = 'Pyazo Admin'
 admin.site.site_title = 'pyazo'
 
 urlpatterns = [
-    url(r'^$', core.IndexView.as_view(), name='index'),
+    url(r'^overview/$', core.IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^accounts/allauth/', include('allauth.urls')),
@@ -26,7 +26,9 @@ urlpatterns = [
     url(r'^upload/(?P<file_hash>\w{128})/view/$',
         upload.UploadView.as_view(), name='upload_view'),
     url(r'^upload/(?P<file_hash>\w{128})/claim/$',
-        upload.ClaimView.as_view(), name='upload_claim'),
+        upload.ClaimUploadView.as_view(), name='upload_claim'),
+    url(r'^upload/(?P<file_hash>\w{128})/delete/$',
+        upload.DeleteUploadView.as_view(), name='upload_delete'),
     # All view URLs are handeled by the same Function, but we need different names
     # so the default can be changed in the settings
     url(r'^(?P<file_hash>\w{16})(\..{1,5})?$',
@@ -41,4 +43,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

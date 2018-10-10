@@ -56,6 +56,7 @@ LOGIN_REDIRECT_URL = 'index'
 # Application definition
 LOGIN_URL = 'accounts-login'
 LOGOUT_REDIRECT_URL = 'accounts-login'
+INTERNAL_IPS = ['127.0.0.1']
 
 # Redis settings
 CACHES = {

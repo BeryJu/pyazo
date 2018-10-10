@@ -5,6 +5,7 @@
 {% load is_active %}
 {% load is_active_app %}
 {% load gravatar %}
+{% load pyazo %}
 
 {% block body %}
 <div class="main-container">
@@ -39,6 +40,31 @@
           <clr-icon class="nav-icon" shape="upload"></clr-icon>
           <span class="nav-text">{% trans "Upload" %}</span>
         </a>
+        {% collections as collections %}
+        {% if collections %}
+        <clr-vertical-nav-group class="nav-group">
+          <div class="nav-group-content">
+            <button class="nav-group-trigger" type="button">
+              <clr-icon class="nav-icon" shape="file-group"></clr-icon>
+              <div class="nav-group-text">
+                {% trans 'Collections' %}
+              </div>
+              <clr-icon class="nav-group-trigger-icon" shape="caret" dir="right"></clr-icon>
+            </button>
+          </div>
+          <div class="nav-group-children nav-group-children-hidden">
+            <clr-vertical-nav-group-children>
+              {% for collection in collections %}
+              <a class="nav-link" href="{% url 'index' %}?collection={{ collection.name }}">
+                <span class="nav-text">
+                  {{ collection.name }}
+                </span>
+              </a>
+              {% endfor %}
+            </clr-vertical-nav-group-children>
+          </div>
+        </clr-vertical-nav-group>
+        {% endif %}
         <clr-vertical-nav-group class="nav-group">
           <div class="nav-group-content">
             <button class="nav-group-trigger" type="button">

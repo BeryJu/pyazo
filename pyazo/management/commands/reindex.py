@@ -43,6 +43,5 @@ class Command(BaseCommand):
                     upload.save()
                     LOGGER.info("File %s is in DB already, updating path", file)
                 else:
-                    Upload.objects.create(
-                        file=file, type=0)
+                    Upload.objects.create(file=file)
                     LOGGER.info("Imported %s into DB", file)

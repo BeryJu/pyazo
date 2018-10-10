@@ -4,10 +4,10 @@ import logging
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.http import Http404
 from django.views.generic import TemplateView
-from pyazo.models import Upload
+
+from pyazo.models import Collection, Upload
 
 LOGGER = logging.getLogger(__name__)
 
@@ -21,6 +21,16 @@ class IndexView(LoginRequiredMixin, TemplateView):
         upload_filter = Q()
         if not self.request.user.is_superuser:
             upload_filter = Q(user=self.request.user) | Q(user__isnull=True)
+        # Filter by collection if set
+        if 'collection' in self.request.GET:
+            # Check if user has access to collection
+            if not Collection.objects.filter(
+                    name=self.request.GET.get('collection'),
+                    owner=self.request.user).exists():
+                raise Http404
+            upload_filter &= Q(collection__name=self.request.GET.get('collection'))
+            # Set collection name so we can show in the template
+            context['collection'] = self.request.GET.get('collection')
         # Per Default, on a 1080p screen, there are 7 rows with 12 tiles => 84
         images = Paginator(Upload.objects.filter(upload_filter).order_by('-id'), 84)
 
