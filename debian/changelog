@@ -1,3 +1,13 @@
+pyazo (1.8.1) stable; urgency=medium
+
+  * debian: fix postinst command order
+  * debian: add dependency on python3-distutils, install new pillow in postinst script
+  * debian: install both service files
+  * pyazo: fix DB issues with mysql
+  * pyazo: redirect / to overview, return 204 when thumbnail generation fails
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Thu, 11 Oct 2018 19:15:24 +0000
+
 pyazo (1.8) stable; urgency=medium
 
   * pyazo: fix loading of secure_ssl_headers again
