@@ -107,4 +107,4 @@ venv.bak/
 bin/
 media/*
 *debhelper
-local.env.yml
+*.env.yml
