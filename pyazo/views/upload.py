@@ -148,8 +148,8 @@ class BrowserUploadView(LoginRequiredMixin, TemplateView):
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """Create Upload objects from request"""
-        for _, _file in request.FILES.items():
-            _, ext = os.path.splitext(_file.name)
+        for __, _file in request.FILES.items():
+            __, ext = os.path.splitext(_file.name)
             new_upload = Upload(
                 file=save_from_post(_file.read(), extension=ext),
                 user=request.user)
