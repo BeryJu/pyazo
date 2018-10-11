@@ -24,13 +24,14 @@ class Upload(models.Model):
     """Store data about a single upload"""
 
     file = models.FileField(max_length=512)
-    thumbnail = models.FileField(blank=True, upload_to='thumbnail/')
+    thumbnail = models.FileField(blank=True, upload_to='thumbnail/', max_length=512)
     user = models.ForeignKey(User, default=None, null=True, blank=True,
                              on_delete=models.SET_DEFAULT)
     md5 = models.CharField(max_length=32, blank=True)
     sha256 = models.CharField(max_length=64, blank=True)
     sha512 = models.CharField(max_length=128, blank=True)
-    collection = models.ForeignKey('Collection', on_delete=models.SET_NULL, default=None, null=True)
+    collection = models.ForeignKey('Collection', on_delete=models.SET_NULL,
+                                   default=None, null=True, blank=True)
     mime_type = models.TextField()
 
     @property
