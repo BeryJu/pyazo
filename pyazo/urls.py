@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.urls import path
+from django.views.generic.base import RedirectView
 
 from pyazo.views import accounts, core, download, upload, view
 
@@ -10,6 +11,7 @@ admin.site.index_title = 'Pyazo Admin'
 admin.site.site_title = 'pyazo'
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='overview/')),
     url(r'^overview/$', core.IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
