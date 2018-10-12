@@ -1,3 +1,10 @@
+pyazo (1.8.2) stable; urgency=medium
+
+  * pyazo: fix prospector error
+  * pyazo: fix csrf_exempt for upload
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 12 Oct 2018 10:13:06 +0000
+
 pyazo (1.8.1) stable; urgency=medium
 
   * debian: fix postinst command order
