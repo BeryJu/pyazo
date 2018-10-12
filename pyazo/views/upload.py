@@ -112,12 +112,9 @@ class DeleteUploadView(LoginRequiredMixin, TemplateView):
         return context
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LegacyUploadView(View):
     """Legacy Upload (for gyazo-based clients)"""
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """Main upload handler. Fully Gyazo compatible."""

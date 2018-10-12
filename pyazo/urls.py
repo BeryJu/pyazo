@@ -22,8 +22,8 @@ urlpatterns = [
     url(r'^download/sharex/$', download.sxcu, name='download-sxcu'),
     url(r'^download/macos/$', download.client_macos, name='download_client_macos'),
     # Legacy upload URL
-    url(r'^gyazo\.php$', upload.UploadView.as_view(), name='upload'),
-    url(r'^upload/$', upload.UploadView.as_view(), name='upload'),
+    url(r'^gyazo\.php$', upload.LegacyUploadView.as_view(), name='upload'),
+    url(r'^upload/$', upload.LegacyUploadView.as_view(), name='upload'),
     url(r'^upload/browser/$', upload.BrowserUploadView.as_view(), name='upload_browser'),
     url(r'^upload/(?P<file_hash>\w{128})/view/$',
         upload.UploadView.as_view(), name='upload_view'),
