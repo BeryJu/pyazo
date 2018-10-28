@@ -33,11 +33,18 @@ package-3.5:
     - cp debian/control-3.5 debian/control
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
+    - "python3 -m pip install -U virtualenv"
+    - "virtualenv env"
+    - "source env/bin/activate"
+    - "pip3 install -U -r requirements.txt -r requirements-dev.txt"
   image: debian
   script:
     - debuild -us -uc
     - python manage.py nexus_upload
   stage: build
+  only:
+  - tags
+  - /^debian/.*$/
 package-3.6:
   before_script:
     - apt update
@@ -45,8 +52,15 @@ package-3.6:
     - cp debian/control-3.6 debian/control
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
+    - "python3 -m pip install -U virtualenv"
+    - "virtualenv env"
+    - "source env/bin/activate"
+    - "pip3 install -U -r requirements.txt -r requirements-dev.txt"
   image: debian:buster
   script:
     - debuild -us -uc
     - python manage.py nexus_upload
   stage: build
+  only:
+    - tags
+    - /^debian/.*$/
