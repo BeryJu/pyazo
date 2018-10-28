@@ -30,6 +30,9 @@ fi
 chmod 440 /etc/pyazo/secret_key
 echo " * Running Database Migration"
 /usr/share/pyazo/pyazo.sh migrate
+echo " * Restarting services..."
+systemctl restart pyazo.service
+systemctl restart pyazo-worker.service
 echo " * A superuser can be created with this command '/usr/share/pyazo/pyazo.sh createsuperuser'"
 echo " * You should probably also adjust your settings in '/etc/pyazo/config.yml'"
 
