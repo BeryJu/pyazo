@@ -15,7 +15,7 @@ log:
 
 # Set this to the server's external address.
 # This is used to generate external URLs
-external_url: image.example.com
+external_url: http://image.example.com
 
 # This dictates how the Path is generated
 # can be either of:
