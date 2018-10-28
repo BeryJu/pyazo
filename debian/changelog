@@ -1,3 +1,9 @@
+pyazo (1.8.3) stable; urgency=medium
+
+  * pyazo: fix upload URL pointing to wrong URL
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 12 Oct 2018 13:57:34 +0000
+
 pyazo (1.8.2) stable; urgency=medium
 
   * pyazo: fix prospector error
