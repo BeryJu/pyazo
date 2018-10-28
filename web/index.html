@@ -130,16 +130,16 @@
 										<p>Pyazo is available as a debian package on the BeryJu.org APT repository.</p>
 										<pre>
 											<code>
-wget -O - -q https://apt.beryju.org/public.key | apt-key add -
-echo "deb https://apt.beryju.org/ stable beryjuorg" >> /etc/apt/sources.list
+wget -O - -q https://pkg.beryju.org/repository/raw-utils/apt/public.key | apt-key add -
+echo "deb https://pkg.beryju.org/repository/apt/ beryjuorg main" >> /etc/apt/sources.list
 apt update
 # If you're on Debian 9:
 apt install pyazo-python3.5
 # If you're on Ubuntu 18.04+
-# apt install pyazo-python3.6
+apt install pyazo-python3.6
 											</code>
 										</pre>
-										<p>After you've done that you can adjust your config in <code>/etc/pyazo/config.py</code>, and create a user with <code>/usr/share/pyazo/manage.sh manage.py createsuperuser</code></p>
+										<p>After you've done that you can adjust your config in <code>/etc/pyazo/config.yml</code>, and create a user with <code>/usr/share/pyazo/pyazo.sh createsuperuser</code></p>
 									</div>
 								</section>
 
