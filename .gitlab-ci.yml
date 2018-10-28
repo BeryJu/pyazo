@@ -36,12 +36,8 @@ package-3.5:
   image: debian
   script:
     - debuild -us -uc
-    - mv ../pyazo*.deb .
+    - python manage.py nexus_upload
   stage: build
-  artifacts:
-    paths:
-    - pyazo-python3.5*deb
-    expire_in: 2 days
 package-3.6:
   before_script:
     - apt update
@@ -52,10 +48,5 @@ package-3.6:
   image: debian:buster
   script:
     - debuild -us -uc
-    - mv ../pyazo*.deb .
+    - python manage.py nexus_upload
   stage: build
-  artifacts:
-    paths:
-    - pyazo-python3.6*deb
-    expire_in: 2 days
-
