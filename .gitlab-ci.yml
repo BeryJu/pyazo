@@ -29,7 +29,7 @@ pylint:
 package-3.5:
   before_script:
     - apt update
-    - apt install -y build-essential debhelper devscripts equivs
+    - apt install -y build-essential debhelper devscripts equivs python3 python3-pip
     - cp debian/control-3.5 debian/control
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
@@ -48,7 +48,7 @@ package-3.5:
 package-3.6:
   before_script:
     - apt update
-    - apt install -y build-essential debhelper devscripts equivs
+    - apt install -y build-essential debhelper devscripts equivs python3 python3-pip
     - cp debian/control-3.6 debian/control
     - mk-build-deps debian/control
     - apt install ./*build-deps*deb -f -y
