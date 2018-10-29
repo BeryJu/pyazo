@@ -67,6 +67,7 @@ package-3.6:
     - /^debian/.*$/
 
 docs:
+  stage: docs
   only:
   - master
   - tags
