@@ -1,3 +1,15 @@
+pyazo (1.8.4) stable; urgency=medium
+
+  * Restart services in pastiest
+  * web: update instructions
+  * ci: auto upload packages to nexus
+  * ci: upload to real repository
+  * ci: only build debian package on tags
+  * debian: fix eample config external_url
+  * pyazo: fix secret_key_loading
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Mon, 29 Oct 2018 10:37:50 +0000
+
 pyazo (1.8.3) stable; urgency=medium
 
   * pyazo: fix upload URL pointing to wrong URL
