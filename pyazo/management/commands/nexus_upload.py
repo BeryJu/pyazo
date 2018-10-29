@@ -15,5 +15,5 @@ class Command(BaseCommand):
         nexus_user = os.environ.get('NEXUS_USER')
         nexus_pass = os.environ.get('NEXUS_PASS')
         print(requests.post('https://%s/repository/apt/' % nexus_url,
-                            data=open(glob('../pyazo-python3.5_*')[0], mode='rb'),
+                            data=open(glob('../pyazo-python3.*')[0], mode='rb'),
                             auth=(nexus_user, nexus_pass)))
