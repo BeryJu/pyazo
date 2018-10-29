@@ -1,0 +1,3 @@
+[submodule "client/mac"]
+	path = client/mac
+	url = git@git.beryju.org:BeryJu.org/pyazo-mac.git
