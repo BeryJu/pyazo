@@ -1,0 +1,13 @@
+site_name: Pyazo Documentation
+theme:
+  name: 'material'
+repo_url: "https://git.beryju.org/BeryJu.org/pyazo"
+nav:
+- Home: index.md
+- Installation:
+    - Package: install/package.md
+- Configuration:
+    - Initial Configuration: configuration/initial.md
+    - Reverse Proxy: configuration/nginx_reverse_proxy.md
+- Clients:
+    - macOS: clients/mac.md

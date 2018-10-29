@@ -7,6 +7,7 @@ before_script:
 stages:
   - test
   - build
+  - docs
 image: python:3.5
 
 isort:
@@ -64,3 +65,21 @@ package-3.6:
   only:
     - tags
     - /^debian/.*$/
+
+docs:
+  only:
+  - master
+  - tags
+  - /^debian/.*$/
+  environment:
+    name: docs
+    url: "https://pyazo.beryju.org/docs/"
+  script:
+    - apt update
+    - apt install -y rsync
+    - "pip3 install -U -r requirements-docs.txt"
+    - "eval $(ssh-agent -s)"
+    - "echo \"${CI_SSH_PRIVATE}\" | ssh-add -"
+    - mkdocs build
+    - 'rsync -avh --delete web/* "beryjuorg@ory1-web-prod-1.ory1.beryju.org:pyazo.beryju.org/"'
+    - 'rsync -avh --delete site/* "beryjuorg@ory1-web-prod-1.ory1.beryju.org:pyazo.beryju.org/docs/"'
