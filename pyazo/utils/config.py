@@ -44,6 +44,7 @@ class ConfigLoader:
                     if os.path.isfile(env_file) and os.path.exists(env_file):
                         # Update config with env file
                         self.update_from_file(env_file)
+        self.handle_secret_key()
 
     def handle_secret_key(self):
         """Handle `secret_key_file`"""
@@ -51,7 +52,7 @@ class ConfigLoader:
             secret_key_file = self.__config.get('secret_key_file')
             if os.path.isfile(secret_key_file) and os.path.exists(secret_key_file):
                 with open(secret_key_file) as file:
-                    self.__config['secret_key'] = file.read()
+                    self.__config['secret_key'] = file.read().replace('\n', '')
 
     def update(self, root, updatee):
         """Recursively update dictionary"""
