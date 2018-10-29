@@ -78,6 +78,8 @@ docs:
   script:
     - apt update
     - apt install -y rsync
+    - "mkdir ~/.ssh"
+    - "cp .gitlab/known_hosts ~/.ssh/"
     - "pip3 install -U -r requirements-docs.txt"
     - "eval $(ssh-agent -s)"
     - "echo \"${CI_SSH_PRIVATE}\" | ssh-add -"
