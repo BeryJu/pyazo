@@ -10,7 +10,8 @@ from django.views.generic import View
 from pyazo.models import Upload
 from pyazo.models import UploadView as UploadViewObject
 from pyazo.tasks import make_thumbnail
-from pyazo.utils import get_mime_type, get_remote_ip, get_reverse_dns
+from pyazo.utils import get_remote_ip, get_reverse_dns
+from pyazo.utils.files import get_mime_type
 
 LOGGER = getLogger(__name__)
 
