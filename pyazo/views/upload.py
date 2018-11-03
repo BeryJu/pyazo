@@ -135,7 +135,8 @@ class LegacyUploadView(View):
                     matching = User.objects.filter(username=request.POST.get('username'))
                     if matching.exists():
                         new_upload.user = matching.first()
-                        LOGGER.debug("Auto-claimed upload to user '%s'", request.POST.get('username'))
+                        LOGGER.debug("Auto-claimed upload to user '%s'",
+                                     request.POST.get('username'))
                 new_upload.save()
                 # Count initial view
                 UploadViewFile.count_view(new_upload, request)
