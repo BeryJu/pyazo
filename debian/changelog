@@ -1,3 +1,9 @@
+pyazo (1.8.6) stable; urgency=medium
+
+  * build: fix wrong package being uploaded
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 03 Nov 2018 15:10:34 +0000
+
 pyazo (1.8.5) stable; urgency=medium
 
   * ci: install missing python3-pip
