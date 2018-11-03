@@ -43,15 +43,19 @@
           </tr>
           <tr>
             <td>{% trans 'MD5' %}</td>
-            <td><a href="{{ url_prefix }}{{ upload.md5 }}.png">{% trans 'Here' %}</a></td>
+            <td><a href="{{ url_prefix }}{{ upload.md5 }}">{% trans 'Here' %}</a></td>
           </tr>
           <tr>
             <td>{% trans 'SHA256' %}</td>
-            <td><a href="{{ url_prefix }}{{ upload.sha256 }}.png">{% trans 'Here' %}</a></td>
+            <td><a href="{{ url_prefix }}{{ upload.sha256 }}">{% trans 'Here' %}</a></td>
           </tr>
           <tr>
             <td>{% trans 'SHA512' %}</td>
-            <td><a href="{{ url_prefix }}{{ upload.sha512 }}.png">{% trans 'Here' %}</a></td>
+            <td><a href="{{ url_prefix }}{{ upload.sha512 }}">{% trans 'Here' %}</a></td>
+          </tr>
+          <tr>
+            <td>{% trans 'SHA512 (Short)' %}</td>
+            <td><a href="{{ url_prefix }}{{ upload.sha512_short }}">{% trans 'Here' %}</a></td>
           </tr>
         </tbody>
       </table>
