@@ -17,14 +17,14 @@ from django.views.generic import TemplateView, View
 
 from pyazo.forms.view import CollectionSelectForm
 from pyazo.models import Collection, Upload
-from pyazo.utils.image import generate_hashes, save_from_post
+from pyazo.utils.files import generate_hashes, save_from_post
 from pyazo.views.view import UploadViewFile
 
 LOGGER = getLogger(__name__)
 
 
 class UploadView(LoginRequiredMixin, TemplateView):
-    """Show statistics about image and allow user to manage it."""
+    """Show statistics about upload and allow user to manage it."""
 
     template_name = 'upload/view.html'
 

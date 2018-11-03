@@ -8,7 +8,7 @@ from PIL import Image
 
 from pyazo.celery import CELERY_APP
 from pyazo.models import Upload
-from pyazo.utils.image import generate_ext_thumb
+from pyazo.utils.files import generate_ext_thumb
 
 LOGGER = getLogger(__name__)
 
