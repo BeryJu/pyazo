@@ -76,7 +76,7 @@
         {% endif %}
       </form>
       <hr>
-      <a href="{% url 'upload_delete' file_hash=upload.sha512 %}?delete" class="btn btn-danger">{% trans 'Delete' %}</a>
+      <a href="{% url 'upload_delete' file_hash=upload.sha512 %}?back={{ request.get_full_path }}" class="btn btn-danger">{% trans 'Delete' %}</a>
     </div>
     <div class="col-sm-12">
       <h3>{% trans 'Statistics' %}</h3>
