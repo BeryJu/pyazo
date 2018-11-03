@@ -16,7 +16,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
 
 from pyazo.forms.view import CollectionSelectForm
-from pyazo.models import Collection, Upload, save_from_post
+from pyazo.models import Collection, Upload
+from pyazo.utils.image import generate_hashes, save_from_post
 from pyazo.views.view import UploadViewFile
 
 LOGGER = getLogger(__name__)
@@ -117,21 +118,28 @@ class LegacyUploadView(View):
     """Legacy Upload (for gyazo-based clients)"""
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        """Main upload handler. Fully Gyazo compatible."""
+        """Main upload handler. Fully gyazo compatible."""
         if 'id' in request.POST and 'imagedata' in request.FILES:
             _, ext = os.path.splitext(request.FILES['imagedata'].name)
-            new_upload = Upload(
-                file=save_from_post(request.FILES['imagedata'].read(), extension=ext))
-            # Run auto-claim
-            if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
-                matching = User.objects.filter(username=request.POST.get('username'))
-                if matching.exists():
-                    new_upload.user = matching.first()
-                    LOGGER.debug("Auto-claimed upload to user '%s'", request.POST.get('username'))
-            new_upload.save()
-            # Count initial view
-            UploadViewFile.count_view(new_upload, request)
-            LOGGER.info("Uploaded %s", new_upload.filename)
+            # Generate hashes first to check if upload exists already
+            hashes = generate_hashes(request.FILES['imagedata'])
+            # Check if hashes already exists
+            existing = Upload.objects.filter(sha512=hashes.get('sha512'))
+            if existing.exists():
+                new_upload = existing.first()
+            else:
+                new_upload = Upload(
+                    file=save_from_post(request.FILES['imagedata'].read(), extension=ext))
+                # Run auto-claim
+                if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
+                    matching = User.objects.filter(username=request.POST.get('username'))
+                    if matching.exists():
+                        new_upload.user = matching.first()
+                        LOGGER.debug("Auto-claimed upload to user '%s'", request.POST.get('username'))
+                new_upload.save()
+                # Count initial view
+                UploadViewFile.count_view(new_upload, request)
+                LOGGER.info("Uploaded %s", new_upload.filename)
             # Generate url for client to open
             upload_prop = settings.DEFAULT_RETURN_VIEW.replace('view_', '')
             upload_hash = getattr(new_upload, upload_prop, 'sha256')
