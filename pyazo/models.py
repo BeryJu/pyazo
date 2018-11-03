@@ -1,24 +1,12 @@
 """pyazo models"""
 
-import hashlib
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from user_agents import parse
 
-from pyazo.utils import get_mime_type
+from pyazo.utils.files import generate_hashes, get_mime_type
 
-BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
-
-def save_from_post(content, extension):
-    """Takes a file from post, calculates sha512, saves it to media dir and returns path"""
-    sha512 = hashlib.sha512()
-    sha512.update(content)
-    filename = '%s/%s.%s' % (settings.MEDIA_ROOT, sha512.hexdigest(), extension)
-    with open(filename, 'wb') as out_file:
-        out_file.write(content)
-    return filename
 
 class Upload(models.Model):
     """Store data about a single upload"""
@@ -41,22 +29,10 @@ class Upload(models.Model):
 
     def update_hashes(self):
         """Update hash properties"""
-        md5 = hashlib.md5()
-        sha256 = hashlib.sha256()
-        sha512 = hashlib.sha512()
-
-        # pylint: disable=no-member
         with open(self.file.path, 'rb') as _file:
-            while True:
-                data = _file.read(BUF_SIZE)
-                if not data:
-                    break
-                md5.update(data)
-                sha256.update(data)
-                sha512.update(data)
-        self.md5 = md5.hexdigest()
-        self.sha256 = sha256.hexdigest()
-        self.sha512 = sha512.hexdigest()
+            hashes = generate_hashes(_file)
+            for hash_type, hash_value in hashes.items():
+                setattr(self, hash_type, hash_value)
 
     def update_mime(self):
         """Update mime_types from file"""
