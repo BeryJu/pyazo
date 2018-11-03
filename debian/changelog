@@ -1,3 +1,23 @@
+pyazo (1.8.5) stable; urgency=medium
+
+  * ci: install missing python3-pip
+  * pyazo: fix nexus_upload for python3.6 package
+  * docs: add docs
+  * ci: fix stage for docs
+  * ci: fix Host key verification failed. error
+  * client: move Mac client to separate repo
+  * client: add Mac client as submodule
+  * pyazo: ensure all default settings are set
+  * Add more images for new client
+  * pyazo: consolidate file related functions into pyazo.utils.files
+  * pyazo: check if upload exists already before saving
+  * pyazo: fix imports
+  * pyazo: fix imports more
+  * pyazo: add link to show sha512 short
+  * pyazo: fix cancel button on delete template
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 03 Nov 2018 09:58:21 +0000
+
 pyazo (1.8.4) stable; urgency=medium
 
   * Restart services in pastiest
