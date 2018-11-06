@@ -11,3 +11,5 @@ nav:
     - Reverse Proxy: configuration/nginx_reverse_proxy.md
 - Clients:
     - macOS: clients/mac.md
+- API:
+    - Endpoints: api/api_endpoints.md

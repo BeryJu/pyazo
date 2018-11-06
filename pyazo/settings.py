@@ -220,7 +220,7 @@ RAVEN_CONFIG = {
            '3372ecce5d548a5@sentry.services.beryju.org/4',
     'release': VERSION,
     'environment': 'production' if DEBUG is False else 'development',
-    'tags': {'external_domain': EXTERNAL_URL}
+    'tags': {'site': EXTERNAL_URL}
 }
 
 ERROR_REPORT_ENABLED = CONFIG.get('error_report_enabled', False)
