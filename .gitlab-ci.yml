@@ -12,19 +12,24 @@ image: python:3.5
 
 isort:
   script:
-    - "isort -c -sg env"
+    - isort -c -sg env
   stage: test
 migrations:
   script:
-    - "python manage.py migrate"
+    - python manage.py migrate
   stage: test
 prospector:
   script:
-    - "prospector"
+    - prospector
   stage: test
 pylint:
   script:
-    - "pylint pyazo"
+    - pylint pyazo
+  stage: test
+coverage:
+  script:
+    - coverage run manage.py test
+    - coverage report
   stage: test
 
 package-3.5:
