@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import logging
 import os
+import sys
 
 from pyazo import __version__
 from pyazo.utils.config import CONFIG
@@ -50,7 +51,7 @@ SECRET_KEY = CONFIG.get('secret_key',
 DEBUG = CONFIG.get('debug')
 CORS_ORIGIN_ALLOW_ALL = DEBUG
 
-ALLOWED_HOSTS = CONFIG.get('domains')
+ALLOWED_HOSTS = CONFIG.get('domains', [])
 
 LOGIN_REDIRECT_URL = 'index'
 # Application definition
@@ -226,6 +227,17 @@ RAVEN_CONFIG = {
 ERROR_REPORT_ENABLED = CONFIG.get('error_report_enabled', False)
 if not ERROR_REPORT_ENABLED:
     RAVEN_CONFIG['dsn'] = ''
+
+TEST = False
+TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+TEST_OUTPUT_VERBOSE = 2
+
+TEST_OUTPUT_FILE_NAME = 'unittest.xml'
+
+if any('test' in arg for arg in sys.argv):
+    LOGGING = None
+    TEST = True
+
 
 with CONFIG.cd('log'):
     LOGGING = {

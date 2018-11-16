@@ -108,3 +108,4 @@ bin/
 media/*
 *debhelper
 *.env.yml
+unittest.xml

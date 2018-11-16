@@ -1,7 +1,6 @@
 """pyazo image-related utilities"""
 import hashlib
 
-import magic
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
 
@@ -10,6 +9,7 @@ BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
 
 def get_mime_type(file_path: str) -> str:
     """Return mime-type for file"""
+    import magic
     return magic.from_file(file_path, mime=True)
 
 def generate_ext_thumb(extension):
