@@ -228,17 +228,6 @@ ERROR_REPORT_ENABLED = CONFIG.get('error_report_enabled', False)
 if not ERROR_REPORT_ENABLED:
     RAVEN_CONFIG['dsn'] = ''
 
-TEST = False
-TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
-TEST_OUTPUT_VERBOSE = 2
-
-TEST_OUTPUT_FILE_NAME = 'unittest.xml'
-
-if any('test' in arg for arg in sys.argv):
-    LOGGING = None
-    TEST = True
-
-
 with CONFIG.cd('log'):
     LOGGING = {
         'version': 1,
@@ -294,6 +283,16 @@ with CONFIG.cd('log'):
             },
         }
     }
+
+
+TEST = any('test' in arg for arg in sys.argv)
+TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+TEST_OUTPUT_VERBOSE = 2
+
+TEST_OUTPUT_FILE_NAME = 'unittest.xml'
+
+if TEST:
+    LOGGING = None
 
 if DEBUG is True:
     INSTALLED_APPS.append('debug_toolbar')
