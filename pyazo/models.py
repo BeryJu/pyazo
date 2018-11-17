@@ -63,7 +63,7 @@ class Upload(models.Model):
 class UploadView(models.Model):
     """Store information about a single view"""
     upload = models.ForeignKey('Upload', on_delete=models.CASCADE)
-    viewee = models.ForeignKey(User, blank=True, default=1, on_delete=models.CASCADE)
+    viewee = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)
     viewee_dns = models.TextField(blank=True)
     viewee_date = models.DateTimeField(auto_now_add=True)
