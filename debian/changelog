@@ -1,3 +1,21 @@
+pyazo (1.8.7) stable; urgency=medium
+
+  * docs: add API docs
+  * docs: add docs for system migration and mssql support
+  * ci: revert to uploading deb files to gitlab while nexus server is down
+  * add setup for tests
+  * cleanup account forms, settings, add coverage settings
+  * add more tests
+  * add coverage to CI
+  * pyazo: limit redis to <3.0
+  * client: package new macOS Client
+  * pyazo: add more tests
+  * pyazo: fix thumbnail file `.png` being generated sometimes
+  * pyazo: allow empty viewee
+  * pyazo: more tests and code cleanup
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Sat, 17 Nov 2018 13:15:46 +0000
+
 pyazo (1.8.6) stable; urgency=medium
 
   * build: fix wrong package being uploaded
