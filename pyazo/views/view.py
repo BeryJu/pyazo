@@ -29,8 +29,7 @@ class UploadViewFile(View):
             upload=upload,
             viewee_ip=client_ip,
             viewee_dns=client_dns,
-            viewee_user_agent=user_agent
-            )
+            viewee_user_agent=user_agent)
         LOGGER.info("Logged view for %s (%s) viewing '%s'", client_ip, client_dns, upload.md5)
 
     def resolve_hash(self, file_hash: str) -> QuerySet:

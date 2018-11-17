@@ -131,13 +131,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'pyazo.urls'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-THUMBNAIL_ROOT = os.path.join(BASE_DIR, 'media/thumbnail/')
-
-os.makedirs(MEDIA_ROOT, exist_ok=True)
-os.makedirs(THUMBNAIL_ROOT, exist_ok=True)
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -291,8 +284,18 @@ TEST_OUTPUT_VERBOSE = 2
 
 TEST_OUTPUT_FILE_NAME = 'unittest.xml'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+THUMBNAIL_ROOT = os.path.join(BASE_DIR, 'media/thumbnail/')
+
 if TEST:
     LOGGING = None
+    CELERY_TASK_ALWAYS_EAGER = True
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media_test/')
+    THUMBNAIL_ROOT = os.path.join(BASE_DIR, 'media_test/thumbnail/')
+
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+os.makedirs(THUMBNAIL_ROOT, exist_ok=True)
 
 if DEBUG is True:
     INSTALLED_APPS.append('debug_toolbar')

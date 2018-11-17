@@ -45,3 +45,4 @@ class Command(BaseCommand):
                 else:
                     Upload.objects.create(file=file)
                     LOGGER.info("Imported %s into DB", file)
+        return 0

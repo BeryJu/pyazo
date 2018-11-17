@@ -12,29 +12,25 @@ class CoreViewTests(TestCase):
 
     def test_index(self):
         """Test default index page"""
-        url = reverse('index')
         self.client.login(**test_auth())
-        response = self.client.get(url)
+        response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
     def test_index_paginator(self):
         """Test invalid paginator page"""
-        url = reverse('index')
         self.client.login(**test_auth())
-        response = self.client.get(url+'?page=3')
+        response = self.client.get(reverse('index')+'?page=3')
         self.assertEqual(response.status_code, 200)
 
     def test_index_collection(self):
         """Test valid collection"""
-        url = reverse('index')
         self.client.login(**test_auth())
         Collection.objects.create(name='test', owner=User.objects.first())
-        response = self.client.get(url+'?collection=test')
+        response = self.client.get(reverse('index')+'?collection=test')
         self.assertEqual(response.status_code, 200)
 
     def test_index_collection_invalid(self):
         """Test invalid collection"""
-        url = reverse('index')
         self.client.login(**test_auth())
-        response = self.client.get(url+'?collection=aa')
+        response = self.client.get(reverse('index')+'?collection=aa')
         self.assertEqual(response.status_code, 404)
