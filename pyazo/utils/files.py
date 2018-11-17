@@ -12,6 +12,7 @@ def get_mime_type(file_path: str) -> str:
     import magic
     return magic.from_file(file_path, mime=True)
 
+
 def generate_ext_thumb(extension):
     """Create 200x200 thumbnail for filetype"""
     # ext still has a leading dot, which we don't want for saving
@@ -26,6 +27,7 @@ def generate_ext_thumb(extension):
     draw.text(((image_width-text_width)/2,
                (image_height-text_height)/2), extension, fill="#E9ECEF", font=font)
     img.save(settings.THUMBNAIL_ROOT+out_name+'.png', 'PNG')
+
 
 def generate_hashes(file_handle):
     """Return dict with md5, sha256 and sha512 keys containing file hashes"""
