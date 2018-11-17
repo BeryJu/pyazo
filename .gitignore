@@ -109,3 +109,4 @@ media/*
 *debhelper
 *.env.yml
 unittest.xml
+media_test/

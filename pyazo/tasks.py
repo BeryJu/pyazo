@@ -32,6 +32,9 @@ def make_thumbnail(self, upload_pk: int):
         LOGGER.debug('Assigning thumbnail of extension...')
         # Upload is another file, so we create a filetype thumbnail
         _, ext = os.path.splitext(upload.file.name)
+        # Prevent file being named `.png` so we rename empty extensions to `empty.png`
+        if ext == '':
+            ext = '.empty'
         # ext still has a leading dot, which we don't want for saving
         out_name = ext[1:]
         path = settings.THUMBNAIL_ROOT + out_name + '.png'
