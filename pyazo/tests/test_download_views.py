@@ -31,7 +31,6 @@ class DownloadViewTests(TestCase):
         os.unlink(exe_path)
         self.client.login(**test_auth())
         response = self.client.get(reverse('download_client_windows'))
-        # self.assertEqual(response.content_type, 'application/octet-stream')
         self.assertEqual(response.status_code, 404)
 
     def test_sharex(self):
@@ -39,3 +38,21 @@ class DownloadViewTests(TestCase):
         self.client.login(**test_auth())
         response = self.client.get(reverse('download-sxcu'))
         self.assertEqual(response.status_code, 200)
+
+    def test_macos(self):
+        """Test macos download"""
+        exe_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'pyazo.dmg')
+        with open(exe_path, 'w') as _file:
+            _file.write('test')
+        self.client.login(**test_auth())
+        response = self.client.get(reverse('download_client_macos'))
+        self.assertEqual(response['Content-Type'], 'application/x-apple-diskimage')
+        self.assertEqual(response.status_code, 200)
+
+    def test_macos_404(self):
+        """Test macos download but with missing file"""
+        exe_path = os.path.join(settings.BASE_DIR+"/", 'bin/', 'pyazo.dmg')
+        os.unlink(exe_path)
+        self.client.login(**test_auth())
+        response = self.client.get(reverse('download_client_macos'))
+        self.assertEqual(response.status_code, 404)

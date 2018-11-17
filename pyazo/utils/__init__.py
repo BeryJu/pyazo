@@ -1,9 +1,7 @@
 """pyazo utils"""
-
-import os
 import socket
 
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest
 
 
 def get_remote_ip(request: HttpRequest) -> str:
