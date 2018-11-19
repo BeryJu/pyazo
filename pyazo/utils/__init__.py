@@ -18,6 +18,6 @@ def get_reverse_dns(ipaddress: str) -> str:
         rev = socket.gethostbyaddr(ipaddress)
         if rev:
             return rev[0]
-        return ''
+        return '' # noqa
     except (socket.herror, socket.gaierror, TypeError, IndexError):
         return ''
