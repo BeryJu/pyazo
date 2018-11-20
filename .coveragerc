@@ -6,6 +6,9 @@ omit =
     manage.py
     */migrations/*
     */apps.py
+    pyazo/management/commands/nexus_upload.py
+    pyazo/management/commands/web.py
+    pyazo/management/commands/worker.py
     docs/
 
 [report]

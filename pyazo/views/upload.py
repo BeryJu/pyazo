@@ -94,9 +94,9 @@ class DeleteUploadView(LoginRequiredMixin, TemplateView):
     template_name = 'core/generic_delete.html'
 
     def post(self, request: HttpRequest, file_hash: str) -> HttpResponse:
-        """Claim upload to user (only if upload has no owner yet or user is superuser)"""
+        """Delete upload"""
         upload = get_object_or_404(Upload, sha512=file_hash)
-        if request.user.is_superuser or not upload.user:
+        if request.user.is_superuser or upload.user == request.user:
             upload.delete()
             messages.success(request, _('Upload successfully deleted'))
         else:

@@ -5,15 +5,20 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 
-def test_auth():
+def test_auth(superuser=True):
     """Create a test user and return credentials to use with client.login"""
-    creds = {
+    credentials = {
         'username': 'test',
         'password': 'test',
         'email': 'test@test.test',
     }
-    User.objects.create_superuser(**creds)
-    return creds
+    if superuser:
+        credentials['username'] = 'superuser'
+        User.objects.create_superuser(**credentials)
+    else:
+        credentials['username'] = 'user'
+        User.objects.create_user(**credentials)
+    return credentials
 
 
 def call_command_ret(*args, **kwargs):

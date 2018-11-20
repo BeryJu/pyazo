@@ -13,7 +13,7 @@ class UploadViewTests(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_file_path = settings.MEDIA_ROOT + 'test'
+        self.test_file_path = settings.MEDIA_ROOT + 'test.txt'
         with open(self.test_file_path, 'w') as _file:
             self._test_data = 'testdatafewrqwer'
             _file.write(self._test_data)
