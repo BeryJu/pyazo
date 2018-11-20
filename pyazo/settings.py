@@ -289,7 +289,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 THUMBNAIL_ROOT = os.path.join(BASE_DIR, 'media/thumbnail/')
 
 if TEST:
-    LOGGING = None
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': True,
+    }
     CELERY_TASK_ALWAYS_EAGER = True
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media_test/')
     THUMBNAIL_ROOT = os.path.join(BASE_DIR, 'media_test/thumbnail/')

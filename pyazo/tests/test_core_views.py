@@ -16,6 +16,12 @@ class CoreViewTests(TestCase):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
+    def test_index_not_super(self):
+        """Test default index page as a normal user"""
+        self.client.login(**test_auth(superuser=False))
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+
     def test_index_paginator(self):
         """Test invalid paginator page"""
         self.client.login(**test_auth())

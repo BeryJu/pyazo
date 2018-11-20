@@ -159,6 +159,8 @@ class BrowserUploadView(LoginRequiredMixin, TemplateView):
         """Create Upload objects from request"""
         for __, _file in request.FILES.items():
             __, ext = os.path.splitext(_file.name)
+            # Remove leading dot from extension
+            ext = ext[1:] if ext.startswith('.') else ext
             new_upload = Upload(
                 file=save_from_post(_file.read(), extension=ext),
                 user=request.user)

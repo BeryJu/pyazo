@@ -23,15 +23,11 @@ class Celery(celery.Celery):
     # pylint: disable=method-hidden
     def on_configure(self):
         """Update raven client"""
-        try:
-            client = Client(settings.RAVEN_CONFIG.get('dsn'))
-            # register a custom filter to filter out duplicate logs
-            register_logger_signal(client)
-            # hook into the Celery error handler
-            register_signal(client)
-        except RecursionError:  # This error happens when pdoc is running
-            pass
-
+        client = Client(settings.RAVEN_CONFIG.get('dsn'))
+        # register a custom filter to filter out duplicate logs
+        register_logger_signal(client)
+        # hook into the Celery error handler
+        register_signal(client)
 
 # pylint: disable=unused-argument
 @celery.signals.setup_logging.connect
@@ -45,7 +41,7 @@ def config_loggers(*args, **kwags):
 def after_task_publish(sender=None, headers=None, body=None, **kwargs):
     """Log task_id after it was published"""
     info = headers if 'task' in headers else body
-    LOGGER.debug('%-40s published (name=%s)', info.get('id'), info.get('task'))
+    LOGGER.debug('%-40s published (name=%s)', info.get('id', ''), info.get('task', ''))
 
 
 # pylint: disable=unused-argument

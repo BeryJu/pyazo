@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.test import TestCase
 
+from pyazo.tests.utils import test_auth
+
 
 class AccountViewTests(TestCase):
     """Test views in views/accounts.py"""
@@ -27,6 +29,12 @@ class AccountViewTests(TestCase):
         """Test login view"""
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_login_auth(self):
+        """Test login view while being authenticated"""
+        self.client.login(**test_auth())
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
 
     def test_login_post_valid(self):
         """Test valid login"""
