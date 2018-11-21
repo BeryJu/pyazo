@@ -4,11 +4,13 @@
 #export DH_VERBOSE=1
 export DH_VIRTUALENV_INSTALL_ROOT=/usr/share/pyazo/
 export DH_VIRTUALENV_INSTALL_SUFFIX=env
+PYTHON=$(shell python3 -c "import sys;print('%d.%d' % sys.version_info[:2])")
 
 %:
 	dh $@ --with=systemd --with=python-virtualenv
 
-LD_LIBRARY_PATH:=$(LD_LIBRARY_PATH):./debian/pyazo-python3.5/usr/share/pyazo/env/lib/python3.5/site-packages/PIL/.libs/:./debian/pyazo-python3.6/usr/share/pyazo/env/lib/python3.6/site-packages/PIL/.libs/
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(shell pwd)/debian/pyazo-python$(PYTHON)/usr/share/pyazo/env/lib/python$(PYTHON)/site-packages/PIL/.libs/
 
 override_dh_virtualenv:
 	dh_virtualenv \
