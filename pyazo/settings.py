@@ -19,23 +19,6 @@ from pyazo.utils.config import CONFIG
 
 LOGGER = logging.getLogger(__name__)
 
-
-
-# This is the base url used for image URLs
-EXTERNAL_URL = CONFIG.get('external_url')
-# This dictates how the Path is generated
-# can be either of:
-# - view_sha512_short
-# - view_md5
-# - view_sha256
-# - view_sha512
-DEFAULT_RETURN_VIEW = CONFIG.get('default_return_view')
-# Set this to true if you only want to use external authentication
-EXTERNAL_AUTH_ONLY = CONFIG.get('external_auth_only')
-# If this is true, images are automatically claimed if the windows user exists
-# in django
-AUTO_CLAIM_ENABLED = CONFIG.get('auto_claim_enabled')
-
 SECURE_PROXY_SSL_HEADER = tuple(CONFIG.get('secure_proxy_header', {}).items())[0]
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -214,7 +197,7 @@ RAVEN_CONFIG = {
            '3372ecce5d548a5@sentry.services.beryju.org/4',
     'release': VERSION,
     'environment': 'production' if DEBUG is False else 'development',
-    'tags': {'site': EXTERNAL_URL}
+    'tags': {'site': CONFIG.get('external_url')}
 }
 
 ERROR_REPORT_ENABLED = CONFIG.get('error_report_enabled', False)

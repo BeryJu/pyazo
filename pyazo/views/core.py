@@ -1,5 +1,5 @@
 """pyazo core views"""
-import logging
+from logging import getLogger
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 
 from pyazo.models import Collection, Upload
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = getLogger(__name__)
 
 class IndexView(LoginRequiredMixin, TemplateView):
     """Show overview of uploads"""
