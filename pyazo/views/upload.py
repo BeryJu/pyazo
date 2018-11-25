@@ -1,6 +1,7 @@
 """pyazo upload views"""
 import os
 from logging import getLogger
+from typing import Tuple
 from urllib.parse import urljoin
 
 from django.conf import settings
@@ -120,30 +121,24 @@ class LegacyUploadView(View):
     def post(self, request: HttpRequest) -> HttpResponse:
         """Main upload handler. Fully gyazo compatible."""
         if 'id' in request.POST and 'imagedata' in request.FILES:
-            _, ext = os.path.splitext(request.FILES['imagedata'].name)
-            # Generate hashes first to check if upload exists already
-            hashes = generate_hashes(request.FILES['imagedata'])
-            # Check if hashes already exists
-            existing = Upload.objects.filter(sha512=hashes.get('sha512'))
-            if existing.exists():
-                new_upload = existing.first()
-            else:
-                new_upload = Upload(
-                    file=save_from_post(request.FILES['imagedata'].read(), extension=ext))
+            # Instantiate BrowserUploadView to use handle_post_file
+            upload_view = BrowserUploadView()
+            upload, created = upload_view.handle_post_file(request.FILES['imagedata'])
+            if created:
                 # Run auto-claim
                 if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
                     matching = User.objects.filter(username=request.POST.get('username'))
                     if matching.exists():
-                        new_upload.user = matching.first()
+                        upload.user = matching.first()
                         LOGGER.debug("Auto-claimed upload to user '%s'",
                                      request.POST.get('username'))
-                new_upload.save()
+                upload.save()
                 # Count initial view
-                UploadViewFile.count_view(new_upload, request)
-                LOGGER.info("Uploaded %s", new_upload.filename)
+                UploadViewFile.count_view(upload, request)
+                LOGGER.info("Uploaded %s", upload.filename)
             # Generate url for client to open
             upload_prop = settings.DEFAULT_RETURN_VIEW.replace('view_', '')
-            upload_hash = getattr(new_upload, upload_prop, 'sha256')
+            upload_hash = getattr(upload, upload_prop, 'sha256')
             url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
             full_url = urljoin(settings.EXTERNAL_URL, url)
             return HttpResponse(full_url)
@@ -155,15 +150,34 @@ class BrowserUploadView(LoginRequiredMixin, TemplateView):
 
     template_name = 'upload/upload.html'
 
+    def handle_post_file(self, post_file) -> Tuple[Upload, bool]:
+        """Handle upload of a single file, computes hashes and returns existing Upload instance and
+        False as tuple if file was uploaded already.
+        Otherwise, new Upload instance is created and returned in a tuple with True."""
+        _, ext = os.path.splitext(post_file.name)
+        # Remove leading dot from extension
+        ext = ext[1:] if ext.startswith('.') else ext
+        # Generate hashes first to check if upload exists already
+        hashes = generate_hashes(post_file)
+        # Reset reading position so we can read the file again
+        post_file.seek(0)
+        # Check if hashes already exists
+        existing = Upload.objects.filter(sha512=hashes.get('sha512'))
+        if existing.exists():
+            LOGGER.debug("De-duped existing upload %s", existing.first().filename)
+            return existing.first(), False
+        # Create new upload object
+        new_upload = Upload(
+            file=save_from_post(post_file.read(), extension=ext))
+        new_upload.save()
+        LOGGER.info("Uploaded %s", new_upload.filename)
+        return new_upload, True
+
     def post(self, request: HttpRequest) -> HttpResponse:
         """Create Upload objects from request"""
         for __, _file in request.FILES.items():
-            __, ext = os.path.splitext(_file.name)
-            # Remove leading dot from extension
-            ext = ext[1:] if ext.startswith('.') else ext
-            new_upload = Upload(
-                file=save_from_post(_file.read(), extension=ext),
-                user=request.user)
+            new_upload, _created = self.handle_post_file(_file)
+            new_upload.user = request.user
             new_upload.save()
             # Count initial view
             UploadViewFile.count_view(new_upload, request)
