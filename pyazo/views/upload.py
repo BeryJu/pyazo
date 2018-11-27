@@ -3,6 +3,7 @@ import os
 from logging import getLogger
 from urllib.parse import urljoin
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -16,7 +17,6 @@ from django.views.generic import TemplateView, View
 
 from pyazo.forms.view import CollectionSelectForm
 from pyazo.models import Collection, Upload
-from pyazo.utils.config import CONFIG
 from pyazo.utils.files import generate_hashes, save_from_post
 from pyazo.views.view import UploadViewFile
 
@@ -131,7 +131,7 @@ class LegacyUploadView(View):
                 new_upload = Upload(
                     file=save_from_post(request.FILES['imagedata'].read(), extension=ext))
                 # Run auto-claim
-                if CONFIG.get('auto_claim_enabled') and 'username' in request.POST:
+                if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
                     matching = User.objects.filter(username=request.POST.get('username'))
                     if matching.exists():
                         new_upload.user = matching.first()
@@ -142,10 +142,10 @@ class LegacyUploadView(View):
                 UploadViewFile.count_view(new_upload, request)
                 LOGGER.info("Uploaded %s", new_upload.filename)
             # Generate url for client to open
-            upload_prop = CONFIG.get('default_return_view').replace('view_', '')
+            upload_prop = settings.DEFAULT_RETURN_VIEW.replace('view_', '')
             upload_hash = getattr(new_upload, upload_prop, 'sha256')
-            url = reverse(CONFIG.get('default_return_view'), kwargs={'file_hash': upload_hash})
-            full_url = urljoin(CONFIG.get('external_url'), url)
+            url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
+            full_url = urljoin(settings.EXTERNAL_URL, url)
             return HttpResponse(full_url)
         return HttpResponse(status=400)
 
