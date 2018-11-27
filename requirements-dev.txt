@@ -1,9 +1,9 @@
 -r requirements.txt
 coverage
 isort
-astroid
-pylint
-pylint-django
+astroid==2.0.4
+pylint==2.1.1
+pylint-django==2.0.2
 prospector
 django-debug-toolbar
 pycodestyle<2.4.0,>=2.0.0
