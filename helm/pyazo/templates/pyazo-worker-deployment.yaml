@@ -1,0 +1,64 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "pyazo.fullname" . }}-worker
+  labels:
+    app.kubernetes.io/name: {{ include "pyazo.name" . }}
+    helm.sh/chart: {{ include "pyazo.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "pyazo.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "pyazo.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "pyazo.fullname" . }}-config
+        - name: media-storage
+          persistentVolumeClaim:
+            claimName: {{ include "pyazo.fullname" . }}-data
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "beryjuorg/pyazo:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          command: ["./manage.py", "worker"]
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /etc/pyazo
+              name: config-volume
+            - mountPath: /app/media
+              name: media-storage
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
