@@ -28,14 +28,14 @@ spec:
             claimName: {{ include "pyazo.fullname" . }}-data
       initContainers:
         - name: fix-volume-permissions
-          image: "beryjuorg/pyazo:{{ .Values.image.tag }}"
+          image: "docker.pkg.beryju.org/pyazo:{{ .Values.image.tag }}"
           command: ["sh", "-c", "chown -R pyazo:pyazo /app/media"]
           volumeMounts:
             - mountPath: /app/media
               name: media-storage
       containers:
         - name: {{ .Chart.Name }}
-          image: "beryjuorg/pyazo:{{ .Values.image.tag }}"
+          image: "docker.pkg.beryju.org/pyazo:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent
           command: ["./manage.py", "web"]
           ports:
