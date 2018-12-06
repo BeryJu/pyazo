@@ -35,7 +35,7 @@ coverage:
 package-docker:
   image: docker
   before_script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
   script:
     - docker build -t pyazo_temp .
     - docker tag pyazo_temp beryjuorg/pyazo:stable
