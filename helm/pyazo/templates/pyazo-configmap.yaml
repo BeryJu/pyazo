@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "pyazo.fullname" . }}-config
+data:
+  config.yml: |
+    # Env for Docker images
+    databases:
+      default:
+        engine: django.db.backends.mysql
+        name: {{ .Values.config.databases.default.name }}
+        user: {{ .Values.config.databases.default.user }}
+        password: {{ .Values.config.databases.default.password }}
+        host: mysql
+        port: ''
+        options:
+          charset: UTF8MB4
+          sql_mode: 'STRICT_TRANS_TABLES'
+          init_command: "ALTER DATABASE {{ .Values.config.databases.default.name }} CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+          # This is the default configuration file
+    log:
+      level:
+        console: DEBUG
+        file: DEBUG
+      file: /dev/null
+    email:
+      host: localhost
+      port: 25
+      user: ''
+      password: ''
+      use_tls: false
+      use_ssl: false
+      from: pyazo <pyazo@domain.tld>
+    web:
+      listen: 0.0.0.0
+      port: 8000
+      threads: 30
+    debug: false
+    secure_proxy_header:
+      HTTP_X_FORWARDED_PROTO: https
+    redis: redis
+    # Error reporting, disabled by default
+    error_report_enabled: false
+
+    # Set this to the server's external address.
+    # This is used to generate external URLs
+    external_url: {{ .Values.ingress.defaultHost }}
+
+    # This dictates how the Path is generated
+    # can be either of:
+    # - view_sha512_short
+    # - view_md5
+    # - view_sha256
+    # - view_sha512
+    default_return_view: view_sha256
+
+    # Set this to this server's hostname or the external domain if behind a reverse proxy
+    domains: {{ .Values.ingress.hosts }}
+
+    # Set this to true if you only want to use external authentication
+    external_auth_only: false
+
+    # If this is true, images are automatically claimed if the windows user exists
+    # in django
+    auto_claim_enabled: true
+    secret_key: {{ .Values.config.secret_key }}
