@@ -40,11 +40,7 @@ package-docker:
     - echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
   script:
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination beryjuorg/pyazo:stable
-    # - docker build -t pyazo_temp .
-    # - docker tag pyazo_temp beryjuorg/pyazo:stable
-    # - docker tag pyazo_temp beryjuorg/pyazo:$(bumpversion --allow-dirty --dry-run --list minor | grep current_version | sed  s,"^.*=",,)
-    # - docker push beryjuorg/pyazo:stable
-    # - docker push beryjuorg/pyazo:$(bumpversion --allow-dirty --dry-run --list minor | grep current_version | sed  s,"^.*=",,)
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination beryjuorg/pyazo:1.8.8
   stage: build
   only:
     - tags
