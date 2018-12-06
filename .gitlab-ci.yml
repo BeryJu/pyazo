@@ -43,7 +43,6 @@ package-docker:
   stage: build
   only:
     - tags
-    - docker-ci-test
     - /^debian/.*$/
 package-3.5:
   before_script:
