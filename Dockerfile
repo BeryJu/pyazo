@@ -9,10 +9,12 @@ RUN apk update && \
     apk del openssl-dev libffi-dev libffi-dev build-base py2-pip python2-dev libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl jpeg-dev zlib-dev freetype-dev lcms2-dev tk-dev tcl-dev && \
     adduser -S pyazo
 
-USER pyazo
-
 COPY ./allauth_supervisr/ /app/allauth_supervisr/
 COPY ./pyazo/ /app/pyazo
 COPY ./static/ /app/static
 COPY ./manage.py /app/
+
+RUN chown -R pyazo /app
+USER pyazo
+
 WORKDIR /app/
