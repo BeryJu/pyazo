@@ -44,6 +44,15 @@ package-docker:
   only:
     - tags
     - /^debian/.*$/
+package-helm:
+  stage: build
+  script:
+    - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+    - helm package helm/pyazo
+    - ./manage.py nexus_upload --method put --url $NEXUS_URL --user $NEXUS_USER --password $NEXUS_PASS --repo helm *.tgz
+  only:
+    - tags
+    - /^debian/.*$/
 package-3.5:
   before_script:
     - apt update
@@ -59,7 +68,7 @@ package-3.5:
   script:
     - debuild -us -uc
     - cp ../pyazo*.deb .
-    - python manage.py nexus_upload
+    - ./manage.py nexus_upload --method post --url $NEXUS_URL --user $NEXUS_USER --password $NEXUS_PASS --repo apt ../pyazo-python3.*
   artifacts:
     paths:
     - pyazo-python3.5*deb
@@ -83,7 +92,7 @@ package-3.6:
   script:
     - debuild -us -uc
     - cp ../pyazo*.deb .
-    - python manage.py nexus_upload
+    - ./manage.py nexus_upload --method post --url $NEXUS_URL --user $NEXUS_USER --password $NEXUS_PASS --repo apt ../pyazo-python3.*
   artifacts:
     paths:
     - pyazo-python3.6*deb
