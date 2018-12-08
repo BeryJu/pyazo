@@ -28,8 +28,8 @@ spec:
             claimName: {{ include "pyazo.fullname" . }}-data
       initContainers:
         - name: fix-volume-permissions
-          image: "docker.pkg.beryju.org/pyazo:{{ .Values.image.tag }}"
-          command: ["sh", "-c", "chown -R pyazo:pyazo /app/media"]
+          image: busybox
+          command: ["sh", "-c", "chown -R 100: /app/media"]
           volumeMounts:
             - mountPath: /app/media
               name: media-storage
