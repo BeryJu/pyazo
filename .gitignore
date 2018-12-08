@@ -110,3 +110,4 @@ media/*
 *.env.yml
 unittest.xml
 media_test/
+helm/pyazo/charts/*.tgz
