@@ -1,17 +1,16 @@
 site_name: Pyazo Documentation
 theme:
-  name: 'material'
+  name: 'readthedocs'
 repo_url: "https://git.beryju.org/BeryJu.org/pyazo"
-nav:
+pages:
 - Home: index.md
 - Installation:
     - Package: install/package.md
+    - Docker / Kubernetes: install/docker.md
 - Configuration:
     - Initial Configuration: configuration/initial.md
     - Reverse Proxy: configuration/nginx_reverse_proxy.md
     - Migration between systems: configuration/migration_between_systems.md
     - MSSQL: configuration/mssql.md
-- Clients:
-    - macOS: clients/mac.md
 - API:
     - Endpoints: api/api_endpoints.md

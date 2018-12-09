@@ -1,5 +1,3 @@
-# Upload
-
 ## `POST /upload`
 
 Gyazo-compatible upload endpoint. Takes 2 parameters:

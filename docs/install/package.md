@@ -1,5 +1,3 @@
-## Pyazo Installation
-
 Pyazo is a python-based application. There are 2 different packages, one for Python 3.5.x and one for Python 3.6.x. To find out what version you have, run this:
 
 ```
