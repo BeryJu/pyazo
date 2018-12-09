@@ -27,7 +27,7 @@
 					<header id="header" class="alt">
 						<span class="logo"><img src="images/logo.png" alt=""/></span>
 						<h1>Pyazo</h1>
-						<p>Open source image server</p>
+						<p>Open source filer server</p>
 					</header>
 
 				<!-- Nav -->
@@ -115,34 +115,12 @@
 								<footer class="major">
 									<ul class="actions">
 										<li><a href="https://git.beryju.org/BeryJu.org/pyazo" class="button">Get the source</a></li>
-										<li><a href="#install" class="button special">Install it</a></li>
+										<li><a href="https://pyazo.beryju.org/docs/install/package/" class="button special">Install it</a></li>
 										<li><a href="https://i.beryju.org" class="button">Try the hosted version!</a></li>
-										<li><a href="docs/" class="button">Documentation</a></li>
+										<li><a href="https://pyazo.beryju.org/docs/" class="button">Documentation</a></li>
 									</ul>
 								</footer>
 							</section>
-
-							<!-- Installation -->
-								<section id="install" class="main special">
-									<header class="major">
-										<h2>Installation</h2>
-									</header>
-									<div class="content">
-										<p>Pyazo is available as a debian package on the BeryJu.org APT repository.</p>
-										<pre>
-											<code>
-wget -O - -q https://pkg.beryju.org/repository/raw-utils/apt/public.key | apt-key add -
-echo "deb https://pkg.beryju.org/repository/apt/ beryjuorg main" >> /etc/apt/sources.list
-apt update
-# If you're on Debian 9:
-apt install pyazo-python3.5
-# If you're on Ubuntu 18.04+
-apt install pyazo-python3.6
-											</code>
-										</pre>
-										<p>After you've done that you can adjust your config in <code>/etc/pyazo/config.yml</code>, and create a user with <code>/usr/share/pyazo/pyazo.sh createsuperuser</code></p>
-									</div>
-								</section>
 
 					</div>
 
