@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from PIL import Image
 
 from pyazo.core.celery import CELERY_APP
-from pyazo.core.models import Upload
+from pyazo.core.models import Object
 from pyazo.utils.files import generate_ext_thumb
 
 LOGGER = getLogger(__name__)
@@ -18,7 +18,7 @@ def make_thumbnail(self, upload_pk: int):
     """Create 200x200 thumbnail for upload.
     If upload is non-image, return thumbnail with filetype"""
     path = ''
-    upload = get_object_or_404(Upload, pk=upload_pk)
+    upload = get_object_or_404(Object, pk=upload_pk)
     if upload.mime_type.startswith('image/'):
         LOGGER.debug('Creating thumbnail of upload...')
         # Upload is an image, so we create a resized version

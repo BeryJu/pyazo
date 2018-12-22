@@ -7,7 +7,7 @@ from glob import glob
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from pyazo.core.models import Upload
+from pyazo.core.models import Object
 
 BUF_SIZE = 65536
 LOGGER = logging.getLogger(__name__)
@@ -36,13 +36,13 @@ class Command(BaseCommand):
                 # Get hash to compare with
                 sha512 = Command._file_get_sha_512(file)
                 # Check if that hash exists
-                matching = Upload.objects.filter(sha512=sha512)
+                matching = Object.objects.filter(sha512=sha512)
                 if matching.exists():
                     upload = matching.first()
                     upload.file.name = file
                     upload.save()
                     LOGGER.info("File %s is in DB already, updating path", file)
                 else:
-                    Upload.objects.create(file=file)
+                    Object.objects.create(file=file)
                     LOGGER.info("Imported %s into DB", file)
         return 0

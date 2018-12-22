@@ -7,18 +7,18 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.test import TestCase, override_settings
 
-from pyazo.core.models import Collection, Upload
+from pyazo.core.models import Collection, Object
 from pyazo.core.tests.utils import test_auth
 
 
-class UploadViewTests(TestCase):
+class ObjectViewTests(TestCase):
     """Test all client upload views"""
 
     def setUp(self):
         super().setUp()
         with open(settings.MEDIA_ROOT + 'test2.txt', 'w') as _file:
             _file.write('updating existing upload')
-        self.upload = Upload.objects.create(file=settings.MEDIA_ROOT + 'test2.txt')
+        self.upload = Object.objects.create(file=settings.MEDIA_ROOT + 'test2.txt')
         with open(settings.MEDIA_ROOT + 'test3.txt', 'w') as _file:
             _file.write('updating qwerqwerqwer upload')
 
@@ -31,13 +31,13 @@ class UploadViewTests(TestCase):
             os.remove(file)
 
     def test_upload_view(self):
-        """Test UploadView"""
+        """Test ObjectView"""
         self.client.login(**test_auth())
         response = self.client.get(reverse('upload_view', kwargs={'file_hash': self.upload.sha512}))
         self.assertEqual(response.status_code, 200)
 
     def test_upload_view_post(self):
-        """Test UploadView's post"""
+        """Test ObjectView's post"""
         auth = test_auth()
         self.client.login(**auth)
         test_user = User.objects.get(username=auth.get('username'))

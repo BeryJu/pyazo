@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.views.generic import TemplateView
 
-from pyazo.core.models import Collection, Upload
+from pyazo.core.models import Collection, Object
 
 LOGGER = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
             # Set collection name so we can show in the template
             context['collection'] = self.request.GET.get('collection')
         # Per Default, on a 1080p screen, there are 7 rows with 12 tiles => 84
-        images = Paginator(Upload.objects.filter(upload_filter).order_by('-id'), 84)
+        images = Paginator(Object.objects.filter(upload_filter).order_by('-id'), 84)
 
         page = self.request.GET.get('page')
         try:

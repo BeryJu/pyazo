@@ -7,8 +7,8 @@ from user_agents import parse
 from pyazo.utils.files import generate_hashes, get_mime_type
 
 
-class Upload(models.Model):
-    """Store data about a single upload"""
+class Object(models.Model):
+    """Store data about a single obj"""
 
     file = models.FileField(max_length=512)
     thumbnail = models.FileField(blank=True, upload_to='thumbnail/', max_length=512)
@@ -50,7 +50,7 @@ class Upload(models.Model):
     @property
     def get_initial_view(self):
         """Returns the initial view"""
-        return UploadView.objects.filter(upload=self).earliest()
+        return ObjectView.objects.filter(obj=self).earliest()
 
     @property
     def filename(self):
@@ -60,9 +60,9 @@ class Upload(models.Model):
     def __str__(self):
         return self.sha512
 
-class UploadView(models.Model):
+class ObjectView(models.Model):
     """Store information about a single view"""
-    upload = models.ForeignKey('Upload', on_delete=models.CASCADE)
+    obj = models.ForeignKey('Object', on_delete=models.CASCADE)
     viewee = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)
     viewee_dns = models.TextField(blank=True)
@@ -79,7 +79,7 @@ class UploadView(models.Model):
         return self._ua_inst
 
 class Collection(models.Model):
-    """Collection to group Uploads together"""
+    """Collection to group Objects together"""
 
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

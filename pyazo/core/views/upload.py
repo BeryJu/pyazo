@@ -17,24 +17,25 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
 
 from pyazo.core.forms.view import CollectionSelectForm
-from pyazo.core.models import Collection, Upload
+from pyazo.core.models import Collection, Object
+from pyazo.core.views.view import ObjectViewFile
+from pyazo.utils.config import CONFIG
 from pyazo.utils.files import generate_hashes, save_from_post
-from pyazo.core.views.view import UploadViewFile
 
 LOGGER = getLogger(__name__)
 
 
-class UploadView(LoginRequiredMixin, TemplateView):
+class ObjectView(LoginRequiredMixin, TemplateView):
     """Show statistics about upload and allow user to manage it."""
 
     template_name = 'upload/view.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        upload = get_object_or_404(Upload, sha512=self.kwargs.get('file_hash'))
+        upload = get_object_or_404(Object, sha512=self.kwargs.get('file_hash'))
         context['upload'] = upload
         context['url_prefix'] = self.request.build_absolute_uri('/')
-        context['views'] = context['upload'].uploadview_set.order_by('-viewee_date')[:10]
+        context['views'] = context['upload'].objectview_set.order_by('-viewee_date')[:10]
         context['forms'] = {
             'collection': CollectionSelectForm(
                 prefix='collection',
@@ -53,7 +54,7 @@ class UploadView(LoginRequiredMixin, TemplateView):
     def post(self, request: HttpRequest, file_hash: str) -> HttpResponse:
         """handle form"""
         context = self.get_context_data()
-        upload = get_object_or_404(Upload, sha512=file_hash)
+        upload = get_object_or_404(Object, sha512=file_hash)
         form = context.get('forms').get('collection')
         if form.is_valid():
             upload.collection = form.cleaned_data.get('collection')
@@ -61,14 +62,14 @@ class UploadView(LoginRequiredMixin, TemplateView):
         return redirect(reverse('upload_view', kwargs={'file_hash': file_hash}))
 
 
-class ClaimUploadView(LoginRequiredMixin, TemplateView):
+class ClaimObjectView(LoginRequiredMixin, TemplateView):
     """Claim an upload"""
 
     template_name = 'core/generic_delete.html'
 
     def post(self, request: HttpRequest, file_hash: str) -> HttpResponse:
         """Claim upload to user (only if upload has no owner yet or user is superuser)"""
-        upload = get_object_or_404(Upload, sha512=file_hash)
+        upload = get_object_or_404(Object, sha512=file_hash)
         if request.user.is_superuser or not upload.user:
             upload.user = request.user
             upload.save()
@@ -79,7 +80,7 @@ class ClaimUploadView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        upload = get_object_or_404(Upload, sha512=self.kwargs.get('file_hash'))
+        upload = get_object_or_404(Object, sha512=self.kwargs.get('file_hash'))
         context['object'] = 'Upload %s' % upload.md5
         context['delete_url'] = reverse('upload_claim', kwargs={
             'file_hash': self.kwargs.get('file_hash')
@@ -89,14 +90,14 @@ class ClaimUploadView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class DeleteUploadView(LoginRequiredMixin, TemplateView):
+class DeleteObjectView(LoginRequiredMixin, TemplateView):
     """Delete Upload"""
 
     template_name = 'core/generic_delete.html'
 
     def post(self, request: HttpRequest, file_hash: str) -> HttpResponse:
         """Delete upload"""
-        upload = get_object_or_404(Upload, sha512=file_hash)
+        upload = get_object_or_404(Object, sha512=file_hash)
         if request.user.is_superuser or upload.user == request.user:
             upload.delete()
             messages.success(request, _('Upload successfully deleted'))
@@ -106,7 +107,7 @@ class DeleteUploadView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        upload = get_object_or_404(Upload, sha512=self.kwargs.get('file_hash'))
+        upload = get_object_or_404(Object, sha512=self.kwargs.get('file_hash'))
         context['object'] = 'Upload %s' % upload.md5
         context['delete_url'] = reverse('upload_delete', kwargs={
             'file_hash': self.kwargs.get('file_hash')
@@ -115,14 +116,14 @@ class DeleteUploadView(LoginRequiredMixin, TemplateView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class LegacyUploadView(View):
+class LegacyObjectView(View):
     """Legacy Upload (for gyazo-based clients)"""
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """Main upload handler. Fully gyazo compatible."""
         if 'id' in request.POST and 'imagedata' in request.FILES:
-            # Instantiate BrowserUploadView to use handle_post_file
-            upload_view = BrowserUploadView()
+            # Instantiate BrowserObjectView to use handle_post_file
+            upload_view = BrowserObjectView()
             upload, created = upload_view.handle_post_file(request.FILES['imagedata'])
             if created:
                 # Run auto-claim
@@ -134,23 +135,23 @@ class LegacyUploadView(View):
                                      request.POST.get('username'))
                 upload.save()
                 # Count initial view
-                UploadViewFile.count_view(upload, request)
+                ObjectViewFile.count_view(upload, request)
                 LOGGER.info("Uploaded %s", upload.filename)
             # Generate url for client to open
-            upload_prop = settings.DEFAULT_RETURN_VIEW.replace('view_', '')
+            upload_prop = CONFIG.get('default_return_view').replace('view_', '')
             upload_hash = getattr(upload, upload_prop, 'sha256')
-            url = reverse(settings.DEFAULT_RETURN_VIEW, kwargs={'file_hash': upload_hash})
-            full_url = urljoin(settings.EXTERNAL_URL, url)
+            url = reverse(CONFIG.get('default_return_view'), kwargs={'file_hash': upload_hash})
+            full_url = urljoin(CONFIG.get('external_url'), url)
             return HttpResponse(full_url)
         return HttpResponse(status=400)
 
 
-class BrowserUploadView(LoginRequiredMixin, TemplateView):
+class BrowserObjectView(LoginRequiredMixin, TemplateView):
     """Handle uploads from browser"""
 
     template_name = 'upload/upload.html'
 
-    def handle_post_file(self, post_file) -> Tuple[Upload, bool]:
+    def handle_post_file(self, post_file) -> Tuple[Object, bool]:
         """Handle upload of a single file, computes hashes and returns existing Upload instance and
         False as tuple if file was uploaded already.
         Otherwise, new Upload instance is created and returned in a tuple with True."""
@@ -162,12 +163,12 @@ class BrowserUploadView(LoginRequiredMixin, TemplateView):
         # Reset reading position so we can read the file again
         post_file.seek(0)
         # Check if hashes already exists
-        existing = Upload.objects.filter(sha512=hashes.get('sha512'))
+        existing = Object.objects.filter(sha512=hashes.get('sha512'))
         if existing.exists():
             LOGGER.debug("De-duped existing upload %s", existing.first().filename)
             return existing.first(), False
         # Create new upload object
-        new_upload = Upload(
+        new_upload = Object(
             file=save_from_post(post_file.read(), extension=ext))
         new_upload.save()
         LOGGER.info("Uploaded %s", new_upload.filename)
@@ -180,6 +181,6 @@ class BrowserUploadView(LoginRequiredMixin, TemplateView):
             new_upload.user = request.user
             new_upload.save()
             # Count initial view
-            UploadViewFile.count_view(new_upload, request)
+            ObjectViewFile.count_view(new_upload, request)
             LOGGER.info("Uploaded %s", new_upload.filename)
         return HttpResponse(status=204)

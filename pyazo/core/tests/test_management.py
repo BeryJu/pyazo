@@ -5,7 +5,7 @@ from django.conf import settings
 from django.test import TestCase
 
 from pyazo.core.management.commands.reindex import Command as ReindexCommand
-from pyazo.core.models import Upload
+from pyazo.core.models import Object
 from pyazo.core.tests.utils import call_command_ret
 
 
@@ -18,11 +18,11 @@ class ManagementTests(TestCase):
             _file.write('test')
         with open(settings.MEDIA_ROOT + 'test2.txt', 'w') as _file:
             _file.write('updating existing upload')
-        Upload.objects.create(file=settings.MEDIA_ROOT + 'test2.txt')
-        count_before = len(Upload.objects.all())
+        Object.objects.create(file=settings.MEDIA_ROOT + 'test2.txt')
+        count_before = len(Object.objects.all())
         self.assertEqual(ReindexCommand().handle(), 0)
         # We expect reindex to create one new upload
-        self.assertEqual(len(Upload.objects.all()), count_before + 1)
+        self.assertEqual(len(Object.objects.all()), count_before + 1)
         # Cleanup
         os.unlink(settings.MEDIA_ROOT + 'test.txt')
         os.unlink(settings.MEDIA_ROOT + 'test2.txt')

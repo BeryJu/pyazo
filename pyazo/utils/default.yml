@@ -29,7 +29,7 @@ error_report_enabled: false
 
 # Set this to the server's external address.
 # This is used to generate external URLs
-external_url: http://image.example.com
+external_url: http://localhost
 
 # This dictates how the Path is generated
 # can be either of:
@@ -38,10 +38,6 @@ external_url: http://image.example.com
 # - view_sha256
 # - view_sha512
 default_return_view: view_sha256
-
-# Set this to this server's hostname or the external domain if behind a reverse proxy
-# domains:
-#   - image.example.com
 
 # Set this to true if you only want to use external authentication
 external_auth_only: false

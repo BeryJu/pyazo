@@ -7,8 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
 from django.views.generic import View
 
-from pyazo.core.models import Upload
-from pyazo.core.models import UploadView as UploadViewObject
+from pyazo.core.models import Object, ObjectView
 from pyazo.core.tasks import make_thumbnail
 from pyazo.utils import get_remote_ip, get_reverse_dns
 from pyazo.utils.files import get_mime_type
@@ -16,17 +15,17 @@ from pyazo.utils.files import get_mime_type
 LOGGER = getLogger(__name__)
 
 @method_decorator(cache_control(max_age=3600), name='dispatch')
-class UploadViewFile(View):
+class ObjectViewFile(View):
     """View to show upload"""
 
     @staticmethod
-    def count_view(upload: Upload, request: HttpRequest):
-        """Create UploadView entry from request"""
+    def count_view(upload: Object, request: HttpRequest):
+        """Create ObjectView entry from request"""
         client_ip = get_remote_ip(request)
         client_dns = get_reverse_dns(client_ip)
         user_agent = request.META['HTTP_USER_AGENT'] if 'HTTP_USER_AGENT' in request.META else ''
-        UploadViewObject.objects.create(
-            upload=upload,
+        ObjectView.objects.create(
+            obj=upload,
             viewee_ip=client_ip,
             viewee_dns=client_dns,
             viewee_user_agent=user_agent)
@@ -44,7 +43,7 @@ class UploadViewFile(View):
             query &= Q(sha256=file_hash)
         elif hash_length == 128:  # SHA512
             query &= Q(sha512=file_hash)
-        return Upload.objects.filter(query)
+        return Object.objects.filter(query)
 
     @cache_control(max_age=3600)
     def dispatch(self, request: HttpRequest, **kwargs) -> HttpResponse:

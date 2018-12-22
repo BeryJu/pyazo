@@ -5,10 +5,10 @@ from django.conf import settings
 from django.shortcuts import reverse
 from django.test import TestCase
 
-from pyazo.core.models import Upload
+from pyazo.core.models import Object
 
 
-class UploadViewTests(TestCase):
+class ObjectViewTests(TestCase):
     """Test upload views"""
 
     def setUp(self):
@@ -17,7 +17,7 @@ class UploadViewTests(TestCase):
         with open(self.test_file_path, 'w') as _file:
             self._test_data = 'testdatafewrqwer'
             _file.write(self._test_data)
-        self.upload = Upload.objects.create(file=self.test_file_path)
+        self.upload = Object.objects.create(file=self.test_file_path)
 
     def tearDown(self):
         super().tearDown()

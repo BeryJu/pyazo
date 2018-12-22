@@ -5,7 +5,7 @@ import os
 from django.conf import settings
 from django.test import TestCase
 
-from pyazo.core.models import Upload
+from pyazo.core.models import Object
 from pyazo.core.tasks import make_thumbnail
 
 
@@ -16,7 +16,7 @@ class TaskTests(TestCase):
         super().setUp()
         with open(settings.MEDIA_ROOT + 'test2.txt', 'w') as _file:
             _file.write('updating existing upload')
-        self.upload = Upload.objects.create(file=settings.MEDIA_ROOT + 'test2.txt')
+        self.upload = Object.objects.create(file=settings.MEDIA_ROOT + 'test2.txt')
 
     def tearDown(self):
         super().tearDown()
