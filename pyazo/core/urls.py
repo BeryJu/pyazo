@@ -6,7 +6,7 @@ from django.contrib.auth import views
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from pyazo.core.views import core, download, upload, view
+from pyazo.core.views import clients, core, upload, view
 
 admin.site.index_title = 'Pyazo Admin'
 admin.site.site_title = 'pyazo'
@@ -18,9 +18,7 @@ urlpatterns = [
     path('accounts/allauth/', include('allauth.urls')),
     path('accounts/login/', views.LoginView.as_view(), name='accounts-login'),
     path('accounts/logout/', views.LogoutView.as_view(), name='accounts-logout'),
-    path('download/win/', download.client_windows, name='download_client_windows'),
-    path('download/sharex/', download.sxcu, name='download-sxcu'),
-    path('download/macos/', download.client_macos, name='download_client_macos'),
+    path('download/<slug:client>/', clients.ClientDownloadView.as_view(), name='download-client'),
     # Legacy upload URL
     path('gyazo.php', upload.LegacyObjectView.as_view(), name='upload'),
     path('upload/', upload.LegacyObjectView.as_view(), name='upload'),

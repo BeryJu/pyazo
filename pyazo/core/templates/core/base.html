@@ -75,17 +75,17 @@
           </div>
           <div class="nav-group-children nav-group-children-hidden">
             <clr-vertical-nav-group-children>
-              <a class="nav-link" href="{% url 'download_client_windows' %}">
+              <a class="nav-link" href="{% url 'download-client' client='windows' %}">
                 <span class="nav-text">
                   {% trans "Windows" %}
                 </span>
               </a>
-              <a class="nav-link" href="{% url 'download_client_macos' %}">
+              <a class="nav-link" href="{% url 'download-client' client='macos' %}">
                 <span class="nav-text">
                   {% trans 'macOS' %}
                 </span>
               </a>
-              <a class="nav-link" href="{% url 'download-sxcu' %}">
+              <a class="nav-link" href="{% url 'download-client' client='sharex' %}">
                 <span class="nav-text">
                   {% trans "ShareX" %}
                 </span>
