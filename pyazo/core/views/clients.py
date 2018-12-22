@@ -1,6 +1,6 @@
 """pyazo download views"""
-from logging import getLogger
 import os.path
+from logging import getLogger
 from urllib.parse import urlparse
 
 from django.conf import settings

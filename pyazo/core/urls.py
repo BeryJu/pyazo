@@ -6,13 +6,15 @@ from django.contrib.auth import views
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
+from pyazo.api.urls import urlpatterns
 from pyazo.core.views import clients, core, upload, view
 
-admin.site.index_title = 'Pyazo Admin'
+admin.site.index_title = 'pyazo Admin'
 admin.site.site_title = 'pyazo'
 
 urlpatterns = [
     path('', RedirectView.as_view(url='overview/')),
+    path('api/', include(urlpatterns)),
     path('overview/', core.IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('accounts/allauth/', include('allauth.urls')),

@@ -103,7 +103,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth_passbook',
     'pyazo.core.apps.PyazoCoreConfig',
+    'pyazo.api.apps.PyazoAPIConfig',
     'raven.contrib.django.raven_compat',
+    'rest_framework',
+    'rest_framework_swagger',
 ]
 
 AUTHENTICATION_BACKENDS = (
