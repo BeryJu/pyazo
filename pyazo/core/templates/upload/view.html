@@ -70,7 +70,7 @@
       <form action="" method="POST">
         {% include 'blocks/block_form.html' with form=forms.collection %}
         <input class="btn btn-primary" type="submit" value="{% trans 'Assign' %}">
-        <a href="{% url 'admin:pyazo_collection_add' %}" class="btn">{% trans 'Create new...' %}</a>
+        <a href="{% url 'admin:pyazo_core_collection_add' %}" class="btn">{% trans 'Create new...' %}</a>
         {% if upload.collection %}
           <a href="{% url 'index' %}?collection={{ upload.collection.name }}" class="btn">{% trans 'Show collection' %}</a>
         {% endif %}
@@ -81,7 +81,7 @@
     <div class="col-sm-12">
       <h3>{% trans 'Statistics' %}</h3>
       <hr>
-      <h1>{% trans 'Views: ' %}{{ upload.uploadview_set.count }}</h1>
+      <h1>{% trans 'Views: ' %}{{ upload.ObjectView_set.count }}</h1>
       {% if not upload.user or upload.user == request.user or request.user.is_superuser %}
       <table class="table">
         <thead>

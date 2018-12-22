@@ -2,6 +2,19 @@
 
 {% csrf_token %}
 {% for field in form %}
+  {% for error in field.errors %}
+  <div class="alert alert-danger">
+    <div class="alert-items">
+      <div class="alert-item">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">
+        </span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
   {% if field.field.widget|fieldtype == 'CheckboxInput' %}
   <div class="checkbox">
     <input type="checkbox" id="id_{{ field.name }}" name="{{ field.name }}">
@@ -19,3 +32,10 @@
   {{ field }}
   {% endif %}
 {% endfor %}
+{% if form.errors %}
+  {% for error in form.non_field_errors %}
+    <div class="error active">
+      {{ error|escape }}
+    </div>
+  {% endfor %}
+{% endif %}

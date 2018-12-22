@@ -1,45 +1,46 @@
 """pyazo URL Configuration"""
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth import views
+from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from pyazo.core.views import accounts, core, download, upload, view
+from pyazo.core.views import core, download, upload, view
 
 admin.site.index_title = 'Pyazo Admin'
 admin.site.site_title = 'pyazo'
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='overview/')),
-    url(r'^overview/$', core.IndexView.as_view(), name='index'),
-    url(r'^admin/', admin.site.urls),
-    url(r'^accounts/allauth/', include('allauth.urls')),
-    url(r'^accounts/login/$', accounts.login, name='accounts-login'),
-    url(r'^accounts/logout/$', accounts.logout, name='accounts-logout'),
-    url(r'^download/win/$', download.client_windows, name='download_client_windows'),
-    url(r'^download/sharex/$', download.sxcu, name='download-sxcu'),
-    url(r'^download/macos/$', download.client_macos, name='download_client_macos'),
+    path('', RedirectView.as_view(url='overview/')),
+    path('overview/', core.IndexView.as_view(), name='index'),
+    path('admin/', admin.site.urls),
+    path('accounts/allauth/', include('allauth.urls')),
+    path('accounts/login/', views.LoginView.as_view(), name='accounts-login'),
+    path('accounts/logout/', views.LogoutView.as_view(), name='accounts-logout'),
+    path('download/win/', download.client_windows, name='download_client_windows'),
+    path('download/sharex/', download.sxcu, name='download-sxcu'),
+    path('download/macos/', download.client_macos, name='download_client_macos'),
     # Legacy upload URL
-    url(r'^gyazo\.php$', upload.LegacyUploadView.as_view(), name='upload'),
-    url(r'^upload/$', upload.LegacyUploadView.as_view(), name='upload'),
-    url(r'^upload/browser/$', upload.BrowserUploadView.as_view(), name='upload_browser'),
+    path('gyazo.php', upload.LegacyObjectView.as_view(), name='upload'),
+    path('upload/', upload.LegacyObjectView.as_view(), name='upload'),
+    path('upload/browser/', upload.BrowserObjectView.as_view(), name='upload_browser'),
     url(r'^upload/(?P<file_hash>\w{128})/view/$',
-        upload.UploadView.as_view(), name='upload_view'),
+        upload.ObjectView.as_view(), name='upload_view'),
     url(r'^upload/(?P<file_hash>\w{128})/claim/$',
-        upload.ClaimUploadView.as_view(), name='upload_claim'),
+        upload.ClaimObjectView.as_view(), name='upload_claim'),
     url(r'^upload/(?P<file_hash>\w{128})/delete/$',
-        upload.DeleteUploadView.as_view(), name='upload_delete'),
+        upload.DeleteObjectView.as_view(), name='upload_delete'),
     # All view URLs are handeled by the same Function, but we need different names
     # so the default can be changed in the settings
     url(r'^(?P<file_hash>\w{16})(\..{1,5})?$',
-        view.UploadViewFile.as_view(), name='view_sha512_short'),
+        view.ObjectViewFile.as_view(), name='view_sha512_short'),
     url(r'^(?P<file_hash>\w{32})(\..{1,5})?$',
-        view.UploadViewFile.as_view(), name='view_md5'),
+        view.ObjectViewFile.as_view(), name='view_md5'),
     url(r'^(?P<file_hash>\w{64})(\..{1,5})?$',
-        view.UploadViewFile.as_view(), name='view_sha256'),
+        view.ObjectViewFile.as_view(), name='view_sha256'),
     url(r'^(?P<file_hash>\w{128})(\..{1,5})?$',
-        view.UploadViewFile.as_view(), name='view_sha512'),
+        view.ObjectViewFile.as_view(), name='view_sha512'),
 ]
 
 if settings.DEBUG:

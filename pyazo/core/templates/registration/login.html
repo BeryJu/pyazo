@@ -1,0 +1,61 @@
+{% extends "core/skel.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+
+{% block header %}
+<title>{% trans 'login - pyazo' %}</title>
+{% endblock %}
+
+{% block body %}
+<div class="login-wrapper">
+  <form class="login" method="POST">
+    <label class="title">
+      <img src="{% static 'img/icon.png' %}" alt="" style="width: 48px; height: 48px;">
+      {% trans 'pyazo' %}
+    </label>
+    <label class="subtitle">
+      {{ title }}
+    </label>
+    <div class="login-group">
+      {% if not external_only %}
+      {% include 'blocks/block_form_login.html' with form=form %}
+      {% block messages %}
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="error {{ msg.level_tag }} active">
+            {{ msg.message|safe }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% for field in form %}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <div class="error active">
+              {{ field.label }}: {{ error|escape }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endblock %}
+      {% if next %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      {% endif %}
+      <button type="submit" class="btn btn-primary">{% trans 'Login' %}</button>
+      {% endif %}
+      {% if extra_links %}
+      {% for link, name in extra_links.items %}
+      <a href="{% url link %}" class="signup">{% trans name %}</a>
+      {% endfor %}
+      {% endif %}
+      {% get_providers as socialaccount_providers %}
+      {% if socialaccount_providers %}
+        {% for provider in socialaccount_providers %}
+          <a href="{% provider_login_url provider.id process='login' %}" class="btn btn-primary">{% trans "Login with" %} {{ provider.name }}</a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %}
