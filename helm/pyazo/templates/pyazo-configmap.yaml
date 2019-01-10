@@ -8,16 +8,15 @@ data:
     databases:
       default:
         engine: django.db.backends.mysql
-        name: {{ .Values.config.databases.default.name }}
-        user: {{ .Values.config.databases.default.user }}
-        password: {{ .Values.config.databases.default.password }}
+        name: {{ .Values.db.name }}
+        user: {{ .Values.db.user }}
+        password: {{ .Values.db.password }}
         host: mysql
         port: ''
         options:
           charset: UTF8MB4
           sql_mode: 'STRICT_TRANS_TABLES'
-          init_command: "ALTER DATABASE {{ .Values.config.databases.default.name }} CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
-          # This is the default configuration file
+          init_command: "ALTER DATABASE {{ .Values.db.name }} CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
     log:
       level:
         console: DEBUG
@@ -40,7 +39,7 @@ data:
       HTTP_X_FORWARDED_PROTO: https
     redis: redis
     # Error reporting, disabled by default
-    error_report_enabled: false
+    error_report_enabled: {{ .Values.config.error_reporting }}
 
     # Set this to the server's external address.
     # This is used to generate external URLs
@@ -63,4 +62,8 @@ data:
     # If this is true, images are automatically claimed if the windows user exists
     # in django
     auto_claim_enabled: true
+    {{- if .Values.config.secret_key }}
     secret_key: {{ .Values.config.secret_key }}
+    {{- else }}
+    secret_key: {{ randAlphaNum 50 }}
+    {{- end }}
