@@ -1,3 +1,40 @@
+pyazo (1.8.9) UNRELEASED; urgency=medium
+
+  * pyazo: cleanup redundant tasks
+  * Revert "pyazo: cleanup redundant tasks"
+  * web: add docs link to website
+  * web: fix email link
+  * add Dockerfile and helm repository
+  * ci: add docker build to CI with pushing
+  * ci: fix docker login command
+  * ci: fix incorrect build image being used
+  * ci: switch to kaniko, build docker image in k8s
+  * ci: revert to normal login
+  * ci: fix flipped credentials
+  * ci: push image to stable and version number, add gitlab-ci to bumpversion
+  * Merge: Docker images via CI
+  * ci: only run build once and tag twice
+  * Docker ci test
+  * ci: remove docker testing branch
+  * ci: switch docker image to docker.pkg.beryju.org
+  * helm: remove direct redis and db deployment and use external charts
+  * pyazo: default debug to false
+  * docker: fix permissions to run as pyazo
+  * helm: run busybox image to fix permissions
+  * pyazo: rewrite nexus_upload command to support helm repository
+  * ci: add helm chart build
+  * docs: update docs, add kubernetes install instructions
+  * web: remove inline install instructions, link to doc
+  * pyazo: restructure to separate Apps
+  * pyazo core: rename upload to object
+  * pyazo core: switch to Django login views
+  * pyazo core: rewrite download views
+  * pyazo: add API
+  * helm: better handle DB settings
+  * enable services post install, fix secret_key
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Fri, 01 Mar 2019 12:38:07 +0000
+
 pyazo (1.8.8) stable; urgency=high
 
   * debian: fix build for python3.6
