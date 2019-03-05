@@ -3,6 +3,12 @@ pyazo (1.9) stable; urgency=medium
   * rewrite debian packaging
   * improve initial settings
   * make installation easier
+  * Fix broken debian build, don't directly call systemctl
+  * fix import order in settings file
+  * remove broken installation button
+  * fix permissions on secret_key file
+  * only show 'Login with' button if configured
+  * fix loading of local env yaml
 
  -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 05 Mar 2019 12:38:07 +0000
 
