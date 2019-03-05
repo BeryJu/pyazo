@@ -2,6 +2,7 @@
 
 from urllib.parse import urlparse
 
+from allauth.socialaccount.models import SocialApp
 from django import template
 
 from pyazo.core.models import Collection
@@ -67,3 +68,8 @@ def is_active_app(context, *args):
         if app in request.resolver_match.app_names:
             return 'active'
     return ''
+
+@register.simple_tag
+def get_socialapps():
+    """Return list of social apps that have SocialApp records in the database"""
+    return SocialApp.objects.all()
