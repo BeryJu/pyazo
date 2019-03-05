@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import logging
 import os
-import sys
 import socket
+import sys
 from urllib.parse import urlparse
 
 from pyazo import __version__
