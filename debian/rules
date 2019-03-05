@@ -1,34 +1,26 @@
 #!/usr/bin/make -f
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-# export DH_VIRTUALENV_INSTALL_ROOT=/usr/share/pyazo/
-# export DH_VIRTUALENV_INSTALL_SUFFIX=env
-# PYTHON=$(shell python3 -c "import sys;print('%d.%d' % sys.version_info[:2])")
+# export DH_VERBOSE=1
 
 %:
 	dh $@ --with=systemd
-	#  --with=python-virtualenv
 
 build-arch:
 	python3 -m pip install --target=vendor/ -r requirements.txt
 
-override_dh_shlibdeps:
-	dh_shlibdeps -l$(shell pwd)/debian/pyazo/usr/share/pyazo/vendor/PIL/.libs/
+override_dh_strip:
+	dh_strip --exclude=PIL
 
-# override_dh_virtualenv:
-# 	dh_virtualenv \
-# 		--python /usr/bin/python3 \
-# 		--skip-instal \
-# 		--upgrade-pip \
-# 		--builtin-venv \
-# 		--install-suffix env \
-# 		--extra-pip-arg --no-binary \
-# 		--extra-pip-arg --no-compile
+override_dh_shlibdeps:
+	dh_shlibdeps --exclude=PIL
 
 override_dh_installinit:
 	dh_installinit --name=pyazo
 	dh_installinit --name=pyazo-worker
+	dh_systemd_enable --name=pyazo
+	dh_systemd_enable --name=pyazo-worker
+	dh_systemd_start
 
 # override_dh_usrlocal to do nothing
 override_dh_usrlocal:

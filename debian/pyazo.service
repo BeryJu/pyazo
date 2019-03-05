@@ -1,6 +1,6 @@
 [Unit]
 Description=pyazo - Open-Source Imageserver
-After=syslog.target network.target
+After=network.target
 Requires=network.target
 
 [Service]
