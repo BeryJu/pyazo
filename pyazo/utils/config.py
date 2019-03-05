@@ -12,7 +12,7 @@ from django.conf import ImproperlyConfigured
 SEARCH_PATHS = [
     'pyazo/utils/default.yml',
     '/etc/pyazo/config.yml',
-    '.',
+    '',
 ] + glob('/etc/pyazo/config.d/*.yml', recursive=True)
 LOGGER = getLogger(__name__)
 ENVIRONMENT = os.getenv('PYAZO_ENV', 'local')
