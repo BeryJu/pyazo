@@ -1,4 +1,12 @@
-pyazo (1.8.9) UNRELEASED; urgency=medium
+pyazo (1.9) stable; urgency=medium
+
+  * rewrite debian packaging
+  * improve initial settings
+  * make installation easier
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 05 Mar 2019 12:38:07 +0000
+
+pyazo (1.8.9) stable; urgency=medium
 
   * pyazo: cleanup redundant tasks
   * Revert "pyazo: cleanup redundant tasks"

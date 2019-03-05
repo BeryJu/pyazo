@@ -2,6 +2,7 @@ pyazo			/usr/share/pyazo/
 static			/usr/share/pyazo/
 manage.py		/usr/share/pyazo/
 pyazo.sh		/usr/share/pyazo/
+vendor			/usr/share/pyazo/
 
 debian/etc/pyazo								/etc/
 debian/templates/database.yml					/usr/share/pyazo/

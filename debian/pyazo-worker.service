@@ -1,5 +1,5 @@
 [Unit]
-Description=pyazo - Opensource Gyazo-compatible Imageserver (Background worker)
+Description=pyazo - Open-Source Imageserver (Background worker)
 After=syslog.target network.target
 Requires=network.target
 

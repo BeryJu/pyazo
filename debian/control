@@ -1,0 +1,14 @@
+Source: pyazo
+Section: admin
+Priority: optional
+Maintainer: BeryJu.org <support@beryju.org>
+Uploaders: Jens Langhammer <jens@beryju.org>, BeryJu.org <support@beryju.org>
+Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5), dh-exec, wget, dh-exec, python3 (>= 3.5) | python3.6 | python3.7
+Standards-Version: 3.9.6
+
+Package: pyazo
+Architecture: amd64
+Recommends: mysql-server, redis-server
+Replaces: pyazo
+Depends: python3 (>= 3.5) | python3.6 | python3.7, dbconfig-mysql | dbconfig-no-thanks, ${misc:Depends}, libmagic1
+Description: Image Hosting server written in Python.

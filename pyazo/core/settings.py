@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import logging
 import os
 import sys
+import socket
 from urllib.parse import urlparse
 
 from pyazo import __version__
@@ -35,7 +36,12 @@ DEBUG = CONFIG.get('debug')
 CORS_ORIGIN_ALLOW_ALL = DEBUG
 
 # config's external_url is a full URL, so we have to parse it to get the host
-ALLOWED_HOSTS = [urlparse(CONFIG.get('external_url')).netloc]
+# Also allow server's hostname and server's fqdn
+ALLOWED_HOSTS = set([
+    urlparse(CONFIG.get('external_url')).netloc,
+    socket.getfqdn(),
+    socket.gethostname()
+])
 
 LOGIN_REDIRECT_URL = 'index'
 # Application definition
