@@ -67,7 +67,7 @@ package:
   script:
     - debuild -us -uc
     - cp ../pyazo*.deb .
-    - ./manage.py nexus_upload --method post --url $NEXUS_URL --user $NEXUS_USER --password $NEXUS_PASS --repo apt ../pyazo*
+    - ./manage.py nexus_upload --method post --url $NEXUS_URL --user $NEXUS_USER --password $NEXUS_PASS --repo apt pyazo*deb
   artifacts:
     paths:
     - pyazo*deb

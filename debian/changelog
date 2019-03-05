@@ -1,4 +1,4 @@
-pyazo (1.9.1) stable; urgency=medium
+pyazo (1.9.2) stable; urgency=medium
 
   * rewrite debian packaging
   * improve initial settings
