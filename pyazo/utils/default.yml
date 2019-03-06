@@ -21,8 +21,6 @@ web:
   port: 8000
   threads: 30
 debug: false
-secure_proxy_header:
-  HTTP_X_FORWARDED_PROTO: https
 redis: localhost
 # Error reporting, disabled by default
 error_report_enabled: false
