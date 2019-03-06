@@ -1,3 +1,10 @@
+pyazo (1.9.5) stable; urgency=medium
+
+  * fix redis package being too old
+  * fix non-applicable config in default config
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 05 Mar 2019 12:38:07 +0000
+
 pyazo (1.9.3) stable; urgency=medium
 
   * rewrite debian packaging
