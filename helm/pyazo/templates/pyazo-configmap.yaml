@@ -35,8 +35,6 @@ data:
       port: 8000
       threads: 30
     debug: false
-    secure_proxy_header:
-      HTTP_X_FORWARDED_PROTO: https
     redis: redis
     # Error reporting, disabled by default
     error_report_enabled: {{ .Values.config.error_reporting }}
@@ -62,6 +60,20 @@ data:
     # If this is true, images are automatically claimed if the windows user exists
     # in django
     auto_claim_enabled: true
+
+    # LDAP Authentication
+    ldap:
+        enabled: false
+        server:
+            uri: 'ldap://dc1.example.com'
+            tls: false
+        bind:
+            dn: ''
+            password: ''
+        search_base: ''
+        filter: '(sAMAccountName=%(user)s)'
+        require_group: ''
+
     {{- if .Values.config.secret_key }}
     secret_key: {{ .Values.config.secret_key }}
     {{- else }}

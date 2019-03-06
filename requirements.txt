@@ -7,6 +7,7 @@ django-redis
 django-influxdb-metrics
 django-rest-framework
 django-rest-swagger
+django-auth-ldap
 pytz
 pymysql
 cherrypy

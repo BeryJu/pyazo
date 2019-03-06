@@ -16,14 +16,16 @@ import socket
 import sys
 from urllib.parse import urlparse
 
+import ldap
+from django_auth_ldap.config import LDAPSearch
+
 from pyazo import __version__
 from pyazo.utils.config import CONFIG
 
 LOGGER = logging.getLogger(__name__)
 
 
-
-SECURE_PROXY_SSL_HEADER = tuple(CONFIG.get('secure_proxy_header', {}).items())[0]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -84,6 +86,29 @@ CELERY_IMPORTS = ('pyazo.core.tasks', )
 #     INFLUXDB_TIMEOUT = 5
 #     INFLUXDB_USE_CELERY = True
 
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
+# LDAP Settings
+with CONFIG.cd('ldap'):
+    if CONFIG.get('enabled'):
+        AUTH_LDAP_SERVER_URI = CONFIG.get('server').get('uri')
+        AUTH_LDAP_START_TLS = CONFIG.get('server').get('tls')
+        AUTH_LDAP_BIND_DN = CONFIG.get('bind').get('dn')
+        AUTH_LDAP_BIND_PASSWORD = CONFIG.get('bind').get('password')
+        # pylint: disable=no-member
+        AUTH_LDAP_USER_SEARCH = LDAPSearch(CONFIG.get('search_base'),
+                                           ldap.SCOPE_SUBTREE, CONFIG.get('filter'))
+        AUTHENTICATION_BACKENDS += [
+            'django_auth_ldap.backend.LDAPBackend',
+        ]
+        if CONFIG.get('require_group'):
+            AUTH_LDAP_REQUIRE_GROUP = CONFIG.get('require_group')
+
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 with CONFIG.cd('web'):
@@ -114,11 +139,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
 ]
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -275,6 +295,11 @@ with CONFIG.cd('log'):
             'celery': {
                 'handlers': ['console', 'file'],
                 'level': 'WARNING',
+                'propagate': True,
+            },
+            'django_auth_ldap': {
+                'handlers': ['console', 'file'],
+                'level': 'DEBUG',
                 'propagate': True,
             },
         }
