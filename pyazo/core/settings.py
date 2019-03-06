@@ -86,6 +86,13 @@ CELERY_IMPORTS = ('pyazo.core.tasks', )
 #     INFLUXDB_TIMEOUT = 5
 #     INFLUXDB_USE_CELERY = True
 
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
 # LDAP Settings
 with CONFIG.cd('ldap'):
     if CONFIG.get('enabled'):
@@ -93,8 +100,12 @@ with CONFIG.cd('ldap'):
         AUTH_LDAP_START_TLS = CONFIG.get('server').get('tls')
         AUTH_LDAP_BIND_DN = CONFIG.get('bind').get('dn')
         AUTH_LDAP_BIND_PASSWORD = CONFIG.get('bind').get('password')
+        # pylint: disable=no-member
         AUTH_LDAP_USER_SEARCH = LDAPSearch(CONFIG.get('search_base'),
                                            ldap.SCOPE_SUBTREE, CONFIG.get('filter'))
+        AUTHENTICATION_BACKENDS += [
+            'django_auth_ldap.backend.LDAPBackend',
+        ]
         if CONFIG.get('require_group'):
             AUTH_LDAP_REQUIRE_GROUP = CONFIG.get('require_group')
 
@@ -128,12 +139,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
 ]
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'django_auth_ldap.backend.LDAPBackend',
-)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
