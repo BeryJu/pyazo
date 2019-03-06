@@ -1,6 +1,6 @@
 FROM python:3.6-alpine
 ARG REQUIREMENTS=requirements.txt
-LABEL version="1.9.3"
+LABEL version="1.9.4"
 
 COPY ${REQUIREMENTS} /
 RUN apk update && \
