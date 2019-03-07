@@ -1,8 +1,13 @@
-Pyazo is a python-based application. There are 2 different packages, one for Python 3.5.x and one for Python 3.6.x. To find out what version you have, run this:
+# Installation
 
-```
-python3 -c 'import sys;print(sys.version)'
-```
+pyazo is a python-based application which requires Python 3.5 or newer.
+
+The following services are also a requirement:
+
+ - MySQL/MariaDB
+ - Redis
+
+By default, APT will install these services on the same server as pyazo is on. This can be omitted by running apt with `--no-install-recommends`.
 
 ## Add the repository
 
@@ -17,7 +22,7 @@ apt update
 After the commands finish, you can install the package for the python version shown above:
 
 ```
-apt install pyazo-python3.5 # or pyazo-python3.6
+apt install pyazo
 ```
 
 ## Create a superuser

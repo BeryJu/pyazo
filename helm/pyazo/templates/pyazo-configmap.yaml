@@ -62,17 +62,17 @@ data:
     auto_claim_enabled: true
 
     # LDAP Authentication
-    ldap:
-        enabled: false
-        server:
-            uri: 'ldap://dc1.example.com'
-            tls: false
-        bind:
-            dn: ''
-            password: ''
-        search_base: ''
-        filter: '(sAMAccountName=%(user)s)'
-        require_group: ''
+    # ldap:
+    #     enabled: false
+    #     server:
+    #         uri: 'ldap://dc1.example.com'
+    #         tls: false
+    #     bind:
+    #         dn: ''
+    #         password: ''
+    #     search_base: ''
+    #     filter: '(sAMAccountName=%(user)s)'
+    #     require_group: ''
 
     {{- if .Values.config.secret_key }}
     secret_key: {{ .Values.config.secret_key }}

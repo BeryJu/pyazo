@@ -48,7 +48,7 @@ auto_claim_enabled: true
 ldap:
   enabled: false
   server:
-    uri: "ldap://dc1.example.com"
+    uri: ""
     tls: false
   bind:
     dn: ""

@@ -2,7 +2,7 @@ site_name: Pyazo Documentation
 theme:
   name: 'readthedocs'
 repo_url: "https://git.beryju.org/BeryJu.org/pyazo"
-pages:
+nav:
 - Home: index.md
 - Installation:
     - Package: install/package.md
@@ -12,5 +12,6 @@ pages:
     - Reverse Proxy: configuration/nginx_reverse_proxy.md
     - Migration between systems: configuration/migration_between_systems.md
     - MSSQL: configuration/mssql.md
+    - LDAP: configuration/ldap.md
 - API:
     - Endpoints: api/api_endpoints.md
