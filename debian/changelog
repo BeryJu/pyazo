@@ -1,3 +1,10 @@
+pyazo (1.9.8) stable; urgency=medium
+
+  * improve docker image
+  * improve kubernetes deployment and docs
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Wed, 06 Mar 2019 18:22:41 +0000
+
 pyazo (1.9.6) stable; urgency=medium
 
   * add LDAP as authentication source
