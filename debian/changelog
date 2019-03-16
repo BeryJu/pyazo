@@ -1,4 +1,4 @@
-pyazo (1.9.10) stable; urgency=medium
+pyazo (1.9.11) stable; urgency=medium
 
   * improve docker image
   * improve kubernetes deployment and docs
