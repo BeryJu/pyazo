@@ -37,7 +37,7 @@ data:
 
     # Set this to the server's external address.
     # This is used to generate external URLs
-    external_url: {{ .Values.ingress.defaultHost }}
+    external_url: https://{{ .Values.ingress.defaultHost }}
 
     # This dictates how the Path is generated
     # can be either of:
@@ -48,7 +48,9 @@ data:
     default_return_view: view_sha256
 
     # Set this to this server's hostname or the external domain if behind a reverse proxy
-    domains: {{ .Values.ingress.hosts }}
+    # This already contains external_url so we just specify this here
+    domains:
+      - kubernetes-healthcheck-host
 
     # Set this to true if you only want to use external authentication
     external_auth_only: false

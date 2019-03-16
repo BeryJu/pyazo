@@ -43,7 +43,7 @@ ALLOWED_HOSTS = set([
     urlparse(CONFIG.get('external_url')).netloc,
     socket.getfqdn(),
     socket.gethostname()
-])
+] + CONFIG.get('domains'))
 
 LOGIN_REDIRECT_URL = 'index'
 # Application definition
