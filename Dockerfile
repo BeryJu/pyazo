@@ -1,20 +1,34 @@
-FROM python:3.6-alpine
-ARG REQUIREMENTS=requirements.txt
-LABEL version="1.9.8"
-
-COPY ${REQUIREMENTS} /
-RUN apk update && \
-    apk add --no-cache openssl-dev libffi-dev libmagic libffi-dev build-base py2-pip python2-dev jpeg libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev openldap-dev && \
-    pip install -r /${REQUIREMENTS} && \
-    pip install psycopg2-binary && \
-    apk del openssl-dev libffi-dev libffi-dev build-base py2-pip python2-dev libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl jpeg-dev zlib-dev freetype-dev lcms2-dev tk-dev tcl-dev && \
-    adduser -S pyazo
+FROM python:3.6-slim-stretch as build
 
 COPY ./pyazo/ /app/pyazo
-COPY ./static/ /app/static
 COPY ./manage.py /app/
-
-RUN chown -R pyazo /app
-USER pyazo
+COPY ./requirements.txt /app/
 
 WORKDIR /app/
+
+RUN apt-get update && apt-get install build-essential libssl-dev libffi-dev libsasl2-dev python-dev libldap2-dev libssl-dev -y && \
+    mkdir /app/static/ && \
+    pip install -r requirements.txt && \
+    pip install psycopg2 && \
+    ./manage.py collectstatic --no-input && \
+    apt-get remove --purge -y build-essential && \
+    apt-get autoremove --purge -y
+
+FROM python:3.6-slim-stretch
+
+COPY ./pyazo/ /app/pyazo
+COPY ./manage.py /app/
+COPY ./requirements.txt /app/
+COPY --from=build /app/static /app/static/
+
+WORKDIR /app/
+
+RUN apt-get update && apt-get install build-essential libssl-dev libffi-dev libsasl2-dev python-dev libldap2-dev libssl-dev -y && \
+    pip install -r requirements.txt && \
+    pip install psycopg2 && \
+    adduser --system --home /app/ pyazo && \
+    chown -R pyazo /app/ && \
+    apt-get remove --purge -y build-essential && \
+    apt-get autoremove --purge -y
+
+USER pyazo
