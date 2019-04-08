@@ -4,7 +4,6 @@ from logging import getLogger
 from typing import Tuple
 from urllib.parse import urljoin
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
