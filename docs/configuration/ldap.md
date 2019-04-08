@@ -19,4 +19,4 @@ ldap:
     require_group: false
 ```
 
-The `filter_group` setting is optional and can be used to specify the DN of a group the user has to be member of.
+The `require_group` setting is optional and can be used to specify the DN of a group the user has to be member of.
