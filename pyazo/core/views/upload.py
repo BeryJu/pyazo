@@ -127,7 +127,7 @@ class LegacyObjectView(View):
             upload, created = upload_view.handle_post_file(request.FILES['imagedata'])
             if created:
                 # Run auto-claim
-                if settings.AUTO_CLAIM_ENABLED and 'username' in request.POST:
+                if CONFIG.get('auto_claim_enabled', False) and 'username' in request.POST:
                     matching = User.objects.filter(username=request.POST.get('username'))
                     if matching.exists():
                         upload.user = matching.first()
