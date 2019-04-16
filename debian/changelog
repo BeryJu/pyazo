@@ -1,3 +1,12 @@
+pyazo (1.9.12) stable; urgency=medium
+
+  * Update ldap.md
+  * Update initial.md
+  * fix undefined AUTO_CLAIM_ENABLED
+  * remove unused import
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Tue, 16 Apr 2019 14:25:24 +0000
+
 pyazo (1.9.11) stable; urgency=medium
 
   * improve docker image
