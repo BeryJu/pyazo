@@ -64,7 +64,7 @@
       <h3>{% trans 'Actions' %}</h3>
       <hr>
       {% if not upload.user or upload.user.is_superuser %}
-        <a class="btn btn-primary" href="{% url 'upload_claim' file_hash=upload.sha512 %}">{% trans 'Claim' %}</a>
+        <a class="btn btn-primary" href="{% url 'upload_claim' file_hash=upload.sha512 %}?back={{ request.get_full_path }}">{% trans 'Claim' %}</a>
       {% endif %}
       <hr>
       <form action="" method="POST">
