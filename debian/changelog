@@ -1,3 +1,9 @@
+pyazo (1.9.14) stable; urgency=medium
+
+  * fix back/cancel button on claim confirmation not doing anything
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Wed, 17 Apr 2019 10:33:48 +0000
+
 pyazo (1.9.13) stable; urgency=medium
 
   * fix missing dependency for postgres in Docker image
