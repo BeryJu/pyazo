@@ -1,3 +1,9 @@
+pyazo (1.9.13) stable; urgency=medium
+
+  * fix missing dependency for postgres in Docker image
+
+ -- Jens Langhammer <jens.langhammer@beryju.org>  Wed, 17 Apr 2019 09:56:28 +0000
+
 pyazo (1.9.12) stable; urgency=medium
 
   * Update ldap.md
