@@ -53,7 +53,6 @@ package-helm:
     - helm init --client-only
     - helm dependency build helm/pyazo
     - helm package helm/pyazo
-    - ./manage.py nexus_upload --method put --url $NEXUS_URL --auth $NEXUS_AUTH --repo helm *.tgz
   only:
     - tags
     - /^debian/.*$/
@@ -71,7 +70,6 @@ package:
   script:
     - debuild -us -uc
     - cp ../pyazo*.deb .
-    - ./manage.py nexus_upload --method post --url $NEXUS_URL --auth $NEXUS_AUTH --repo apt pyazo*deb
   artifacts:
     paths:
     - pyazo*deb
