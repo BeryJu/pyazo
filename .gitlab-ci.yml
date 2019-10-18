@@ -20,10 +20,6 @@ migrations:
   script:
     - python manage.py migrate
   stage: test
-prospector:
-  script:
-    - prospector
-  stage: test
 pylint:
   script:
     - pylint pyazo
