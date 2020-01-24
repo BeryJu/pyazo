@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Docker / Kubernetes - Pyazo Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Docker / Kubernetes";
+    var mkdocs_page_input_path = "install/docker.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Pyazo Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Installation</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../package/">Package</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Docker / Kubernetes</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#kubernetes">Kubernetes</a></li>
+    
+
+    <li class="toctree-l3"><a href="#pure-docker">Pure Docker</a></li>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Configuration</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../configuration/initial/">Initial Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../configuration/nginx_reverse_proxy/">Reverse Proxy</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../configuration/migration_between_systems/">Migration between systems</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../configuration/mssql/">MSSQL</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../configuration/ldap/">LDAP</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">API</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../api/api_endpoints/">Endpoints</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Pyazo Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Installation &raquo;</li>
+        
+      
+    
+    <li>Docker / Kubernetes</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="kubernetes">Kubernetes</h2>
+<p>The recommended way to deploy pyazo on docker is on Kubernetes. To make installation easier, we provide a helm chart for this.</p>
+<p>To install pyazo using helm on kubernetes, run the following:</p>
+<pre><code>helm repo add beryju.org https://pkg.beryju.org/repository/helm/
+helm install beryju.org/pyazo --name pyazo --namespace pyazo -f &lt;config file&gt;
+</code></pre>
+
+<p>To configure it, you can use a config as following:</p>
+<pre><code class="yaml">postgresql:
+  postgresqlPassword: &quot;&lt;password&gt;&quot;
+  persistence:
+    storageClass: standard
+
+redis:
+  password: &quot;&lt;password&gt;&quot;
+  master:
+    persistence:
+      enabled: false
+
+persistence:
+  storageClass: standard
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: &quot;true&quot;
+    nginx.ingress.kubernetes.io/ssl-redirect: &quot;true&quot;
+  tls:
+    - secretName: letsencrypt-prod
+      hosts:
+        - &lt;url&gt;
+  hosts:
+    - &lt;url&gt;
+  defaultHost: &lt;url&gt;
+</code></pre>
+
+<p>To see all possible settings you can change, refer to <a href="https://git.beryju.org/BeryJu.org/pyazo/blob/master/helm/pyazo/values.yaml">https://git.beryju.org/BeryJu.org/pyazo/blob/master/helm/pyazo/values.yaml</a></p>
+<h2 id="pure-docker">Pure Docker</h2>
+<p>Pyazo can be run on pure docker. The image is <code>docker.pkg.beryju.org/pyazo</code>. The image needs to be run twice, once for the webserver and once for the background worker. The config file needs to be mounted under <code>/etc/pyazo/config.yml</code>. Uploaded files are saved under <code>/app/media</code>, which should be mounted as well.</p>
+<p>The webserver can be started by running <code>manage.py web</code> in the Container. The process will listen on port 8000 for incoming connections.
+The background-worker can be started by running <code>manage.py worker</code>.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../configuration/initial/" class="btn btn-neutral float-right" title="Initial Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../package/" class="btn btn-neutral" title="Package"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../package/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../configuration/initial/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>
