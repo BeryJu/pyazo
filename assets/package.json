@@ -14,7 +14,7 @@
     "grunt-contrib-cssmin": "^2.0.0",
     "grunt-contrib-uglify": "^2.3.0",
     "grunt-npm-command": "^0.1.2",
-    "jquery": "^3.2.0",
+    "jquery": "^3.4.0",
     "mutationobserver-shim": "^0.3.2",
     "raven-js": "^3.19.1"
   },
