@@ -60,12 +60,12 @@ class ObjectViewFile(View):
         content_type = get_mime_type(upload.file.name)
         if "thumb" in request.GET:
             if not upload.thumbnail:
-                make_thumbnail.delay(upload.pk).get()
-                # try:
-                # except Exception as exc:  # pylint: disable=broad-except
-                #     LOGGER.debug(exc)
-                #     # Catch any kind of redis or Celery error, so we return nothing
-                #     return HttpResponse(status=400)
+                try:
+                    make_thumbnail.delay(upload.pk).get()
+                except Exception as exc:  # pylint: disable=broad-except
+                    LOGGER.debug(exc)
+                    # Catch any kind of redis or Celery error, so we return nothing
+                    return HttpResponse(status=400)
                 upload.refresh_from_db()
             return HttpResponse(upload.thumbnail.read(), content_type="image/png")
         self.count_view(upload, request)
