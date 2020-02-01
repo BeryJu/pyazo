@@ -15,6 +15,7 @@ unittest-xml-reporting = "*"
 black = "*"
 autopep8 = "*"
 isort = "*"
+prospector = "*"
 
 [packages]
 django-redis = "*"

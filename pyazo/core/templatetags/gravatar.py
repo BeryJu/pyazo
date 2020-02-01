@@ -1,6 +1,4 @@
-"""
-pyazo Core Gravatar Templatetag
-"""
+"""pyazo Core Gravatar Templatetag"""
 from hashlib import md5
 from urllib.parse import urlencode
 
@@ -25,7 +23,7 @@ def gravatar(email, size=None, rating=None):
     """
     gravatar_url = "%savatar/%s" % (
         "https://secure.gravatar.com/",
-        md5(email.encode("utf-8")).hexdigest(),
+        md5(email.encode("utf-8")).hexdigest(), # nosec
     )
 
     parameters = [p for p in (("s", size or "158"), ("r", rating or "g"),) if p[1]]

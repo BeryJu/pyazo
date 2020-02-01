@@ -35,7 +35,7 @@ def generate_ext_thumb(extension):
 
 def generate_hashes(file_handle):
     """Return dict with md5, sha256 and sha512 keys containing file hashes"""
-    md5 = hashlib.md5()
+    md5 = hashlib.md5() # nosec
     sha256 = hashlib.sha256()
     sha512 = hashlib.sha512()
     while True:
