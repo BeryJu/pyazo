@@ -32,6 +32,7 @@ mozilla-django-oidc = "*"
 django-rest-swagger = "*"
 structlog = "*"
 psycopg2-binary = "*"
+pyuwsgi = "*"
 
 [requires]
 python_version = "3.8"

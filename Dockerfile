@@ -16,11 +16,9 @@ COPY --from=locker /app/requirements-dev.txt /app/
 
 WORKDIR /app/
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends postgresql-client-11 && \
-    rm -rf /var/lib/apt/ && \
-    pip install -r requirements.txt  --no-cache-dir && \
-    adduser --system --no-create-home --uid 1000 --group --home /app pyazo
+RUN pip install -r requirements.txt  --no-cache-dir && \
+    adduser --system --no-create-home --uid 1000 --group --home /app pyazo && \
+    chown pyazo: /app
 
 COPY ./pyazo/ /app/pyazo
 COPY ./manage.py /app/

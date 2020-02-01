@@ -5,7 +5,7 @@ services:
   postgresql:
     image: postgres
     volumes:
-      - database:/var/lib/postgresql/data
+      - ./database:/var/lib/postgresql/data
     networks:
       - internal
     environment:
@@ -31,6 +31,8 @@ services:
       - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
       - PYAZO_POSTGRESQL__HOST=postgresql
       - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
+    volumes:
+      - ./media:/app/media
     ports:
       - 8000
     networks:
@@ -49,6 +51,8 @@ services:
       - -B
       - -A=pyazo.root.celery
       - -s=/tmp/celerybeat-schedule
+    volumes:
+      - ./media:/app/media
     networks:
       - internal
     labels:
@@ -75,13 +79,8 @@ services:
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
-      - "0.0.0.0:8080:8080"
     networks:
       - internal
-
-volumes:
-  database:
-    driver: local
 
 networks:
   internal: {}
