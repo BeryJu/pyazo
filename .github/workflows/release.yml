@@ -23,27 +23,6 @@ jobs:
         run: docker push beryju/pyazo:1.9.15
       - name: Push Docker Container to Registry (latest)
         run: docker push beryju/pyazo:latest
-  build-gatekeeper:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Docker Login Registry
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - name: Building Docker Image
-        run: |
-          cd gatekeeper
-          docker build \
-          --no-cache \
-          -t beryju/pyazo-gatekeeper:1.9.15 \
-          -t beryju/pyazo-gatekeeper:latest \
-          -f Dockerfile .
-      - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo-gatekeeper:1.9.15
-      - name: Push Docker Container to Registry (latest)
-        run: docker push beryju/pyazo-gatekeeper:latest
   build-static:
     runs-on: ubuntu-latest
     services:

@@ -21,7 +21,6 @@ services:
     labels:
       - traefik.enable=false
   server:
-    build: .
     image: beryju/pyazo:${SERVER_TAG:-latest}
     command:
       - uwsgi

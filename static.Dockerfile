@@ -9,7 +9,7 @@ RUN pip install pipenv && \
     pipenv lock -r > requirements.txt && \
     pipenv lock -rd > requirements-dev.txt
 
-FROM python:3.8-slim-buster
+FROM python:3.8-slim-buster AS static-build
 
 COPY --from=locker /app/requirements.txt /app/
 COPY --from=locker /app/requirements-dev.txt /app/
@@ -26,4 +26,13 @@ COPY ./pyazo/ /app/pyazo
 COPY ./manage.py /app/
 COPY ./docker/uwsgi.ini /app/
 
-USER pyazo
+ENV PYAZO_POSTGRESQL__HOST=postgres
+ENV PYAZO_REDIS__HOST=redis
+ENV PYAZO_POSTGRESQL__USER=pyazo
+# CI Password, same as in .github/workflows/ci.yml
+ENV PYAZO_POSTGRESQL__PASSWORD="EK-5jnKfjrGRm<77"
+RUN ./manage.py collectstatic --no-input
+
+FROM nginx
+
+COPY --from=static-build /app/static /usr/share/nginx/html/static/

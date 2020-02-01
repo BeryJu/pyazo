@@ -18,7 +18,7 @@ from pyazo.utils import _get_client_ip_from_meta
 
 pymysql.install_as_MySQLdb()
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "passbook.root.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.root.settings")
 
 
 class WSGILogger:
@@ -26,7 +26,7 @@ class WSGILogger:
 
     def __init__(self, application):
         self.application = application
-        self.logger = get_logger("passbook.wsgi")
+        self.logger = get_logger("pyazo.wsgi")
 
     def __healthcheck(self, start_response):
         start_response("204 OK", [])
