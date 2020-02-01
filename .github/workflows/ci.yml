@@ -58,7 +58,7 @@ jobs:
       - name: Install dependencies
         run: pip install -U pip pipenv && pipenv install --dev
       - name: Lint with prospector
-        run: pipenv run prospector
+        run: pipenv run pip install prospector && pipenv run prospector
   bandit:
     runs-on: ubuntu-latest
     steps:
