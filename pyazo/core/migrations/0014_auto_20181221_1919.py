@@ -9,21 +9,13 @@ class Migration(migrations.Migration):
     atomic = False
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('pyazo_core', '0013_auto_20181221_1841'),
+        ("pyazo_core", "0013_auto_20181221_1841"),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='Upload',
-            new_name='Object',
-        ),
-        migrations.RenameModel(
-            old_name='UploadView',
-            new_name='ObjectView',
-        ),
+        migrations.RenameModel(old_name="Upload", new_name="Object",),
+        migrations.RenameModel(old_name="UploadView", new_name="ObjectView",),
         migrations.RenameField(
-            model_name='objectview',
-            old_name='upload',
-            new_name='obj',
+            model_name="objectview", old_name="upload", new_name="obj",
         ),
     ]

@@ -9,6 +9,7 @@ from django.utils.html import escape
 
 register = template.Library()
 
+
 @register.simple_tag
 def gravatar(email, size=None, rating=None):
     """
@@ -22,15 +23,14 @@ def gravatar(email, size=None, rating=None):
 
         {% gravatar someone@example.com 48 pg %}
     """
-    gravatar_url = "%savatar/%s" % ('https://secure.gravatar.com/',
-                                    md5(email.encode('utf-8')).hexdigest())
+    gravatar_url = "%savatar/%s" % (
+        "https://secure.gravatar.com/",
+        md5(email.encode("utf-8")).hexdigest(),
+    )
 
-    parameters = [p for p in (
-        ('s', size or '158'),
-        ('r', rating or 'g'),
-    ) if p[1]]
+    parameters = [p for p in (("s", size or "158"), ("r", rating or "g"),) if p[1]]
 
     if parameters:
-        gravatar_url += '?' + urlencode(parameters, doseq=True)
+        gravatar_url += "?" + urlencode(parameters, doseq=True)
 
     return escape(gravatar_url)

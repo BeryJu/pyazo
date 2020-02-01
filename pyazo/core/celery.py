@@ -1,71 +1,55 @@
-"""pyazo celery"""
-
-import logging
+"""pyazo core celery"""
 import os
+from logging.config import dictConfig
 
-import celery
-import pymysql
+from celery import Celery
+from celery.signals import after_task_publish, setup_logging, task_postrun, task_prerun
 from django.conf import settings
-from raven import Client
-from raven.contrib.celery import register_logger_signal, register_signal
-
-pymysql.install_as_MySQLdb()
+from structlog import get_logger
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.core.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.root.settings")
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = get_logger()
+CELERY_APP = Celery("pyazo")
 
-
-class Celery(celery.Celery):
-    """Custom Celery class with Raven configured"""
-
-    # pylint: disable=method-hidden
-    def on_configure(self):
-        """Update raven client"""
-        client = Client(settings.RAVEN_CONFIG.get('dsn'))
-        # register a custom filter to filter out duplicate logs
-        register_logger_signal(client)
-        # hook into the Celery error handler
-        register_signal(client)
 
 # pylint: disable=unused-argument
-@celery.signals.setup_logging.connect
+@setup_logging.connect
 def config_loggers(*args, **kwags):
     """Apply logging settings from settings.py to celery"""
-    logging.config.dictConfig(settings.LOGGING)
+    dictConfig(settings.LOGGING)
 
 
 # pylint: disable=unused-argument
-@celery.signals.after_task_publish.connect
+@after_task_publish.connect
 def after_task_publish(sender=None, headers=None, body=None, **kwargs):
     """Log task_id after it was published"""
-    info = headers if 'task' in headers else body
-    LOGGER.debug('%-40s published (name=%s)', info.get('id', ''), info.get('task', ''))
+    info = headers if "task" in headers else body
+    LOGGER.debug(
+        "Task published", task_id=info.get("id", ""), task_name=info.get("task", "")
+    )
 
 
 # pylint: disable=unused-argument
-@celery.signals.task_prerun.connect
+@task_prerun.connect
 def task_prerun(task_id, task, *args, **kwargs):
     """Log task_id on worker"""
-    LOGGER.debug('%-40s started (name=%s)', task_id, task.__name__)
+    LOGGER.debug("Task started", task_id=task_id, task_name=task.__name__)
 
 
 # pylint: disable=unused-argument
-@celery.signals.task_postrun.connect
+@task_postrun.connect
 def task_postrun(task_id, task, *args, retval=None, state=None, **kwargs):
     """Log task_id on worker"""
-    LOGGER.debug('%-40s finished (name=%s, state=%s)',
-                 task_id, task.__name__, state)
+    LOGGER.debug("Task finished", task_id=task_id, task_name=task.__name__, state=state)
 
-
-CELERY_APP = Celery('pyazo')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
-CELERY_APP.config_from_object(settings, namespace='CELERY')
+CELERY_APP.config_from_object(settings, namespace="CELERY")
 
 # Load task modules from all registered Django app configs.
 CELERY_APP.autodiscover_tasks()

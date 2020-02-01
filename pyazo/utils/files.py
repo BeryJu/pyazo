@@ -10,6 +10,7 @@ BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
 def get_mime_type(file_path: str) -> str:
     """Return mime-type for file"""
     import magic
+
     return magic.from_file(file_path, mime=True)
 
 
@@ -19,14 +20,17 @@ def generate_ext_thumb(extension):
     out_name = extension[1:]
     # Create a 200x200 image and write extension on it
     image_width, image_height = 200, 200
-    img = Image.new('RGBA', (image_width, image_height), (255, 0, 0, 0))
+    img = Image.new("RGBA", (image_width, image_height), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(
-        settings.STATIC_ROOT+'fonts/Metropolis-Regular.ttf', 18)
+    font = ImageFont.truetype(settings.STATIC_ROOT + "fonts/Metropolis-Regular.ttf", 18)
     text_width, text_height = draw.textsize(extension, font=font)
-    draw.text(((image_width-text_width)/2,
-               (image_height-text_height)/2), extension, fill="#E9ECEF", font=font)
-    img.save(settings.THUMBNAIL_ROOT+out_name+'.png', 'PNG')
+    draw.text(
+        ((image_width - text_width) / 2, (image_height - text_height) / 2),
+        extension,
+        fill="#E9ECEF",
+        font=font,
+    )
+    img.save(settings.THUMBNAIL_ROOT + out_name + ".png", "PNG")
 
 
 def generate_hashes(file_handle):
@@ -42,9 +46,9 @@ def generate_hashes(file_handle):
         sha256.update(data)
         sha512.update(data)
     return {
-        'md5': md5.hexdigest(),
-        'sha256': sha256.hexdigest(),
-        'sha512': sha512.hexdigest(),
+        "md5": md5.hexdigest(),
+        "sha256": sha256.hexdigest(),
+        "sha512": sha512.hexdigest(),
     }
 
 
@@ -52,7 +56,7 @@ def save_from_post(content, extension):
     """Takes a file from post, calculates sha512, saves it to media dir and returns path"""
     sha512 = hashlib.sha512()
     sha512.update(content)
-    filename = '%s/%s.%s' % (settings.MEDIA_ROOT, sha512.hexdigest(), extension)
-    with open(filename, 'wb') as out_file:
+    filename = "%s/%s.%s" % (settings.MEDIA_ROOT, sha512.hexdigest(), extension)
+    with open(filename, "wb") as out_file:
         out_file.write(content)
     return filename

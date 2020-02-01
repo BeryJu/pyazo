@@ -12,6 +12,7 @@ from pyazo.core.models import Object
 BUF_SIZE = 65536
 LOGGER = logging.getLogger(__name__)
 
+
 class Command(BaseCommand):
     """Reindex Images"""
 
@@ -20,7 +21,7 @@ class Command(BaseCommand):
     @staticmethod
     def _file_get_sha_512(path):
         sha512 = hashlib.sha512()
-        with open(path, 'rb') as _file:
+        with open(path, "rb") as _file:
             while True:
                 data = _file.read(BUF_SIZE)
                 if not data:
@@ -30,7 +31,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         LOGGER.info("Looking in '%s'...", settings.MEDIA_ROOT)
-        files = glob(settings.MEDIA_ROOT + '*')
+        files = glob(settings.MEDIA_ROOT + "*")
         for file in files:
             if os.path.isfile(file):
                 # Get hash to compare with

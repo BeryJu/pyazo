@@ -1,0 +1,147 @@
+name: pyazo-ci
+on:
+  - push
+env:
+  POSTGRES_DB: pyazo
+  POSTGRES_USER: pyazo
+  POSTGRES_PASSWORD: "EK-5jnKfjrGRm<77"
+
+jobs:
+  # Linting
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install dependencies
+        run: pip install -U pip pipenv && pipenv install --dev
+      - name: Lint with pylint
+        run: pipenv run pylint pyazo
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install dependencies
+        run: pip install -U pip pipenv && pipenv install --dev
+      - name: Lint with black
+        run: pipenv run black --check pyazo
+  prospector:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install dependencies
+        run: pip install -U pip pipenv && pipenv install --dev
+      - name: Lint with prospector
+        run: pipenv run prospector
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install dependencies
+        run: pip install -U pip pipenv && pipenv install --dev
+      - name: Lint with bandit
+        run: pipenv run bandit -r pyazo
+  # Actual CI tests
+  migrations:
+    needs:
+      - pylint
+      - black
+      - prospector
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: pyazo
+          POSTGRES_USER: pyazo
+          POSTGRES_PASSWORD: "EK-5jnKfjrGRm<77"
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install dependencies
+        run: pip install -U pip pipenv && pipenv install --dev
+      - name: Run migrations
+        run: pipenv run ./manage.py migrate
+  coverage:
+    needs:
+      - pylint
+      - black
+      - prospector
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: pyazo
+          POSTGRES_USER: pyazo
+          POSTGRES_PASSWORD: "EK-5jnKfjrGRm<77"
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
+      - name: Install dependencies
+        run: pip install -U pip pipenv && pipenv install --dev
+      - name: Run coverage
+        run: pipenv run ./scripts/coverage.sh

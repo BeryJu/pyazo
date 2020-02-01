@@ -8,12 +8,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pyazo_core', '0001_initial'),
+        ("pyazo_core", "0001_initial"),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='UplodaView',
-            new_name='UploadView',
-        ),
+        migrations.RenameModel(old_name="UplodaView", new_name="UploadView",),
     ]

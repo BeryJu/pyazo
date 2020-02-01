@@ -1,34 +1,31 @@
-FROM python:3.6-slim-stretch as build
+FROM python:3.8-slim-buster as locker
 
-COPY ./pyazo/ /app/pyazo
-COPY ./manage.py /app/
-COPY ./requirements.txt /app/
-
-WORKDIR /app/
-
-RUN apt-get update && apt-get install build-essential libffi-dev libsasl2-dev python-dev libldap2-dev libssl-dev libpq-dev -y && \
-    mkdir /app/static/ && \
-    pip install -r requirements.txt && \
-    pip install psycopg2 && \
-    ./manage.py collectstatic --no-input && \
-    apt-get remove --purge -y build-essential && \
-    apt-get autoremove --purge -y
-
-FROM python:3.6-slim-stretch
-
-COPY ./pyazo/ /app/pyazo
-COPY ./manage.py /app/
-COPY ./requirements.txt /app/
-COPY --from=build /app/static /app/static/
+COPY ./Pipfile /app/
+COPY ./Pipfile.lock /app/
 
 WORKDIR /app/
 
-RUN apt-get update && apt-get install build-essential libffi-dev libsasl2-dev python-dev libldap2-dev libssl-dev libpq-dev  -y && \
-    pip install -r requirements.txt && \
-    pip install psycopg2 && \
-    adduser --system --home /app/ pyazo && \
-    chown -R pyazo /app/ && \
-    apt-get remove --purge -y build-essential && \
-    apt-get autoremove --purge -y
+RUN pip install pipenv && \
+    pipenv lock -r > requirements.txt && \
+    pipenv lock -rd > requirements-dev.txt
+
+FROM python:3.8-slim-buster
+
+COPY --from=locker /app/requirements.txt /app/
+COPY --from=locker /app/requirements-dev.txt /app/
+
+WORKDIR /app/
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client-11 && \
+    rm -rf /var/lib/apt/ && \
+    pip install -r requirements.txt  --no-cache-dir && \
+    adduser --system --no-create-home --uid 1000 --group --home /app pyazo
+
+COPY ./pyazo/ /app/pyazo
+COPY ./manage.py /app/
+COPY ./docker/uwsgi.ini /app/
+
+WORKDIR /app/
 
 USER pyazo

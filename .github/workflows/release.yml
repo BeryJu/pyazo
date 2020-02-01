@@ -1,0 +1,89 @@
+name: pyazo-release
+on:
+  release
+
+jobs:
+  # Build
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker Login Registry
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Building Docker Image
+        run: docker build
+          --no-cache
+          -t beryju/pyazo:0.7.12-beta
+          -t beryju/pyazo:latest
+          -f Dockerfile .
+      - name: Push Docker Container to Registry (versioned)
+        run: docker push beryju/pyazo:0.7.12-beta
+      - name: Push Docker Container to Registry (latest)
+        run: docker push beryju/pyazo:latest
+  build-gatekeeper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker Login Registry
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Building Docker Image
+        run: |
+          cd gatekeeper
+          docker build \
+          --no-cache \
+          -t beryju/pyazo-gatekeeper:0.7.12-beta \
+          -t beryju/pyazo-gatekeeper:latest \
+          -f Dockerfile .
+      - name: Push Docker Container to Registry (versioned)
+        run: docker push beryju/pyazo-gatekeeper:0.7.12-beta
+      - name: Push Docker Container to Registry (latest)
+        run: docker push beryju/pyazo-gatekeeper:latest
+  build-static:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: pyazo
+          POSTGRES_USER: pyazo
+          POSTGRES_PASSWORD: "EK-5jnKfjrGRm<77"
+      redis:
+        image: redis:latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker Login Registry
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Building Docker Image
+        run: docker build
+          --no-cache
+          --network=$(docker network ls | grep github | awk '{print $1}')
+          -t beryju/pyazo-static:0.7.12-beta
+          -t beryju/pyazo-static:latest
+          -f static.Dockerfile .
+      - name: Push Docker Container to Registry (versioned)
+        run: docker push beryju/pyazo-static:0.7.12-beta
+      - name: Push Docker Container to Registry (latest)
+        run: docker push beryju/pyazo-static:latest
+  test-release:
+    needs:
+      - build-server
+      - build-static
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run test suite in final docker images
+        run: |
+          export PYAZO_DOMAIN=localhost
+          docker-compose pull
+          docker-compose up --no-start
+          docker-compose start postgresql redis
+          docker-compose run -u root server bash -c "pip install --no-cache -r requirements-dev.txt && ./manage.py test"

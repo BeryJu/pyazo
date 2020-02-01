@@ -9,28 +9,44 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('pyazo_core', '0005_auto_20171209_0818'),
+        ("pyazo_core", "0005_auto_20171209_0818"),
     ]
 
     operations = [
         migrations.CreateModel(
-            options={
-                'db_table': 'pyazo_collection',
-            },
-            name='Collection',
+            options={"db_table": "pyazo_collection",},
+            name="Collection",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='upload',
-            name='collection',
-            field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, to='pyazo_core.Collection'),
+            model_name="upload",
+            name="collection",
+            field=models.ForeignKey(
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="pyazo_core.Collection",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='collection',
-            unique_together={('name', 'owner')},
+            name="collection", unique_together={("name", "owner")},
         ),
     ]

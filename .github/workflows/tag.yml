@@ -1,0 +1,60 @@
+on:
+  push:
+    tags:
+    - 'version/*'
+
+name: pyazo-version-tag
+
+jobs:
+  build:
+    name: Create Release from Tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Pre-release test
+        run: |
+          export PYAZO_DOMAIN=localhost
+          docker-compose pull
+          docker build \
+            --no-cache \
+            -t beryju/pyazo:latest \
+            -f Dockerfile .
+          docker-compose up --no-start
+          docker-compose start postgresql redis
+          docker-compose run -u root server bash -c "pip install --no-cache -r requirements-dev.txt && ./manage.py test"
+      - name: Install Helm
+        run: |
+          apt update && apt install -y curl
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - name: Helm package
+        run: |
+          helm dependency update helm/
+          helm package helm/
+          mv pyazo-*.tgz pyazo-chart.tgz
+      - name: Extract verison number
+        id: get_version
+        uses: actions/github-script@0.2.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            return context.payload.ref.replace(/\/refs\/tags\/version\//, '');
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.get_version.outputs.result }}
+          draft: false
+          prerelease: false
+      - name: Upload packaged Helm Chart
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./pyazo-chart.tgz
+          asset_name: pyazo-chart.tgz
+          asset_content_type: application/gzip

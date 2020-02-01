@@ -6,12 +6,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pyazo_core', '0008_upload_thumbmail'),
+        ("pyazo_core", "0008_upload_thumbmail"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='upload',
-            name='type',
-        ),
+        migrations.RemoveField(model_name="upload", name="type",),
     ]

@@ -8,13 +8,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pyazo_core', '0011_auto_20181011_1900'),
+        ("pyazo_core", "0011_auto_20181011_1900"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='UploadView',
-            name='viewee',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="UploadView",
+            name="viewee",
+            field=models.ForeignKey(
+                blank=True,
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
