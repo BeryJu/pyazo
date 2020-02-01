@@ -8,5 +8,5 @@ class LoginForm(forms.Form):
     """Form to handle logins"""
 
     username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput, label=_('Password'))
-    remember = forms.BooleanField(required=False, label=_('Remember'))
+    password = forms.CharField(widget=forms.PasswordInput, label=_("Password"))
+    remember = forms.BooleanField(required=False, label=_("Remember"))

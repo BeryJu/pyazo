@@ -17,33 +17,66 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            options={
-                'db_table': 'pyazo_upload',
-            },
-            name='Upload',
+            options={"db_table": "pyazo_upload",},
+            name="Upload",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(max_length=512, upload_to='')),
-                ('type', models.IntegerField(choices=[(0, 'Picture')])),
-                ('md5', models.CharField(blank=True, max_length=32)),
-                ('sha256', models.CharField(blank=True, max_length=64)),
-                ('sha512', models.CharField(blank=True, max_length=128)),
-                ('user', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("file", models.FileField(max_length=512, upload_to="")),
+                ("type", models.IntegerField(choices=[(0, "Picture")])),
+                ("md5", models.CharField(blank=True, max_length=32)),
+                ("sha256", models.CharField(blank=True, max_length=64)),
+                ("sha512", models.CharField(blank=True, max_length=128)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            options={
-                'db_table': 'pyazo_uploadview',
-            },
-            name='UplodaView',
+            options={"db_table": "pyazo_uploadview",},
+            name="UplodaView",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('viewee_ip', models.GenericIPAddressField(blank=True, null=True)),
-                ('viewee_dns', models.TextField(blank=True)),
-                ('viewee_date', models.DateTimeField(auto_now_add=True)),
-                ('viewee_user_agent', models.TextField(blank=True)),
-                ('upload', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pyazo_core.Upload')),
-                ('viewee', models.ForeignKey(blank=True, default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("viewee_ip", models.GenericIPAddressField(blank=True, null=True)),
+                ("viewee_dns", models.TextField(blank=True)),
+                ("viewee_date", models.DateTimeField(auto_now_add=True)),
+                ("viewee_user_agent", models.TextField(blank=True)),
+                (
+                    "upload",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="pyazo_core.Upload",
+                    ),
+                ),
+                (
+                    "viewee",
+                    models.ForeignKey(
+                        blank=True,
+                        default=1,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

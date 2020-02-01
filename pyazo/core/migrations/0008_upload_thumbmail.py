@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pyazo_core', '0007_upload_mime_type'),
+        ("pyazo_core", "0007_upload_mime_type"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='upload',
-            name='thumbnail',
-            field=models.FileField(blank=True, upload_to='thumbnail/'),
+            model_name="upload",
+            name="thumbnail",
+            field=models.FileField(blank=True, upload_to="thumbnail/"),
         ),
     ]

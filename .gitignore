@@ -104,15 +104,9 @@ venv.bak/
 .mypy_cache/
 .DS_Store
 
-bin/
-media/*
-*debhelper
 *.env.yml
 unittest.xml
 media_test/
-helm/pyazo/charts/*.tgz
 
 vendor/**
-debian/pyazo/**
-debian/files
-debian/*.substvars
+static/

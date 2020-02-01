@@ -1,0 +1,34 @@
+on:
+  push:
+    tags:
+    - 'v*'
+
+name: pyazo-version-tag
+
+jobs:
+  build:
+    name: Create Release from Tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Pre-release test
+        run: |
+          export PYAZO_DOMAIN=localhost
+          docker-compose pull
+          docker build \
+            --no-cache \
+            -t beryju/pyazo:latest \
+            -f Dockerfile .
+          docker-compose up --no-start
+          docker-compose start postgresql redis
+          docker-compose run -u root server bash -c "pip install --no-cache -r requirements-dev.txt && ./manage.py test"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.get_version.outputs.result }}
+          draft: false
+          prerelease: false

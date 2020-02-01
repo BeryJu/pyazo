@@ -1,0 +1,86 @@
+---
+version: '3.7'
+
+services:
+  postgresql:
+    image: postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+      - internal
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASS:-thisisnotagoodpassword}
+      - POSTGRES_USER=pyazo
+      - POSTGRES_DB=pyazo
+    labels:
+      - traefik.enable=false
+  redis:
+    image: redis
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+  server:
+    image: beryju/pyazo:${SERVER_TAG:-latest}
+    command:
+      - uwsgi
+      - uwsgi.ini
+    environment:
+      - PYAZO_DOMAIN=${PYAZO_DOMAIN}
+      - PYAZO_REDIS__HOST=redis
+      - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
+      - PYAZO_POSTGRESQL__HOST=postgresql
+      - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
+    volumes:
+      - ./media:/app/media
+    ports:
+      - 8000
+    networks:
+      - internal
+    labels:
+      - traefik.port=8000
+      - traefik.docker.network=internal
+      - traefik.frontend.rule=PathPrefix:/
+  worker:
+    image: beryju/pyazo:${SERVER_TAG:-latest}
+    command:
+      - celery
+      - worker
+      - --autoscale=10,3
+      - -E
+      - -B
+      - -A=pyazo.root.celery
+      - -s=/tmp/celerybeat-schedule
+    volumes:
+      - ./media:/app/media
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+    environment:
+      - PYAZO_DOMAIN=${PYAZO_DOMAIN}
+      - PYAZO_REDIS__HOST=redis
+      - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
+      - PYAZO_POSTGRESQL__HOST=postgresql
+      - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
+  static:
+    image: beryju/pyazo-static:latest
+    networks:
+      - internal
+    labels:
+      - traefik.frontend.rule=PathPrefix:/static, /robots.txt
+      - traefik.port=80
+      - traefik.docker.network=internal
+  traefik:
+    image: traefik:1.7
+    command: --api --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+    networks:
+      - internal
+
+networks:
+  internal: {}

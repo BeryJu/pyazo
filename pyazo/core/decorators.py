@@ -14,7 +14,7 @@ def anonymous_required(view_function):
         """Check if request's user is authenticated and route back to index"""
         requests = args[0] if args else None
         if requests and requests.user is not None and requests.user.is_authenticated:
-            return redirect(reverse('index'))
+            return redirect(reverse("index"))
         return view_function(*args, **kwargs)
 
     return wrap

@@ -6,23 +6,25 @@ from django.db import migrations, models
 def update_mime_type(apps, schema_editor):
     # set mime_type from file
     from pyazo.utils.files import get_mime_type
-    Upload = apps.get_model('pyazo_core', 'Upload')
+
+    Upload = apps.get_model("pyazo_core", "Upload")
     for upload in Upload.objects.all():
         upload.mime_type = get_mime_type(upload.file.name)
         upload.save()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pyazo_core', '0006_auto_20181009_1450'),
+        ("pyazo_core", "0006_auto_20181009_1450"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='upload',
-            name='mime_type',
-            field=models.TextField(default=''),
+            model_name="upload",
+            name="mime_type",
+            field=models.TextField(default=""),
             preserve_default=False,
         ),
-        migrations.RunPython(update_mime_type)
+        migrations.RunPython(update_mime_type),
     ]

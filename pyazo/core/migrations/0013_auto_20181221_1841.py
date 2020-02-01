@@ -7,20 +7,11 @@ class Migration(migrations.Migration):
 
     atomic = False
     dependencies = [
-        ('pyazo_core', '0012_auto_20181117_1158'),
+        ("pyazo_core", "0012_auto_20181117_1158"),
     ]
 
     operations = [
-        migrations.AlterModelTable(
-            name='collection',
-            table=None,
-        ),
-        migrations.AlterModelTable(
-            name='upload',
-            table=None,
-        ),
-        migrations.AlterModelTable(
-            name='uploadview',
-            table=None,
-        ),
+        migrations.AlterModelTable(name="collection", table=None,),
+        migrations.AlterModelTable(name="upload", table=None,),
+        migrations.AlterModelTable(name="uploadview", table=None,),
     ]

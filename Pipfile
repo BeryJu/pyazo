@@ -1,0 +1,41 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+bandit = "*"
+bumpversion = "*"
+colorama = "*"
+coverage = "*"
+django-debug-toolbar = "*"
+pylint = "*"
+pylint-django = "*"
+unittest-xml-reporting = "*"
+black = "*"
+autopep8 = "*"
+isort = "*"
+
+[packages]
+django-redis = "*"
+user-agents = "*"
+sentry-sdk = "*"
+python-magic = "*"
+celery = "*"
+redis = "==3.2.0"
+Django = "*"
+PyMySQL = "*"
+PyYAML = "*"
+Pillow = "*"
+django-rest-framework = "*"
+mozilla-django-oidc = "*"
+django-rest-swagger = "*"
+structlog = "*"
+psycopg2-binary = "*"
+pyuwsgi = "*"
+
+[requires]
+python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true

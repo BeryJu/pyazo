@@ -14,10 +14,10 @@ class TemplateTagTest(TestCase):
 
     def test_back(self):
         """Test back"""
-        initial_request = self.factory.get(reverse('index'))
-        self.assertEqual(back({'request': initial_request}), '')
-        get_back_request = self.factory.get(reverse('index') + '?back=external')
-        self.assertEqual(back({'request': get_back_request}), 'external')
-        meta_request = self.factory.get(reverse('index'))
-        meta_request.META['HTTP_REFERER'] = 'external'
-        self.assertEqual(back({'request': meta_request}), 'external')
+        initial_request = self.factory.get(reverse("index"))
+        self.assertEqual(back({"request": initial_request}), "")
+        get_back_request = self.factory.get(reverse("index") + "?back=external")
+        self.assertEqual(back({"request": get_back_request}), "external")
+        meta_request = self.factory.get(reverse("index"))
+        meta_request.META["HTTP_REFERER"] = "external"
+        self.assertEqual(back({"request": meta_request}), "external")

@@ -3,7 +3,6 @@
 {% load i18n %}
 {% load static %}
 {% load pyazo %}
-{% load socialaccount %}
 
 {% block header %}
 <title>{% trans 'login - pyazo' %}</title>
@@ -49,12 +48,6 @@
       {% for link, name in extra_links.items %}
       <a href="{% url link %}" class="signup">{% trans name %}</a>
       {% endfor %}
-      {% endif %}
-      {% get_socialapps as socialaccount_providers %}
-      {% if socialaccount_providers %}
-        {% for provider in socialaccount_providers %}
-          <a href="{% provider_login_url provider.provider process='login' %}" class="btn btn-primary">{% trans "Login with" %} {{ provider.name }}</a>
-        {% endfor %}
       {% endif %}
     </div>
   </form>

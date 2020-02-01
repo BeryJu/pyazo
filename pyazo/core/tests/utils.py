@@ -8,15 +8,15 @@ from django.core.management import call_command
 def test_auth(superuser=True):
     """Create a test user and return credentials to use with client.login"""
     credentials = {
-        'username': 'test',
-        'password': 'test',
-        'email': 'test@test.test',
+        "username": "test",
+        "password": "test",
+        "email": "test@test.test",
     }
     if superuser:
-        credentials['username'] = 'superuser'
+        credentials["username"] = "superuser"
         User.objects.create_superuser(**credentials)
     else:
-        credentials['username'] = 'user'
+        credentials["username"] = "user"
         User.objects.create_user(**credentials)
     return credentials
 

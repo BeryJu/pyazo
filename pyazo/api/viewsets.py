@@ -2,8 +2,12 @@
 from django.contrib.auth.models import User
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from pyazo.api.serializers import (CollectionSerializer, ObjectSerializer,
-                                   ObjectViewSerializer, UserSerializer)
+from pyazo.api.serializers import (
+    CollectionSerializer,
+    ObjectSerializer,
+    ObjectViewSerializer,
+    UserSerializer,
+)
 from pyazo.core.models import Collection, Object, ObjectView
 
 

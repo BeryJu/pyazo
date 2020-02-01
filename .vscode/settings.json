@@ -1,10 +1,10 @@
 {
-  "python.pythonPath": "${workspaceRoot}/env/bin/python",
   "editor.tabSize": 4,
   "[html]": {
     "editor.tabSize": 2
   },
   "cSpell.words": [
     "pyazo"
-  ]
+  ],
+  "python.pythonPath": "/Users/langhammerj/.local/share/virtualenvs/pyazo-cQGVLeSR/bin/python"
 }
