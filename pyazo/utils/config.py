@@ -14,7 +14,7 @@ SEARCH_PATHS = ["pyazo/utils/default.yml", "/etc/pyazo/config.yml", "",] + glob(
     "/etc/pyazo/config.d/*.yml", recursive=True
 )
 LOGGER = get_logger()
-ENV_PREFIX = "pyazo"
+ENV_PREFIX = "PYAZO"
 ENVIRONMENT = os.getenv(f"{ENV_PREFIX}_ENV", "local")
 
 

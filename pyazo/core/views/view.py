@@ -7,7 +7,7 @@ from django.views.generic import View
 from structlog import get_logger
 
 from pyazo.core.models import Object, ObjectView
-from pyazo.root.tasks import make_thumbnail
+from pyazo.core.tasks import make_thumbnail
 from pyazo.utils import get_client_ip, get_reverse_dns
 from pyazo.utils.files import get_mime_type
 

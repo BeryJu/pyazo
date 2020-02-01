@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 from django.test import TestCase
 from django.test.client import RequestFactory
 
-from pyazo.core.celery import after_task_publish, config_loggers
+from pyazo.root.celery import after_task_publish, config_loggers
 from pyazo.utils import get_client_ip, get_reverse_dns
 
 

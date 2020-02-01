@@ -6,7 +6,7 @@ from django.conf import settings
 from django.test import TestCase
 
 from pyazo.core.models import Object
-from pyazo.root.tasks import make_thumbnail
+from pyazo.core.tasks import make_thumbnail
 
 
 class TaskTests(TestCase):

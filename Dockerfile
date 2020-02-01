@@ -25,3 +25,5 @@ COPY ./manage.py /app/
 COPY ./docker/uwsgi.ini /app/
 
 USER pyazo
+
+ENV PYTHONUNBUFFERED=1
