@@ -1,16 +1,16 @@
 """pyazo tasks"""
 import os
-from logging import getLogger
 
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from PIL import Image
+from structlog import get_logger
 
 from pyazo.core.celery import CELERY_APP
 from pyazo.core.models import Object
 from pyazo.utils.files import generate_ext_thumb
 
-LOGGER = getLogger(__name__)
+LOGGER = get_logger()
 
 
 @CELERY_APP.task(bind=True)

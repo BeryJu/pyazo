@@ -1,14 +1,14 @@
 """pyazo download views"""
 import os.path
-from logging import getLogger
 from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.views.generic import View
+from structlog import get_logger
 
-LOGGER = getLogger(__name__)
+LOGGER = get_logger()
 
 
 class ClientDownloadView(LoginRequiredMixin, View):

@@ -1,13 +1,12 @@
 [MASTER]
 
-disable=E0611,R0401,W0621,I0011,RP0401,I0021,arguments-differ,no-self-use
-load-plugins=pylint_django
+disable=redefined-outer-name,arguments-differ,no-self-use,cyclic-import,fixme,locally-disabled,unpacking-non-sequence,too-many-ancestors,too-many-branches,too-few-public-methods,import-outside-toplevel,bad-continuation
+load-plugins=pylint_django,pylint.extensions.bad_builtin
+extension-pkg-whitelist=lxml
+const-rgx=[a-zA-Z0-9_]{1,40}$
+jobs=4
+
 [SIMILARITIES]
 
 # Minimum lines number of a similarity.
 min-similarity-lines=20
-
-[MISCELLANEOUS]
-
-# List of note tags to take in consideration, separated by a comma.
-notes=

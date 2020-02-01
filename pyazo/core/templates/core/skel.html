@@ -1,5 +1,4 @@
 {% load static %}
-{% load raven %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
-    <script src="{% static 'js/raven.min.js' %}"></script>
-    <script>Raven.config('{% sentry_public_dsn %}').install()</script>
     <script src="{% static 'js/custom-elements.min.js' %}"></script>
     <script src="{% static 'js/app.min.js' %}"></script>
     <link rel="shortcut icon" type="image/png" href="{% static 'img/icon.png' %}"/>

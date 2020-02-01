@@ -1,18 +1,17 @@
 """pyazo viewing views"""
-from logging import getLogger
-
 from django.db.models import Q, QuerySet
 from django.http import Http404, HttpRequest, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
 from django.views.generic import View
+from structlog import get_logger
 
 from pyazo.core.models import Object, ObjectView
 from pyazo.root.tasks import make_thumbnail
-from pyazo.utils import get_remote_ip, get_reverse_dns
+from pyazo.utils import get_client_ip, get_reverse_dns
 from pyazo.utils.files import get_mime_type
 
-LOGGER = getLogger(__name__)
+LOGGER = get_logger()
 
 
 @method_decorator(cache_control(max_age=3600), name="dispatch")
@@ -22,7 +21,7 @@ class ObjectViewFile(View):
     @staticmethod
     def count_view(upload: Object, request: HttpRequest):
         """Create ObjectView entry from request"""
-        client_ip = get_remote_ip(request)
+        client_ip = get_client_ip(request)
         client_dns = get_reverse_dns(client_ip)
         user_agent = (
             request.META["HTTP_USER_AGENT"] if "HTTP_USER_AGENT" in request.META else ""
@@ -61,11 +60,12 @@ class ObjectViewFile(View):
         content_type = get_mime_type(upload.file.name)
         if "thumb" in request.GET:
             if not upload.thumbnail:
-                try:
-                    make_thumbnail.delay(upload.pk).get()
-                except Exception:  # pylint: disable=broad-except
-                    # Catch any kind of redis or Celery error, so we return nothing
-                    return HttpResponse(status=400)
+                make_thumbnail.delay(upload.pk).get()
+                # try:
+                # except Exception as exc:  # pylint: disable=broad-except
+                #     LOGGER.debug(exc)
+                #     # Catch any kind of redis or Celery error, so we return nothing
+                #     return HttpResponse(status=400)
                 upload.refresh_from_db()
             return HttpResponse(upload.thumbnail.read(), content_type="image/png")
         self.count_view(upload, request)

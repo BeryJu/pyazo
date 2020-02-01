@@ -1,15 +1,14 @@
 """pyazo core views"""
-import logging
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.http import Http404
 from django.views.generic import TemplateView
+from structlog import get_logger
 
 from pyazo.core.models import Collection, Object
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = get_logger()
 
 
 class IndexView(LoginRequiredMixin, TemplateView):

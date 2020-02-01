@@ -14,6 +14,7 @@ pylint-django = "*"
 unittest-xml-reporting = "*"
 black = "*"
 autopep8 = "*"
+isort = "*"
 
 [packages]
 django-redis = "*"

@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 
 from pyazo.core.celery import after_task_publish, config_loggers
-from pyazo.utils import get_remote_ip, get_reverse_dns
+from pyazo.utils import get_client_ip, get_reverse_dns
 
 
 class UtilsTest(TestCase):
@@ -15,11 +15,11 @@ class UtilsTest(TestCase):
         self.factory = RequestFactory()
 
     def test_remote_ip(self):
-        """test get_remote_ip"""
-        self.assertEqual(get_remote_ip(None), "0.0.0.0")
+        """test get_client_ip"""
+        self.assertEqual(get_client_ip(None), None)
         request = self.factory.get(reverse("index"))
         request.META["HTTP_X_FORWARDED_FOR"] = "aa"
-        self.assertEqual(get_remote_ip(request), "aa")
+        self.assertEqual(get_client_ip(request), "aa")
 
     def test_reverse_dns(self):
         """Test get_reverse_dns"""

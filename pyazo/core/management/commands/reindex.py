@@ -1,16 +1,16 @@
 """Pyazo Reindex management command"""
 import hashlib
-import logging
 import os
 from glob import glob
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from structlog import get_logger
 
 from pyazo.core.models import Object
 
 BUF_SIZE = 65536
-LOGGER = logging.getLogger(__name__)
+LOGGER = get_logger(__name__)
 
 
 class Command(BaseCommand):

@@ -10,20 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import logging
 import os
-import structlog
 import sys
-from urllib.parse import urlparse
 
+import structlog
 from sentry_sdk import init as sentry_init
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from pyazo import __version__
 from pyazo.utils.config import CONFIG
+from pyazo.utils.sentry import before_send
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = structlog.get_logger()
 
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -51,23 +50,31 @@ INTERNAL_IPS = ["127.0.0.1"]
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{CONFIG.y('redis')}",
+        "LOCATION": (
+            f"redis://:{CONFIG.y('redis.password')}@{CONFIG.y('redis.host')}:6379"
+            f"/{CONFIG.y('redis.cache_db')}"
+        ),
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient",},
     }
 }
 DJANGO_REDIS_IGNORE_EXCEPTIONS = True
 DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
 # Celery settings
 # Add a 10 minute timeout to all Celery tasks.
 CELERY_TASK_SOFT_TIME_LIMIT = 600
-CELERY_BEAT_SCHEDULE = {}
 CELERY_CREATE_MISSING_QUEUES = True
 CELERY_TASK_DEFAULT_QUEUE = "pyazo"
-CELERY_BROKER_URL = "redis://%s" % CONFIG.y("redis")
-CELERY_RESULT_BACKEND = "redis://%s" % CONFIG.y("redis")
-CELERY_IMPORTS = ("pyazo.root.tasks",)
+CELERY_BROKER_URL = (
+    f"redis://:{CONFIG.y('redis.password')}@{CONFIG.y('redis.host')}"
+    f":6379/{CONFIG.y('redis.message_queue_db')}"
+)
+CELERY_RESULT_BACKEND = (
+    f"redis://:{CONFIG.y('redis.password')}@{CONFIG.y('redis.host')}"
+    f":6379/{CONFIG.y('redis.message_queue_db')}"
+)
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -93,7 +100,6 @@ INSTALLED_APPS = [
     "mozilla_django_oidc",
     "pyazo.core.apps.PyazoCoreConfig",
     "pyazo.api.apps.PyazoAPIConfig",
-    "raven.contrib.django.raven_compat",
     "rest_framework",
     "rest_framework_swagger",
 ]
@@ -106,7 +112,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware",
 ]
 
 ROOT_URLCONF = "pyazo.root.urls"
@@ -172,17 +177,17 @@ SITE_ID = 1
 
 STATIC_URL = "/static/"
 
-RAVEN_CONFIG = {
-    "dsn": "https://dfcc6acbd9c543ea8d4c9dbf4ac9a8c0:5340ca78902841b5b"
-    "3372ecce5d548a5@sentry.services.beryju.org/4",
-    "release": VERSION,
-    "environment": "production" if DEBUG is False else "development",
-    "tags": {"site": CONFIG.y("external_url")},
-}
 
-ERROR_REPORT_ENABLED = CONFIG.y("error_report_enabled", False)
-if not ERROR_REPORT_ENABLED:
-    RAVEN_CONFIG["dsn"] = ""
+# Sentry integration
+_ERROR_REPORTING = CONFIG.y_bool("error_reporting", False)
+if not DEBUG and _ERROR_REPORTING:
+    LOGGER.info("Error reporting is enabled.")
+    sentry_init(
+        dsn="https://57bd7622b7114f1d87315dbe4f5b0488@sentry.beryju.org/5",
+        integrations=[DjangoIntegration(), CeleryIntegration()],
+        before_send=before_send,
+        release="pyazo@%s" % __version__,
+    )
 
 
 structlog.configure_once(

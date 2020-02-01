@@ -1,6 +1,5 @@
 """pyazo upload views"""
 import os
-from logging import getLogger
 from typing import Tuple
 from urllib.parse import urljoin
 
@@ -14,6 +13,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
+from structlog import get_logger
 
 from pyazo.core.forms.view import CollectionSelectForm
 from pyazo.core.models import Collection, Object
@@ -21,7 +21,7 @@ from pyazo.core.views.view import ObjectViewFile
 from pyazo.utils.config import CONFIG
 from pyazo.utils.files import generate_hashes, save_from_post
 
-LOGGER = getLogger(__name__)
+LOGGER = get_logger()
 
 
 class ObjectView(LoginRequiredMixin, TemplateView):

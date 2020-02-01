@@ -1,22 +1,36 @@
-"""pyazo utils"""
+"""http helpers"""
 import socket
+from typing import Any, Dict, Optional
 
 from django.http import HttpRequest
 
 
-def get_remote_ip(request: HttpRequest) -> str:
-    """Return the remote's IP"""
+def _get_client_ip_from_meta(meta: Dict[str, Any]) -> Optional[str]:
+    """Attempt to get the client's IP by checking common HTTP Headers.
+    Returns none if no IP Could be found"""
+    headers = (
+        "HTTP_X_FORWARDED_FOR",
+        "HTTP_X_REAL_IP",
+        "REMOTE_ADDR",
+    )
+    for _header in headers:
+        if _header in meta:
+            return meta.get(_header)
+    return None
+
+
+def get_client_ip(request: HttpRequest) -> Optional[str]:
+    """Attempt to get the client's IP by checking common HTTP Headers.
+    Returns none if no IP Could be found"""
     if not request:
-        return "0.0.0.0"
-    if request.META.get("HTTP_X_FORWARDED_FOR"):
-        return request.META.get("HTTP_X_FORWARDED_FOR")
-    return request.META.get("REMOTE_ADDR")
+        return None
+    return _get_client_ip_from_meta(request.META)
 
 
-def get_reverse_dns(ipaddress: str) -> str:
+def get_reverse_dns(ip_address: str) -> str:
     """Does a reverse DNS lookup and returns the first IP"""
     try:
-        rev = socket.gethostbyaddr(ipaddress)
+        rev = socket.gethostbyaddr(ip_address)
         if rev:
             return rev[0]
         return ""  # noqa
