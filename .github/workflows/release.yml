@@ -16,11 +16,11 @@ jobs:
       - name: Building Docker Image
         run: docker build
           --no-cache
-          -t beryju/pyazo:0.7.12-beta
+          -t beryju/pyazo:1.9.15
           -t beryju/pyazo:latest
           -f Dockerfile .
       - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo:0.7.12-beta
+        run: docker push beryju/pyazo:1.9.15
       - name: Push Docker Container to Registry (latest)
         run: docker push beryju/pyazo:latest
   build-gatekeeper:
@@ -37,11 +37,11 @@ jobs:
           cd gatekeeper
           docker build \
           --no-cache \
-          -t beryju/pyazo-gatekeeper:0.7.12-beta \
+          -t beryju/pyazo-gatekeeper:1.9.15 \
           -t beryju/pyazo-gatekeeper:latest \
           -f Dockerfile .
       - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo-gatekeeper:0.7.12-beta
+        run: docker push beryju/pyazo-gatekeeper:1.9.15
       - name: Push Docker Container to Registry (latest)
         run: docker push beryju/pyazo-gatekeeper:latest
   build-static:
@@ -66,11 +66,11 @@ jobs:
         run: docker build
           --no-cache
           --network=$(docker network ls | grep github | awk '{print $1}')
-          -t beryju/pyazo-static:0.7.12-beta
+          -t beryju/pyazo-static:1.9.15
           -t beryju/pyazo-static:latest
           -f static.Dockerfile .
       - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo-static:0.7.12-beta
+        run: docker push beryju/pyazo-static:1.9.15
       - name: Push Docker Container to Registry (latest)
         run: docker push beryju/pyazo-static:latest
   test-release:
