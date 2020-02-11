@@ -47,7 +47,7 @@ class ObjectViewViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return ObjectView.objects.all()
-        return ObjectView.objects.filter(object_user=self.request.user.pk)
+        return ObjectView.objects.filter(viewee=self.request.user.pk)
 
 
 # pylint: disable=too-many-ancestors
