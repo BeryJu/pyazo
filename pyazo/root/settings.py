@@ -272,9 +272,6 @@ if TEST:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media_test/")
     THUMBNAIL_ROOT = os.path.join(BASE_DIR, "media_test/thumbnail/")
 
-os.makedirs(MEDIA_ROOT, exist_ok=True)
-os.makedirs(THUMBNAIL_ROOT, exist_ok=True)
-
 if DEBUG is True:
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
