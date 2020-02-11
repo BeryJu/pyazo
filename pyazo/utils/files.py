@@ -3,6 +3,7 @@ import hashlib
 from typing import IO, Dict
 
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from PIL import Image, ImageDraw, ImageFont
 
 BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
@@ -23,7 +24,7 @@ def generate_ext_thumb(extension: str):
     image_width, image_height = 200, 200
     img = Image.new("RGBA", (image_width, image_height), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(settings.STATIC_ROOT + "fonts/Metropolis-Regular.ttf", 18)
+    font = ImageFont.truetype(finders.find("fonts/Metropolis-Regular.ttf"), 18)
     text_width, text_height = draw.textsize(extension, font=font)
     draw.text(
         ((image_width - text_width) / 2, (image_height - text_height) / 2),
