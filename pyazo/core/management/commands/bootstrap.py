@@ -1,5 +1,5 @@
 """pyazo management command to bootstrap"""
-from subprocess import Popen
+from subprocess import Popen  # nosec
 
 # pylint: disable=redefined-builtin
 from sys import exit, stderr, stdin, stdout
@@ -54,7 +54,7 @@ class Command(BaseCommand):
         LOGGER.info("Dependencies are up, starting command...")
         proc = Popen(
             args=options.get("command"), stdout=stdout, stderr=stderr, stdin=stdin
-        )
+        )  # nosec
         try:
             proc.wait()
             exit(proc.returncode)
