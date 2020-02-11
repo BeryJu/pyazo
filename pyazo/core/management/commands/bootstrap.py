@@ -1,5 +1,4 @@
 """pyazo management command to bootstrap"""
-from os import makedirs
 from subprocess import Popen  # nosec
 
 # pylint: disable=redefined-builtin
@@ -7,7 +6,6 @@ from sys import exit, stderr, stdin, stdout
 from time import sleep
 from argparse import REMAINDER
 
-from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import connection
 from django.db.utils import OperationalError
@@ -47,18 +45,12 @@ class Command(BaseCommand):
             LOGGER.info("Cache unreachable")
             return False
 
-    def prepare_directories(self):
-        """Ensure required directories exist"""
-        makedirs(settings.MEDIA_ROOT, exist_ok=True)
-        makedirs(settings.THUMBNAIL_ROOT, exist_ok=True)
-
     def handle(self, *args, **options):
         LOGGER.info("pyazo bootstrapping...")
         should_check = True
         while should_check:
             should_check = not (self.check_database() and self.check_cache())
             sleep(1)
-        self.prepare_directories()
         LOGGER.info("Dependencies are up, starting command...")
         proc = Popen(
             args=options.get("command"), stdout=stdout, stderr=stderr, stdin=stdin
