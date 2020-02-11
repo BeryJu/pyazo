@@ -101,7 +101,7 @@ INSTALLED_APPS = [
     "pyazo.core.apps.PyazoCoreConfig",
     "pyazo.api.apps.PyazoAPIConfig",
     "rest_framework",
-    "rest_framework_swagger",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [

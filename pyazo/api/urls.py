@@ -1,7 +1,9 @@
 """pyazo API Urls"""
-from django.urls import include, path
+from django.conf.urls import url
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from rest_framework_swagger.views import get_swagger_view
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 from pyazo.api.viewsets import (
     CollectionViewSet,
@@ -16,7 +18,25 @@ ROUTER.register("object_views", ObjectViewViewSet)
 ROUTER.register("collections", CollectionViewSet)
 ROUTER.register("users", UserViewSet)
 
+
+info = openapi.Info(
+    title="pyazo API",
+    default_version="v2",
+    contact=openapi.Contact(email="hello@beryju.org"),
+    license=openapi.License(name="MIT License"),
+)
+SchemaView = get_schema_view(info, public=True,)
+
 urlpatterns = [
-    path("v1/", include(ROUTER.urls)),
-    path("swagger/", get_swagger_view(title="pyazo API")),
-]
+    url(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        SchemaView.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    path(
+        "swagger/",
+        SchemaView.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path("redoc/", SchemaView.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+] + ROUTER.urls

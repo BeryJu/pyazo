@@ -34,7 +34,7 @@ class ObjectViewsSet(ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Object.objects.all()
-        return Object.objects.filter(user=self.request.user)
+        return Object.objects.filter(user=self.request.user.pk)
 
 
 # pylint: disable=too-many-ancestors
@@ -47,7 +47,7 @@ class ObjectViewViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return ObjectView.objects.all()
-        return ObjectView.objects.filter(object_user=self.request.user)
+        return ObjectView.objects.filter(object_user=self.request.user.pk)
 
 
 # pylint: disable=too-many-ancestors
@@ -60,4 +60,4 @@ class CollectionViewSet(ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Collection.objects.all()
-        return Collection.objects.filter(owner=self.request.user)
+        return Collection.objects.filter(owner=self.request.user.pk)

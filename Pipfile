@@ -29,10 +29,10 @@ PyYAML = "*"
 Pillow = "*"
 django-rest-framework = "*"
 mozilla-django-oidc = "*"
-django-rest-swagger = "*"
 structlog = "*"
 psycopg2-binary = "*"
 pyuwsgi = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.8"

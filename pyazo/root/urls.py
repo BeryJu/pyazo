@@ -15,7 +15,7 @@ admin.site.site_title = "pyazo"
 urlpatterns = [
     path("oidc/", include("mozilla_django_oidc.urls")),
     path("", RedirectView.as_view(url="overview/")),
-    path("api/", include(urlpatterns)),
+    path("api/v2/", include("pyazo.api.urls")),
     path("overview/", core.IndexView.as_view(), name="index"),
     path("admin/", admin.site.urls),
     path("accounts/login/", views.LoginView.as_view(), name="accounts-login"),

@@ -16,7 +16,7 @@ class UserSerializer(HyperlinkedModelSerializer):
     class Meta:
 
         model = User
-        fields = ["first_name", "last_name", "username"]
+        fields = ["pk", "first_name", "last_name", "username"]
 
 
 class ObjectSerializer(HyperlinkedModelSerializer):
@@ -45,6 +45,7 @@ class ObjectSerializer(HyperlinkedModelSerializer):
 
         model = Object
         fields = [
+            "pk",
             "file",
             "file_url",
             "thumbnail_url",
@@ -63,6 +64,7 @@ class ObjectViewSerializer(HyperlinkedModelSerializer):
 
         model = ObjectView
         fields = [
+            "pk",
             "obj",
             "viewee",
             "viewee_ip",
@@ -78,4 +80,4 @@ class CollectionSerializer(HyperlinkedModelSerializer):
     class Meta:
 
         model = Collection
-        fields = ["name", "owner"]
+        fields = ["pk", "name", "owner"]
