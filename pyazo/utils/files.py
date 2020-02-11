@@ -1,5 +1,6 @@
 """pyazo image-related utilities"""
 import hashlib
+from typing import IO, Dict
 
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
@@ -14,7 +15,7 @@ def get_mime_type(file_path: str) -> str:
     return magic.from_file(file_path, mime=True)
 
 
-def generate_ext_thumb(extension):
+def generate_ext_thumb(extension: str):
     """Create 200x200 thumbnail for filetype"""
     # ext still has a leading dot, which we don't want for saving
     out_name = extension[1:]
@@ -33,7 +34,7 @@ def generate_ext_thumb(extension):
     img.save(settings.THUMBNAIL_ROOT + out_name + ".png", "PNG")
 
 
-def generate_hashes(file_handle):
+def generate_hashes(file_handle: IO) -> Dict[str, str]:
     """Return dict with md5, sha256 and sha512 keys containing file hashes"""
     md5 = hashlib.md5()  # nosec
     sha256 = hashlib.sha256()
@@ -52,7 +53,7 @@ def generate_hashes(file_handle):
     }
 
 
-def save_from_post(content, extension):
+def save_from_post(content: bytes, extension: str) -> str:
     """Takes a file from post, calculates sha512, saves it to media dir and returns path"""
     sha512 = hashlib.sha512()
     sha512.update(content)

@@ -3,7 +3,7 @@ import os
 from collections.abc import Mapping
 from contextlib import contextmanager
 from glob import glob
-from typing import Any
+from typing import Any, Dict, List
 from urllib.parse import urlparse
 
 import yaml
@@ -24,9 +24,9 @@ class ConfigLoader:
 
     A variable like pyazo_POSTGRESQL__HOST would translate to postgresql.host"""
 
-    loaded_file = []
+    loaded_file: List[str] = []
 
-    __config = {}
+    __config: Dict[Any, Any] = {}
     __sub_dicts = []
 
     def __init__(self):
@@ -51,18 +51,20 @@ class ConfigLoader:
                         self.update_from_file(env_file)
         self.update_from_env()
 
-    def update(self, root, updatee):
+    @staticmethod
+    def merge(root: Dict[Any, Any], updatee: Dict[Any, Any]) -> Dict[Any, Any]:
         """Recursively update dictionary"""
         for key, value in updatee.items():
             if isinstance(value, Mapping):
-                root[key] = self.update(root.get(key, {}), value)
+                root[key] = ConfigLoader.merge(root.get(key, {}), value)
             else:
                 if isinstance(value, str):
-                    value = self.parse_uri(value)
+                    value = ConfigLoader.parse_uri(value)
                 root[key] = value
         return root
 
-    def parse_uri(self, value):
+    @staticmethod
+    def parse_uri(value: str) -> str:
         """Parse string values which start with a URI"""
         url = urlparse(value)
         if url.scheme == "env":
@@ -74,7 +76,7 @@ class ConfigLoader:
         try:
             with open(path) as file:
                 try:
-                    self.update(self.__config, yaml.safe_load(file))
+                    ConfigLoader.merge(self.__config, yaml.safe_load(file))
                     LOGGER.debug("Loaded config", file=path)
                     self.loaded_file.append(path)
                 except yaml.YAMLError as exc:
@@ -82,7 +84,7 @@ class ConfigLoader:
         except PermissionError as exc:
             LOGGER.warning("Permission denied while reading file", path=path, error=exc)
 
-    def update_from_dict(self, update: dict):
+    def update_from_dict(self, update: Dict[Any, Any]):
         """Update config from dict"""
         self.__config.update(update)
 
@@ -105,7 +107,7 @@ class ConfigLoader:
             idx += 1
         if idx > 0:
             LOGGER.debug("Loaded environment variables", count=idx)
-            self.update(self.__config, outer)
+            ConfigLoader.merge(self.__config, outer)
 
     @contextmanager
     # pylint: disable=invalid-name
@@ -116,7 +118,7 @@ class ConfigLoader:
         self.__sub_dicts.pop()
 
     @property
-    def raw(self) -> dict:
+    def raw(self) -> Dict[Any, Any]:
         """Get raw config dictionary"""
         return self.__config
 

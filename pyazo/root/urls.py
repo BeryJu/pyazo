@@ -6,7 +6,6 @@ from django.contrib.auth import views
 from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-from pyazo.api.urls import urlpatterns
 from pyazo.core.views import clients, core, upload, view
 
 admin.site.index_title = "pyazo Admin"

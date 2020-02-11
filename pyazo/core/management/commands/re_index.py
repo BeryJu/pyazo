@@ -1,4 +1,4 @@
-"""Pyazo Reindex management command"""
+"""Pyazo Re-Index management command"""
 import hashlib
 import os
 from glob import glob
@@ -14,9 +14,9 @@ LOGGER = get_logger(__name__)
 
 
 class Command(BaseCommand):
-    """Reindex Images"""
+    """Re-Index Images"""
 
-    help = "Reindex Images in '%s'" % settings.MEDIA_ROOT
+    help = f"Re-Index Images in '{settings.MEDIA_ROOT}'"
 
     @staticmethod
     def _file_get_sha_512(path):
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         return sha512.hexdigest()
 
     def handle(self, *args, **options):
-        LOGGER.info("Looking in '%s'...", settings.MEDIA_ROOT)
+        LOGGER.info(f"Looking in '{settings.MEDIA_ROOT}'...")
         files = glob(settings.MEDIA_ROOT + "*")
         for file in files:
             if os.path.isfile(file):
@@ -42,8 +42,8 @@ class Command(BaseCommand):
                     upload = matching.first()
                     upload.file.name = file
                     upload.save()
-                    LOGGER.info("File %s is in DB already, updating path", file)
+                    LOGGER.info("File is in DB already, updating path", file=file)
                 else:
                     Object.objects.create(file=file)
-                    LOGGER.info("Imported %s into DB", file)
+                    LOGGER.info("Imported File into DB", file=file)
         return 0
