@@ -1,3 +1,0 @@
-# Moving pyazo to a different host
-
-All the uploads are saved in the `media/` folder (full path on debian-based systems: `/usr/share/pyazo/media/`). To migrate all your data, simply install pyazo as described in [Install](/install/package/). Afterwards, copy all files in the media folder from the old system to the new one. Make sure filles within the folder have correct permissions (owner pyazo, group pyazo, chown 755). Afterwards run `/usr/share/pyazo/pyazo.sh reindex`. This will re-add all files to the database.
