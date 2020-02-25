@@ -11,3 +11,5 @@ PYAZO_OIDC__AUTHORIZATION_URL=https://
 PYAZO_OIDC__TOKEN_URL=bar
 PYAZO_OIDC__USER_URL=bar
 ```
+
+The Callback URL of pyazo is `<pyazo URL>/oidc/callback/`.
