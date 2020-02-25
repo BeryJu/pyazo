@@ -1,7 +1,7 @@
 site_name: Pyazo Documentation
-theme:
-  name: 'readthedocs'
-repo_url: "https://git.beryju.org/BeryJu.org/pyazo"
+site_url: https://beryju.github.io/pyazo
+copyright: "Copyright &copy; 2019 - 2020 BeryJu.org"
+
 nav:
 - Home: index.md
 - Installation:
@@ -11,7 +11,18 @@ nav:
     - Initial Configuration: configuration/initial.md
     - Reverse Proxy: configuration/nginx_reverse_proxy.md
     - Migration between systems: configuration/migration_between_systems.md
-    - MSSQL: configuration/mssql.md
     - LDAP: configuration/ldap.md
+    - OIDC: configuration/oidc.md
 - API:
     - Endpoints: api/api_endpoints.md
+
+repo_name: "BeryJu/pyazo"
+repo_url: https://github.com/BeryJu/pyazo
+theme:
+  name: "material"
+  logo: "images/logo.svg"
+
+markdown_extensions:
+  - toc:
+      permalink: "¶"
+  - admonition
