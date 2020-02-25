@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://beryju.github.io/pyazo/install/docker/">
+        <link rel="canonical" href="https://beryju.github.io/pyazo/api/">
       
       
       
@@ -33,21 +33,21 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
-        <title>Docker / Kubernetes - Pyazo Documentation</title>
+        <title>API - Pyazo Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
       
     
     
-      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -56,7 +56,7 @@
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
-    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
     
     
     
@@ -79,7 +79,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#kubernetes" tabindex="0" class="md-skip">
+      <a href="#post-upload" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -90,7 +90,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href="https://beryju.github.io/pyazo" title="Pyazo Documentation" aria-label="Pyazo Documentation" class="md-header-nav__button md-logo">
           
-            <img alt="logo" src="../../images/logo.svg" width="24" height="24">
+            <img alt="logo" src="../images/logo.png" width="24" height="24">
           
         </a>
       </div>
@@ -105,7 +105,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Docker / Kubernetes
+                API
               
             </span>
           
@@ -182,7 +182,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="https://beryju.github.io/pyazo" title="Pyazo Documentation" class="md-nav__button md-logo">
       
-        <img alt="logo" src="../../images/logo.svg" width="48" height="48">
+        <img alt="logo" src="../images/logo.png" width="48" height="48">
       
     </a>
     Pyazo Documentation
@@ -216,7 +216,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../.." title="Home" class="md-nav__link">
+    <a href=".." title="Home" class="md-nav__link">
       Home
     </a>
   </li>
@@ -226,38 +226,29 @@
       
       
 
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
-    
-    <label class="md-nav__link" for="nav-2">
-      Installation
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        Installation
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
 
   <li class="md-nav__item">
-    <a href="../package/" title="Package" class="md-nav__link">
-      Package
+    <a href="../install/" title="Installation" class="md-nav__link">
+      Installation
     </a>
   </li>
 
-        
-          
-          
-          
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../configuration/" title="Configuration" class="md-nav__link">
+      Configuration
+    </a>
+  </li>
+
+    
+      
+      
+      
 
   
 
@@ -268,11 +259,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Docker / Kubernetes
+        API
       </label>
     
-    <a href="./" title="Docker / Kubernetes" class="md-nav__link md-nav__link--active">
-      Docker / Kubernetes
+    <a href="./" title="API" class="md-nav__link md-nav__link--active">
+      API
     </a>
     
       
@@ -284,16 +275,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kubernetes" class="md-nav__link">
-    Kubernetes
+  <a href="#post-upload" class="md-nav__link">
+    POST /upload
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters:
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#pure-docker" class="md-nav__link">
-    Pure Docker
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -305,131 +309,6 @@
   
 </nav>
     
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
-      Configuration
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Configuration
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../configuration/initial/" title="Initial Configuration" class="md-nav__link">
-      Initial Configuration
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../configuration/nginx_reverse_proxy/" title="Reverse Proxy" class="md-nav__link">
-      Reverse Proxy
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../configuration/migration_between_systems/" title="Migration between systems" class="md-nav__link">
-      Migration between systems
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../configuration/ldap/" title="LDAP" class="md-nav__link">
-      LDAP
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../configuration/oidc/" title="OIDC" class="md-nav__link">
-      OIDC
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
-      API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
-        API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../api/api_endpoints/" title="Endpoints" class="md-nav__link">
-      Endpoints
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
   </li>
 
     
@@ -452,16 +331,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kubernetes" class="md-nav__link">
-    Kubernetes
+  <a href="#post-upload" class="md-nav__link">
+    POST /upload
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters:
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#pure-docker" class="md-nav__link">
-    Pure Docker
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -481,54 +373,20 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/BeryJu/pyazo/edit/master/docs/install/docker.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/BeryJu/pyazo/edit/master/docs/api.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Docker / Kubernetes</h1>
+                  <h1>API</h1>
                 
-                <h2 id="kubernetes">Kubernetes<a class="headerlink" href="#kubernetes" title="Permanent link">¶</a></h2>
-<p>The recommended way to deploy pyazo on docker is on Kubernetes. To make installation easier, we provide a helm chart for this.</p>
-<p>To install pyazo using helm on kubernetes, run the following:</p>
-<pre><code>helm repo add beryju.org https://pkg.beryju.org/repository/helm/
-helm install beryju.org/pyazo --name pyazo --namespace pyazo -f &lt;config file&gt;
-</code></pre>
-
-<p>To configure it, you can use a config as following:</p>
-<pre><code class="yaml">postgresql:
-  postgresqlPassword: &quot;&lt;password&gt;&quot;
-  persistence:
-    storageClass: standard
-
-redis:
-  password: &quot;&lt;password&gt;&quot;
-  master:
-    persistence:
-      enabled: false
-
-persistence:
-  storageClass: standard
-
-ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/tls-acme: &quot;true&quot;
-    nginx.ingress.kubernetes.io/ssl-redirect: &quot;true&quot;
-  tls:
-    - secretName: letsencrypt-prod
-      hosts:
-        - &lt;url&gt;
-  hosts:
-    - &lt;url&gt;
-  defaultHost: &lt;url&gt;
-</code></pre>
-
-<p>To see all possible settings you can change, refer to <a href="https://git.beryju.org/BeryJu.org/pyazo/blob/master/helm/pyazo/values.yaml">https://git.beryju.org/BeryJu.org/pyazo/blob/master/helm/pyazo/values.yaml</a></p>
-<h2 id="pure-docker">Pure Docker<a class="headerlink" href="#pure-docker" title="Permanent link">¶</a></h2>
-<p>Pyazo can be run on pure docker. The image is <code>docker.pkg.beryju.org/pyazo</code>. The image needs to be run twice, once for the webserver and once for the background worker. The config file needs to be mounted under <code>/etc/pyazo/config.yml</code>. Uploaded files are saved under <code>/app/media</code>, which should be mounted as well.</p>
-<p>The webserver can be started by running <code>manage.py web</code> in the Container. The process will listen on port 8000 for incoming connections.
-The background-worker can be started by running <code>manage.py worker</code>.</p>
+                <h2 id="post-upload"><code>POST /upload</code><a class="headerlink" href="#post-upload" title="Permanent link">¶</a></h2>
+<p>Gyazo-compatible upload endpoint. Takes 2 parameters:</p>
+<h4 id="parameters">Parameters:<a class="headerlink" href="#parameters" title="Permanent link">¶</a></h4>
+<ul>
+<li><code>imagedata</code> Raw file data</li>
+<li><code>id</code> Currently unused field but required to be compatible with gyazo's API. Can be used to send a client identifier.</li>
+</ul>
+<h4 id="returns">Returns<a class="headerlink" href="#returns" title="Permanent link">¶</a></h4>
+<p>Returns the full URL to the uploaded file (including https://...)</p>
                 
                   
                 
@@ -550,7 +408,7 @@ The background-worker can be started by running <code>manage.py worker</code>.</
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../package/" title="Package" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -559,25 +417,11 @@ The background-worker can be started by running <code>manage.py worker</code>.</
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Package
+                Configuration
               </span>
             </div>
           </a>
         
-        
-          <a href="../../configuration/initial/" title="Initial Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Initial Configuration
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
         
       </nav>
     </div>
@@ -603,9 +447,9 @@ The background-worker can be started by running <code>manage.py worker</code>.</
       
     </div>
     
-      <script src="../../assets/javascripts/application.c33a9706.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.1",url:{base:"../.."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
       
     
   </body>
