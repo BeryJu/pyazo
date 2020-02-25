@@ -1,6 +1,6 @@
 # Installation
 
-The recommended way to deploy pyazo on docker is with docker-compose. Simply download the `docker-compose.yml` file from [https://raw.githubusercontent.com/BeryJu/pyazo/master/docker-compose.yml](here), place it wherever you want to, and run the following commands:
+The recommended way to deploy pyazo on docker is with docker-compose. Simply download the `docker-compose.yml` file from [here](https://raw.githubusercontent.com/BeryJu/pyazo/master/docker-compose.yml), place it wherever you want to, and run the following commands:
 
 ```
 docker-compose pull

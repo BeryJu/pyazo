@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.beryju.org/BeryJu.org/pyazo"
+    "url": "https://github.com/BeryJu/pyazo"
   },
   "author": "BeryJu.org <hello@beryju.org>",
   "license": "MIT"
