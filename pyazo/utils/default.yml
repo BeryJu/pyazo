@@ -16,14 +16,10 @@ debug: false
 # Error reporting, sends stacktrace to sentry.beryju.org
 error_reporting: false
 
-# Set this to the server's external address.
-# This is used to generate external URLs
-external_url: http://localhost
-
 # This dictates how the Path is generated
 # can be either of:
-# - view_sha512_short
-# - view_md5
-# - view_sha256
-# - view_sha512
-default_return_view: view_sha256
+# - sha512_short
+# - md5
+# - sha256
+# - sha512
+default_return_view: sha256

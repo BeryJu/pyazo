@@ -1,10 +1,10 @@
 """pyazo management command to bootstrap"""
+from argparse import REMAINDER
 from subprocess import Popen  # nosec
 
 # pylint: disable=redefined-builtin
 from sys import exit, stderr, stdin, stdout
 from time import sleep
-from argparse import REMAINDER
 
 from django.core.management.base import BaseCommand
 from django.db import connection

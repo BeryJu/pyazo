@@ -28,7 +28,6 @@ services:
       - uwsgi
       - uwsgi.ini
     environment:
-      - PYAZO_EXTERNAL_URL=${PYAZO_EXTERNAL_URL}
       - PYAZO_REDIS__HOST=redis
       - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
       - PYAZO_POSTGRESQL__HOST=postgresql
@@ -62,7 +61,6 @@ services:
     labels:
       - traefik.enable=false
     environment:
-      - PYAZO_EXTERNAL_URL=${PYAZO_EXTERNAL_URL}
       - PYAZO_REDIS__HOST=redis
       - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
       - PYAZO_POSTGRESQL__HOST=postgresql

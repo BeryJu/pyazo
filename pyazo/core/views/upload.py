@@ -1,7 +1,6 @@
 """pyazo upload views"""
 import os
 from typing import Tuple
-from urllib.parse import urljoin
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -142,13 +141,14 @@ class LegacyObjectView(View):
                 ObjectViewFile.count_view(upload, request)
                 LOGGER.info("Uploaded %s", upload.filename)
             # Generate url for client to open
-            upload_prop = CONFIG.y("default_return_view").replace("view_", "")
-            upload_hash = getattr(upload, upload_prop, "sha256")
-            url = reverse(
-                CONFIG.y("default_return_view"), kwargs={"file_hash": upload_hash}
+            default_return_view = CONFIG.y("default_return_view", "sha256").replace(
+                "view_", ""
             )
-            full_url = urljoin(CONFIG.y("external_url"), url)
-            return HttpResponse(full_url)
+            upload_hash = getattr(upload, default_return_view, "sha256")
+            url = reverse(
+                "view_" + default_return_view, kwargs={"file_hash": upload_hash},
+            )
+            return HttpResponse(request.build_absolute_uri(url))
         return HttpResponse(status=400)
 
 

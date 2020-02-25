@@ -6,8 +6,8 @@ from django.shortcuts import get_object_or_404
 from PIL import Image
 from structlog import get_logger
 
-from pyazo.root.celery import CELERY_APP
 from pyazo.core.models import Object
+from pyazo.root.celery import CELERY_APP
 from pyazo.utils.files import generate_ext_thumb
 
 LOGGER = get_logger()
