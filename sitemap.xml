@@ -1,48 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
+     <loc>https://beryju.github.io/pyazo/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/install/package/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/install/docker/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/configuration/initial/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/configuration/nginx_reverse_proxy/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/configuration/migration_between_systems/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/configuration/ldap/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/configuration/oidc/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>None</loc>
-     <lastmod>2020-01-24</lastmod>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/api/api_endpoints/</loc>
+     <lastmod>2020-02-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://beryju.github.io/pyazo/configuration/nginx_reverse_proxy/">
+        <link rel="canonical" href="https://beryju.github.io/pyazo/configuration/oidc/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>Reverse Proxy - Pyazo Documentation</title>
+        <title>OIDC - Pyazo Documentation</title>
       
     
     
@@ -79,7 +79,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#reverse-proxy-configuration" tabindex="0" class="md-skip">
+      <a href="#oidc-authentication" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -105,7 +105,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Reverse Proxy
+                OIDC
               
             </span>
           
@@ -307,45 +307,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Reverse Proxy
-      </label>
-    
-    <a href="./" title="Reverse Proxy" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../nginx_reverse_proxy/" title="Reverse Proxy" class="md-nav__link">
       Reverse Proxy
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reverse-proxy-configuration" class="md-nav__link">
-    Reverse Proxy Configuration
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -377,11 +343,20 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../oidc/" title="OIDC" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+    <a href="./" title="OIDC" class="md-nav__link md-nav__link--active">
       OIDC
     </a>
+    
   </li>
 
         
@@ -440,22 +415,8 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#reverse-proxy-configuration" class="md-nav__link">
-    Reverse Proxy Configuration
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
   
 </nav>
                   </div>
@@ -467,48 +428,17 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/BeryJu/pyazo/edit/master/docs/configuration/nginx_reverse_proxy.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/BeryJu/pyazo/edit/master/docs/configuration/oidc.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Reverse Proxy</h1>
-                
-                <h2 id="reverse-proxy-configuration">Reverse Proxy Configuration<a class="headerlink" href="#reverse-proxy-configuration" title="Permanent link">¶</a></h2>
-<p>To use Pyazo behind an nginx Reverse-Proxy, you can use the following configuration:</p>
-<pre><code class="nginx">server {
-        # Server config
-        listen 80;
-        server_name i.domain.tld;
-
-        # 301 to SSL
-        location / {
-                return 301 https://$host$request_uri;
-        }
-}
-server {
-        # Server config
-        listen 443 ssl http2;
-        server_name i.domain.tld;
-
-        # SSL Certs
-        ssl_certificate &lt;ssl paths&gt;
-        ssl_certificate_key &lt;ssl paths&gt;
-
-        # Disable checking of client request body size.
-        client_max_body_size 0;
-
-        # Proxy site
-        location / {
-                proxy_pass http://&lt;pyazo hostname&gt;:8000;
-                proxy_set_header Host $host;
-                proxy_set_header X-Forwarded-Proto $scheme;
-                proxy_set_header X-Forwarded-Port 443;
-                proxy_set_header X-Real-IP $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-For $remote_addr;
-                proxy_set_header REMOTE_ADDR $remote_addr;
-                proxy_connect_timeout   10;
-                proxy_read_timeout      90;
-        }
-}
+                <h1 id="oidc-authentication">OIDC Authentication<a class="headerlink" href="#oidc-authentication" title="Permanent link">¶</a></h1>
+<p>pyazo supports Authentication against OIDC or Active Directory.</p>
+<p>To configure OIDC, add the following environment variables to your deployment:</p>
+<pre><code>PYAZO_OIDC__CLIENT_ID=foo
+PYAZO_OIDC__CLIENT_SECRET=bar
+PYAZO_OIDC__AUTHORIZATION_URL=https://
+PYAZO_OIDC__TOKEN_URL=bar
+PYAZO_OIDC__USER_URL=bar
 </code></pre>
                 
                   
@@ -531,7 +461,7 @@ server {
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../initial/" title="Initial Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../ldap/" title="LDAP" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -540,19 +470,19 @@ server {
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Initial Configuration
+                LDAP
               </span>
             </div>
           </a>
         
         
-          <a href="../migration_between_systems/" title="Migration between systems" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../api/api_endpoints/" title="Endpoints" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Migration between systems
+                Endpoints
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
