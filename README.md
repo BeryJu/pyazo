@@ -2,6 +2,8 @@
 
 ![](https://github.com/BeryJu/pyazo/workflows/pyazo-ci/badge.svg)
 
+Documentation: https://beryju.github.io/pyazo/
+
 ## Quick instance
 
 ```
