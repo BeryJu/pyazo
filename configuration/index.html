@@ -287,6 +287,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ldap-authentication" class="md-nav__link">
+    LDAP Authentication
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oidc-authentication" class="md-nav__link">
+    OIDC Authentication
+  </a>
+  
+</li>
+      
       
       
       
@@ -351,6 +365,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ldap-authentication" class="md-nav__link">
+    LDAP Authentication
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oidc-authentication" class="md-nav__link">
+    OIDC Authentication
+  </a>
+  
+</li>
+      
       
       
       
@@ -411,7 +439,7 @@ The length of links is as following:</p>
 <pre><code>PYAZO_AUTO_CLAIM_ENABLED=true
 </code></pre>
 
-<h1 id="ldap-authentication">LDAP Authentication<a class="headerlink" href="#ldap-authentication" title="Permanent link">¶</a></h1>
+<h2 id="ldap-authentication">LDAP Authentication<a class="headerlink" href="#ldap-authentication" title="Permanent link">¶</a></h2>
 <p>pyazo supports Authentication against LDAP or Active Directory.</p>
 <p>To configure LDAP, add the following environment variables to your <code>.env</code> file:</p>
 <pre><code>PYAZO_LDAP__ENABLED: true
@@ -425,14 +453,14 @@ PYAZO_LDAP__REQUIRE_GROUP: false
 </code></pre>
 
 <p>The <code>require_group</code> setting is optional and can be used to specify the DN of a group the user has to be member of.</p>
-<h1 id="oidc-authentication">OIDC Authentication<a class="headerlink" href="#oidc-authentication" title="Permanent link">¶</a></h1>
-<p>pyazo supports Authentication against OIDC.</p>
+<h2 id="oidc-authentication">OIDC Authentication<a class="headerlink" href="#oidc-authentication" title="Permanent link">¶</a></h2>
+<p>pyazo supports Authentication against any OpenID-Connect compatible provider.</p>
 <p>To configure OIDC, add the following environment variables to your <code>.env</code> file:</p>
 <pre><code>PYAZO_OIDC__CLIENT_ID=foo
 PYAZO_OIDC__CLIENT_SECRET=bar
-PYAZO_OIDC__AUTHORIZATION_URL=https://
-PYAZO_OIDC__TOKEN_URL=bar
-PYAZO_OIDC__USER_URL=bar
+PYAZO_OIDC__AUTHORIZATION_URL=https://&lt;your provider&gt;/application/oidc/authorize
+PYAZO_OIDC__TOKEN_URL=https://&lt;your provider&gt;/application/oidc/token
+PYAZO_OIDC__USER_URL=https://&lt;your provider&gt;/application/oidc/userinfo
 </code></pre>
 
 <p>The Callback URL of pyazo is <code>&lt;pyazo URL&gt;/oidc/callback/</code>.</p>
