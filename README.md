@@ -5,7 +5,7 @@
 ## Quick instance
 
 ```
-export PYAZO_DOMAIN=domain.tld
+export PYAZO_EXTERNAL_URL=http://domain.tld
 # Optionally enable Error-reporting
 # export PYAZO_ERROR_REPORTING=true
 docker-compose pull
