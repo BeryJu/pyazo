@@ -19,7 +19,6 @@
       {{ title }}
     </label>
     <div class="login-group">
-      {% if not external_only %}
       {% include 'blocks/block_form_login.html' with form=form %}
       {% block messages %}
         {% if messages %}
@@ -43,11 +42,8 @@
       <input type="hidden" name="next" value="{{ next }}" />
       {% endif %}
       <button type="submit" class="btn btn-primary">{% trans 'Login' %}</button>
-      {% endif %}
-      {% if extra_links %}
-      {% for link, name in extra_links.items %}
-      <a href="{% url link %}" class="signup">{% trans name %}</a>
-      {% endfor %}
+      {% if is_oidc %}
+      <a href="{% url 'oidc_authentication_init' %}" class="btn btn-primary">{% trans "SSO" %}</a>
       {% endif %}
     </div>
   </form>

@@ -9,4 +9,3 @@ class LoginForm(forms.Form):
 
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput, label=_("Password"))
-    remember = forms.BooleanField(required=False, label=_("Remember"))

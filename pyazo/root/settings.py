@@ -81,33 +81,33 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # OIDC settings
-if CONFIG.y('oidc.client_id', None):
-    OIDC_RP_CLIENT_ID = CONFIG.y('oidc.client_id')
-    OIDC_RP_CLIENT_SECRET = CONFIG.y('oidc.client_secret')
-    OIDC_OP_AUTHORIZATION_ENDPOINT = CONFIG.y('oidc.authorization_url')
-    OIDC_OP_TOKEN_ENDPOINT = CONFIG.y('oidc.token_url')
-    OIDC_OP_USER_ENDPOINT = CONFIG.y('oidc.user_url')
+if CONFIG.y("oidc.client_id", None):
+    OIDC_RP_CLIENT_ID = CONFIG.y("oidc.client_id")
+    OIDC_RP_CLIENT_SECRET = CONFIG.y("oidc.client_secret")
+    OIDC_OP_AUTHORIZATION_ENDPOINT = CONFIG.y("oidc.authorization_url")
+    OIDC_OP_TOKEN_ENDPOINT = CONFIG.y("oidc.token_url")
+    OIDC_OP_USER_ENDPOINT = CONFIG.y("oidc.user_url")
     AUTHENTICATION_BACKENDS += [
         "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
     ]
     LOGGER.info("OIDC Enabled.")
 
 # LDAP Settings
-if CONFIG.y_bool('ldap.enabled'):
-    import ldap
+if CONFIG.y_bool("ldap.enabled"):
     from django_auth_ldap.config import LDAPSearch
-    AUTH_LDAP_SERVER_URI = CONFIG.y('ldap.server.uri')
-    AUTH_LDAP_START_TLS = CONFIG.y('ldap.server.tls')
-    AUTH_LDAP_BIND_DN = CONFIG.y('ldap.bind.dn')
-    AUTH_LDAP_BIND_PASSWORD = CONFIG.y('ldap.bind.password')
-    # pylint: disable=no-member
-    AUTH_LDAP_USER_SEARCH = LDAPSearch(CONFIG.y('ldap.search_base'),
-                                        ldap.SCOPE_SUBTREE, CONFIG.y('ldap.filter'))
+
+    AUTH_LDAP_SERVER_URI = CONFIG.y("ldap.server.uri")
+    AUTH_LDAP_START_TLS = CONFIG.y("ldap.server.tls")
+    AUTH_LDAP_BIND_DN = CONFIG.y("ldap.bind.dn")
+    AUTH_LDAP_BIND_PASSWORD = CONFIG.y("ldap.bind.password")
+    AUTH_LDAP_USER_SEARCH = LDAPSearch(
+        CONFIG.y("ldap.search_base"), 2, CONFIG.y("ldap.filter")
+    )
     AUTHENTICATION_BACKENDS += [
-        'django_auth_ldap.backend.LDAPBackend',
+        "django_auth_ldap.backend.LDAPBackend",
     ]
-    if CONFIG.y('ldap.require_group'):
-        AUTH_LDAP_REQUIRE_GROUP = CONFIG.y('ldap.require_group')
+    if CONFIG.y("ldap.require_group"):
+        AUTH_LDAP_REQUIRE_GROUP = CONFIG.y("ldap.require_group")
     LOGGER.info("LDAP Enabled.")
 
 INSTALLED_APPS = [
