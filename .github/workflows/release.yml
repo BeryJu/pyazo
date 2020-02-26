@@ -61,6 +61,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run test suite in final docker images
         run: |
+          echo "PYAZO_POSTGRESQL__PASSWORD=foo" > .env
           docker-compose pull
           docker-compose up --no-start
           docker-compose start postgresql redis
