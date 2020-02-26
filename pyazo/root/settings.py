@@ -97,16 +97,18 @@ if CONFIG.y_bool("ldap.enabled"):
     from django_auth_ldap.config import LDAPSearch
 
     AUTH_LDAP_SERVER_URI = CONFIG.y("ldap.server.uri")
-    AUTH_LDAP_START_TLS = CONFIG.y("ldap.server.tls")
+    AUTH_LDAP_START_TLS = CONFIG.y_bool("ldap.server.tls")
     AUTH_LDAP_BIND_DN = CONFIG.y("ldap.bind.dn")
     AUTH_LDAP_BIND_PASSWORD = CONFIG.y("ldap.bind.password")
     AUTH_LDAP_USER_SEARCH = LDAPSearch(
-        CONFIG.y("ldap.search_base"), 2, CONFIG.y("ldap.filter")
+        CONFIG.y("ldap.search_base"),
+        2,
+        CONFIG.y("ldap.filter", "(sAMAccountName=%(user)s)"),
     )
     AUTHENTICATION_BACKENDS += [
         "django_auth_ldap.backend.LDAPBackend",
     ]
-    if CONFIG.y("ldap.require_group"):
+    if CONFIG.y("ldap.require_group", None):
         AUTH_LDAP_REQUIRE_GROUP = CONFIG.y("ldap.require_group")
     LOGGER.info("LDAP Enabled.")
 

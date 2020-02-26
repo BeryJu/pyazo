@@ -44,8 +44,9 @@ PYAZO_LDAP__SERVER__TLS=false
 PYAZO_LDAP__BIND__DN=bind-user
 PYAZO_LDAP__BIND__PASSWORD=bind-password
 PYAZO_LDAP__SEARCH_BASE=
-PYAZO_LDAP__FILTER=(sAMAccountName=%(user)s)
-PYAZO_LDAP__REQUIRE_GROUP=false
+# Defaults to (sAMAccountName=%(user)s)
+# PYAZO_LDAP__FILTER=
+# PYAZO_LDAP__REQUIRE_GROUP=
 ```
 
 The `%(user)s` placeholder in `PYAZO_LDAP__FILTER` is replaced by the username entered in the login form.
