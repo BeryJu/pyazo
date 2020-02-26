@@ -1,6 +1,15 @@
 # Configuration
 
 pyazo is configured through environment variables, which can be saved in a `.env` file in the same directory as your `docker-compose.yml` file.
+After changing any of these options, run `docker-compose up -d` to apply them.
+
+## Secret Key
+
+This key is used to create cookies. Use a website like [this](https://miniwebtool.com/django-secret-key-generator/) to generate a key.
+
+```
+PYAZO_SECRET_KEY=some-key-that-should-be-really-long
+```
 
 ## Error Reporting
 
@@ -37,17 +46,19 @@ pyazo supports Authentication against LDAP or Active Directory.
 To configure LDAP, add the following environment variables to your `.env` file:
 
 ```
-PYAZO_LDAP__ENABLED: true
-PYAZO_LDAP__SERVER__URI='ldap://dc1.example.com'
-PYAZO_LDAP__SERVER__URI: false
-PYAZO_LDAP__BIND__DN: ''
-PYAZO_LDAP__BIND__PASSWORD: ''
-PYAZO_LDAP__SEARCH_BASE: ''
-PYAZO_LDAP__FILTER: '(sAMAccountName=%(user)s)'
-PYAZO_LDAP__REQUIRE_GROUP: false
+PYAZO_LDAP__ENABLED=true
+PYAZO_LDAP__SERVER__URI=ldap://dc1.example.com
+PYAZO_LDAP__SERVER__TLS=false
+PYAZO_LDAP__BIND__DN=bind-user
+PYAZO_LDAP__BIND__PASSWORD=bind-password
+PYAZO_LDAP__SEARCH_BASE=
+PYAZO_LDAP__FILTER=(sAMAccountName=%(user)s)
+PYAZO_LDAP__REQUIRE_GROUP=false
 ```
 
-The `require_group` setting is optional and can be used to specify the DN of a group the user has to be member of.
+The `%(user)s` placeholder in `PYAZO_LDAP__FILTER` is replaced by the username entered in the login form.
+
+The `PYAZO_LDAP__REQUIRE_GROUP` setting is optional and can be used to specify the DN of a group the user has to be member of.
 
 ## OIDC Authentication
 

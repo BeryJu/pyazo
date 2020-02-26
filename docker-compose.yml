@@ -8,6 +8,8 @@ services:
       - ./database:/var/lib/postgresql/data
     networks:
       - internal
+    env_file:
+      - .env
     environment:
       - POSTGRES_PASSWORD=${PG_PASS:-thisisnotagoodpassword}
       - POSTGRES_USER=pyazo
@@ -27,13 +29,15 @@ services:
       - bootstrap
       - uwsgi
       - uwsgi.ini
+    env_file:
+      - .env
     environment:
       - PYAZO_REDIS__HOST=redis
-      - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
       - PYAZO_POSTGRESQL__HOST=postgresql
       - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
     volumes:
       - ./media:/app/media
+      - ./media/thumbnails:/app/media/thumbnails
     ports:
       - 8000
     networks:
@@ -56,13 +60,15 @@ services:
       - -s=/tmp/celerybeat-schedule
     volumes:
       - ./media:/app/media
+      - ./media/thumbnails:/app/media/thumbnails
     networks:
       - internal
     labels:
       - traefik.enable=false
+    env_file:
+      - .env
     environment:
       - PYAZO_REDIS__HOST=redis
-      - PYAZO_ERROR_REPORTING=${PYAZO_ERROR_REPORTING:-false}
       - PYAZO_POSTGRESQL__HOST=postgresql
       - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
   static:
