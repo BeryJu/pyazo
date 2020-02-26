@@ -299,14 +299,21 @@
       
         <li class="md-nav__item">
   <a href="#prepare-the-new-pyazo-install" class="md-nav__link">
-    Prepare the new pyazo Install
+    Prepare the new pyazo install
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#saving-a-export-of-the-old-pyazo-install" class="md-nav__link">
-    Saving a export of the old pyazo install
+  <a href="#saving-an-export-of-the-old-pyazo-install" class="md-nav__link">
+    Saving an export of the old pyazo install
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copying-the-media" class="md-nav__link">
+    Copying the media
   </a>
   
 </li>
@@ -320,7 +327,7 @@
       
         <li class="md-nav__item">
   <a href="#update-the-database-to-the-newest-version" class="md-nav__link">
-    Update the Database to the newest version
+    Update the database to the newest version
   </a>
   
 </li>
@@ -372,14 +379,21 @@
       
         <li class="md-nav__item">
   <a href="#prepare-the-new-pyazo-install" class="md-nav__link">
-    Prepare the new pyazo Install
+    Prepare the new pyazo install
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#saving-a-export-of-the-old-pyazo-install" class="md-nav__link">
-    Saving a export of the old pyazo install
+  <a href="#saving-an-export-of-the-old-pyazo-install" class="md-nav__link">
+    Saving an export of the old pyazo install
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copying-the-media" class="md-nav__link">
+    Copying the media
   </a>
   
 </li>
@@ -393,7 +407,7 @@
       
         <li class="md-nav__item">
   <a href="#update-the-database-to-the-newest-version" class="md-nav__link">
-    Update the Database to the newest version
+    Update the database to the newest version
   </a>
   
 </li>
@@ -425,13 +439,14 @@
                 
                 
                 <h1 id="migrating-from-pyazo-20">Migrating from pyazo &lt; 2.0<a class="headerlink" href="#migrating-from-pyazo-20" title="Permanent link">¶</a></h1>
-<p>This migration guide uses <code>pgLoader</code> to convert the MySQL Database from the old instance into the PostgreSQL Database that is used now. This guide also assumes that you want to keep using the same underlying server. Even if you want to move pyazo to a different machine, it is recommended to use this guide, as it makes it much easier to migrate ont he same host.</p>
+<p>This migration guide uses <code>pgLoader</code> to convert the MySQL Database from the old instance into the PostgreSQL Database that is used now. This guide also assumes that you want to keep using the same underlying server. Even if you want to move pyazo to a different machine, it is recommended to use this guide, as it makes it much easier to migrate on the same host.</p>
 <h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">¶</a></h2>
 <ul>
 <li>Docker and docker-compose is installed on the pyazo Server</li>
 <li>Install pgLoader (<code>apt install pgloader</code> for example.)</li>
 </ul>
-<h2 id="prepare-the-new-pyazo-install">Prepare the new pyazo Install<a class="headerlink" href="#prepare-the-new-pyazo-install" title="Permanent link">¶</a></h2>
+<h2 id="prepare-the-new-pyazo-install">Prepare the new pyazo install<a class="headerlink" href="#prepare-the-new-pyazo-install" title="Permanent link">¶</a></h2>
+<p>The old config file is located here: <code>/etc/pyazo/config.yml</code></p>
 <table>
 <thead>
 <tr>
@@ -467,12 +482,19 @@
 <p class="admonition-title">Note</p>
 <p>For LDAP Configuration, see <a href="../configuration/">Configuration</a></p>
 </div>
-<h2 id="saving-a-export-of-the-old-pyazo-install">Saving a export of the old pyazo install<a class="headerlink" href="#saving-a-export-of-the-old-pyazo-install" title="Permanent link">¶</a></h2>
+<h2 id="saving-an-export-of-the-old-pyazo-install">Saving an export of the old pyazo install<a class="headerlink" href="#saving-an-export-of-the-old-pyazo-install" title="Permanent link">¶</a></h2>
 <p>Incase the migration goes wrong, it is recommended to create a database backup.</p>
 <pre><code>mysqldump -u pyazo -p pyazo &gt; pyazo-backup.sql
 </code></pre>
 
 <p>The password is saved in <code>/etc/pyazo/config.d/database.yml</code>.</p>
+<h2 id="copying-the-media">Copying the media<a class="headerlink" href="#copying-the-media" title="Permanent link">¶</a></h2>
+<p>The media needs to be copied from <code>/usr/share/pyazo/media/</code> to <code>&lt;new pyazo install&gt;/media/</code>.</p>
+<p>Simply run the following command in your new pyazo's installation directory:</p>
+<pre><code>rsync -r --progress /usr/share/pyazo/media .
+chown -R 1000:1000 media
+</code></pre>
+
 <h2 id="migrate-from-mysql-to-postgresql">Migrate from MySQL to PostgreSQL<a class="headerlink" href="#migrate-from-mysql-to-postgresql" title="Permanent link">¶</a></h2>
 <pre><code># Download latest images, create containers, but *only* start PostgreSQL
 docker-compose pull
@@ -493,7 +515,7 @@ PG_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{en
 pgloader mysql://pyazo:@localhost/pyazo pgsql://pyazo@$PG_IP/pyazo
 </code></pre>
 
-<h2 id="update-the-database-to-the-newest-version">Update the Database to the newest version<a class="headerlink" href="#update-the-database-to-the-newest-version" title="Permanent link">¶</a></h2>
+<h2 id="update-the-database-to-the-newest-version">Update the database to the newest version<a class="headerlink" href="#update-the-database-to-the-newest-version" title="Permanent link">¶</a></h2>
 <pre><code>docker-compose exec server ./manage.py migrate
 </code></pre>
 
