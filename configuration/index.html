@@ -267,6 +267,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#secret-key" class="md-nav__link">
+    Secret Key
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#error-reporting" class="md-nav__link">
     Error Reporting
   </a>
@@ -345,6 +352,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#secret-key" class="md-nav__link">
+    Secret Key
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#error-reporting" class="md-nav__link">
     Error Reporting
   </a>
@@ -399,7 +413,13 @@
                 
                 
                 <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h1>
-<p>pyazo is configured through environment variables, which can be saved in a <code>.env</code> file in the same directory as your <code>docker-compose.yml</code> file.</p>
+<p>pyazo is configured through environment variables, which can be saved in a <code>.env</code> file in the same directory as your <code>docker-compose.yml</code> file.
+After changing any of these options, run <code>docker-compose up -d</code> to apply them.</p>
+<h2 id="secret-key">Secret Key<a class="headerlink" href="#secret-key" title="Permanent link">¶</a></h2>
+<p>This key is used to create cookies. Use a website like <a href="https://miniwebtool.com/django-secret-key-generator/">this</a> to generate a key.</p>
+<pre><code>PYAZO_SECRET_KEY=some-key-that-should-be-really-long
+</code></pre>
+
 <h2 id="error-reporting">Error Reporting<a class="headerlink" href="#error-reporting" title="Permanent link">¶</a></h2>
 <p>It is recommended to enable Error-reporting, as it drastically improves bug reporting and fixing:</p>
 <pre><code>PYAZO_ERROR_REPORTING=true
@@ -442,17 +462,18 @@ The length of links is as following:</p>
 <h2 id="ldap-authentication">LDAP Authentication<a class="headerlink" href="#ldap-authentication" title="Permanent link">¶</a></h2>
 <p>pyazo supports Authentication against LDAP or Active Directory.</p>
 <p>To configure LDAP, add the following environment variables to your <code>.env</code> file:</p>
-<pre><code>PYAZO_LDAP__ENABLED: true
-PYAZO_LDAP__SERVER__URI='ldap://dc1.example.com'
-PYAZO_LDAP__SERVER__URI: false
-PYAZO_LDAP__BIND__DN: ''
-PYAZO_LDAP__BIND__PASSWORD: ''
-PYAZO_LDAP__SEARCH_BASE: ''
-PYAZO_LDAP__FILTER: '(sAMAccountName=%(user)s)'
-PYAZO_LDAP__REQUIRE_GROUP: false
+<pre><code>PYAZO_LDAP__ENABLED=true
+PYAZO_LDAP__SERVER__URI=ldap://dc1.example.com
+PYAZO_LDAP__SERVER__TLS=false
+PYAZO_LDAP__BIND__DN=bind-user
+PYAZO_LDAP__BIND__PASSWORD=bind-password
+PYAZO_LDAP__SEARCH_BASE=
+PYAZO_LDAP__FILTER=(sAMAccountName=%(user)s)
+PYAZO_LDAP__REQUIRE_GROUP=false
 </code></pre>
 
-<p>The <code>require_group</code> setting is optional and can be used to specify the DN of a group the user has to be member of.</p>
+<p>The <code>%(user)s</code> placeholder in <code>PYAZO_LDAP__FILTER</code> is replaced by the username entered in the login form.</p>
+<p>The <code>PYAZO_LDAP__REQUIRE_GROUP</code> setting is optional and can be used to specify the DN of a group the user has to be member of.</p>
 <h2 id="oidc-authentication">OIDC Authentication<a class="headerlink" href="#oidc-authentication" title="Permanent link">¶</a></h2>
 <p>pyazo supports Authentication against any OpenID-Connect compatible provider.</p>
 <p>To configure OIDC, add the following environment variables to your <code>.env</code> file:</p>
