@@ -13,9 +13,14 @@ def _get_client_ip_from_meta(meta: Dict[str, Any]) -> Optional[str]:
         "HTTP_X_REAL_IP",
         "REMOTE_ADDR",
     )
+    address = None
     for _header in headers:
         if _header in meta:
-            return meta.get(_header)
+            address = meta.get(_header)
+    if address:
+        if "," in address:
+            return address.split(",")[0]
+        return address
     return None
 
 

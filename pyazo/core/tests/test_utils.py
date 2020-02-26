@@ -18,7 +18,7 @@ class UtilsTest(TestCase):
         """test get_client_ip"""
         self.assertEqual(get_client_ip(None), None)
         request = self.factory.get(reverse("index"))
-        request.META["HTTP_X_FORWARDED_FOR"] = "aa"
+        request.META["REMOTE_ADDR"] = "aa"
         self.assertEqual(get_client_ip(request), "aa")
 
     def test_reverse_dns(self):
