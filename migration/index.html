@@ -11,7 +11,7 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
-        <link rel="canonical" href="https://beryju.github.io/pyazo/configuration/">
+        <link rel="canonical" href="https://beryju.github.io/pyazo/migration/">
       
       
       
@@ -38,7 +38,7 @@
     
     
       
-        <title>Configuration - Pyazo Documentation</title>
+        <title>Migration - Pyazo Documentation</title>
       
     
     
@@ -79,7 +79,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#configuration" tabindex="0" class="md-skip">
+      <a href="#migrating-from-pyazo-20" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -105,7 +105,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Configuration
+                Migration
               
             </span>
           
@@ -238,77 +238,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Configuration
-      </label>
-    
-    <a href="./" title="Configuration" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../configuration/" title="Configuration" class="md-nav__link">
       Configuration
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#error-reporting" class="md-nav__link">
-    Error Reporting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#link-settings" class="md-nav__link">
-    Link Settings
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#auto-claim" class="md-nav__link">
-    Auto Claim
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ldap-authentication" class="md-nav__link">
-    LDAP Authentication
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#oidc-authentication" class="md-nav__link">
-    OIDC Authentication
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -328,11 +262,84 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../migration/" title="Migration" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Migration
+      </label>
+    
+    <a href="./" title="Migration" class="md-nav__link md-nav__link--active">
       Migration
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-new-pyazo-install" class="md-nav__link">
+    Prepare the new pyazo Install
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-a-export-of-the-old-pyazo-install" class="md-nav__link">
+    Saving a export of the old pyazo install
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrate-from-mysql-to-postgresql" class="md-nav__link">
+    Migrate from MySQL to PostgreSQL
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-the-database-to-the-newest-version" class="md-nav__link">
+    Update the Database to the newest version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-pyazo" class="md-nav__link">
+    Start pyazo
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
     
@@ -357,36 +364,43 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#error-reporting" class="md-nav__link">
-    Error Reporting
+  <a href="#pre-requisites" class="md-nav__link">
+    Pre-requisites
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#link-settings" class="md-nav__link">
-    Link Settings
+  <a href="#prepare-the-new-pyazo-install" class="md-nav__link">
+    Prepare the new pyazo Install
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#auto-claim" class="md-nav__link">
-    Auto Claim
+  <a href="#saving-a-export-of-the-old-pyazo-install" class="md-nav__link">
+    Saving a export of the old pyazo install
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ldap-authentication" class="md-nav__link">
-    LDAP Authentication
+  <a href="#migrate-from-mysql-to-postgresql" class="md-nav__link">
+    Migrate from MySQL to PostgreSQL
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#oidc-authentication" class="md-nav__link">
-    OIDC Authentication
+  <a href="#update-the-database-to-the-newest-version" class="md-nav__link">
+    Update the Database to the newest version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-pyazo" class="md-nav__link">
+    Start pyazo
   </a>
   
 </li>
@@ -407,77 +421,86 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/BeryJu/pyazo/edit/master/docs/configuration.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/BeryJu/pyazo/edit/master/docs/migration.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h1>
-<p>pyazo is configured through environment variables, which can be saved in a <code>.env</code> file in the same directory as your <code>docker-compose.yml</code> file.
-After changing any of these options, run <code>docker-compose up -d</code> to apply them.</p>
-<h2 id="error-reporting">Error Reporting<a class="headerlink" href="#error-reporting" title="Permanent link">¶</a></h2>
-<p>It is recommended to enable Error-reporting, as it drastically improves bug reporting and fixing:</p>
-<pre><code>PYAZO_ERROR_REPORTING=true
-</code></pre>
-
-<h2 id="link-settings">Link Settings<a class="headerlink" href="#link-settings" title="Permanent link">¶</a></h2>
-<p>If you prefer shorter links, you can adjust the setting <code>PYAZO_DEFAULT_RETURN_VIEW</code>, which defaults to using the SHA256 of the uploaded file.
-The length of links is as following:</p>
+                <h1 id="migrating-from-pyazo-20">Migrating from pyazo &lt; 2.0<a class="headerlink" href="#migrating-from-pyazo-20" title="Permanent link">¶</a></h1>
+<p>This migration guide uses <code>pgLoader</code> to convert the MySQL Database from the old instance into the PostgreSQL Database that is used now. This guide also assumes that you want to keep using the same underlying server. Even if you want to move pyazo to a different machine, it is recommended to use this guide, as it makes it much easier to migrate ont he same host.</p>
+<h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">¶</a></h2>
+<ul>
+<li>Docker and docker-compose is installed on the pyazo Server</li>
+<li>Install pgLoader (<code>apt install pgloader</code> for example.)</li>
+</ul>
+<h2 id="prepare-the-new-pyazo-install">Prepare the new pyazo Install<a class="headerlink" href="#prepare-the-new-pyazo-install" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
-<th>Setting</th>
-<th>Length</th>
+<th>Old setting name</th>
+<th>New setting name</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>PYAZO_DEFAULT_RETURN_VIEW=sha512_short</code></td>
-<td>16</td>
+<td><code>error_report_enabled:</code></td>
+<td><code>PYAZO_ERROR_REPORTING</code></td>
 </tr>
 <tr>
-<td><code>PYAZO_DEFAULT_RETURN_VIEW=md5</code></td>
-<td>32</td>
+<td><code>external_url</code></td>
+<td>Not needed anymore.</td>
 </tr>
 <tr>
-<td><code>PYAZO_DEFAULT_RETURN_VIEW=sha256</code></td>
-<td>64</td>
+<td><code>default_return_view</code></td>
+<td><code>PYAZO_DEFAULT_RETURN_VIEW</code></td>
 </tr>
 <tr>
-<td><code>PYAZO_DEFAULT_RETURN_VIEW=sha512</code></td>
-<td>128</td>
+<td><code>external_auth_only</code></td>
+<td>Not needed anymore.</td>
+</tr>
+<tr>
+<td><code>auto_claim_enabled</code></td>
+<td><code>PYAZO_AUTO_CLAIM_ENABLED</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="auto-claim">Auto Claim<a class="headerlink" href="#auto-claim" title="Permanent link">¶</a></h2>
-<p>Auto Claim automatically claims uploads to the first visitor that is logged in. Enable by add thing:</p>
-<pre><code>PYAZO_AUTO_CLAIM_ENABLED=true
+<p><strong>Additionally</strong>, the content of <code>/etc/pyazo/secret_key</code> should be added as <code>PYAZO_SECRET_KEY</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For LDAP Configuration, see <a href="../configuration/">Configuration</a></p>
+</div>
+<h2 id="saving-a-export-of-the-old-pyazo-install">Saving a export of the old pyazo install<a class="headerlink" href="#saving-a-export-of-the-old-pyazo-install" title="Permanent link">¶</a></h2>
+<p>Incase the migration goes wrong, it is recommended to create a database backup.</p>
+<pre><code>mysqldump -u pyazo -p pyazo &gt; pyazo-backup.sql
 </code></pre>
 
-<h2 id="ldap-authentication">LDAP Authentication<a class="headerlink" href="#ldap-authentication" title="Permanent link">¶</a></h2>
-<p>pyazo supports Authentication against LDAP or Active Directory.</p>
-<p>To configure LDAP, add the following environment variables to your <code>.env</code> file:</p>
-<pre><code>PYAZO_LDAP__ENABLED=true
-PYAZO_LDAP__SERVER__URI=ldap://dc1.example.com
-PYAZO_LDAP__SERVER__TLS=false
-PYAZO_LDAP__BIND__DN=bind-user
-PYAZO_LDAP__BIND__PASSWORD=bind-password
-PYAZO_LDAP__SEARCH_BASE=
-PYAZO_LDAP__FILTER=(sAMAccountName=%(user)s)
-PYAZO_LDAP__REQUIRE_GROUP=false
+<p>The password is saved in <code>/etc/pyazo/config.d/database.yml</code>.</p>
+<h2 id="migrate-from-mysql-to-postgresql">Migrate from MySQL to PostgreSQL<a class="headerlink" href="#migrate-from-mysql-to-postgresql" title="Permanent link">¶</a></h2>
+<pre><code># Download latest images, create containers, but *only* start PostgreSQL
+docker-compose pull
+docker-compose up --no-start
+docker-compose start postgresql
+
+# Password from /etc/pyazo/config.d/database.yml
+export MYSQL_PWD=''
+
+# Password you've generated during install
+export PGPASSWORD=''
+
+# This contains the IP Address of your PostgreSQL Container
+PG_ID=$(docker ps | grep postgres | awk '{print $1}')
+PG_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $PG_ID)
+
+# Run the actual migration
+pgloader mysql://pyazo:@localhost/pyazo pgsql://pyazo@$PG_IP/pyazo
 </code></pre>
 
-<p>The <code>%(user)s</code> placeholder in <code>PYAZO_LDAP__FILTER</code> is replaced by the username entered in the login form.</p>
-<p>The <code>PYAZO_LDAP__REQUIRE_GROUP</code> setting is optional and can be used to specify the DN of a group the user has to be member of.</p>
-<h2 id="oidc-authentication">OIDC Authentication<a class="headerlink" href="#oidc-authentication" title="Permanent link">¶</a></h2>
-<p>pyazo supports Authentication against any OpenID-Connect compatible provider.</p>
-<p>To configure OIDC, add the following environment variables to your <code>.env</code> file:</p>
-<pre><code>PYAZO_OIDC__CLIENT_ID=foo
-PYAZO_OIDC__CLIENT_SECRET=bar
-PYAZO_OIDC__AUTHORIZATION_URL=https://&lt;your provider&gt;/application/oidc/authorize
-PYAZO_OIDC__TOKEN_URL=https://&lt;your provider&gt;/application/oidc/token
-PYAZO_OIDC__USER_URL=https://&lt;your provider&gt;/application/oidc/userinfo
+<h2 id="update-the-database-to-the-newest-version">Update the Database to the newest version<a class="headerlink" href="#update-the-database-to-the-newest-version" title="Permanent link">¶</a></h2>
+<pre><code>docker-compose exec server ./manage.py migrate
 </code></pre>
 
-<p>The Callback URL of pyazo is <code>&lt;pyazo URL&gt;/oidc/callback/</code>.</p>
+<h2 id="start-pyazo">Start pyazo<a class="headerlink" href="#start-pyazo" title="Permanent link">¶</a></h2>
+<pre><code>docker-compose pull
+docker-compose up -d
+</code></pre>
                 
                   
                 
@@ -499,7 +522,7 @@ PYAZO_OIDC__USER_URL=https://&lt;your provider&gt;/application/oidc/userinfo
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../install/" title="Installation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../api/" title="API" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -508,25 +531,11 @@ PYAZO_OIDC__USER_URL=https://&lt;your provider&gt;/application/oidc/userinfo
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Installation
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../api/" title="API" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
                 API
               </span>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
           </a>
+        
         
       </nav>
     </div>

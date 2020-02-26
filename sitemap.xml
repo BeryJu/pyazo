@@ -15,5 +15,9 @@
      <loc>https://beryju.github.io/pyazo/api/</loc>
      <lastmod>2020-02-26</lastmod>
      <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/migration/</loc>
+     <lastmod>2020-02-26</lastmod>
+     <changefreq>daily</changefreq>
     </url>
 </urlset>

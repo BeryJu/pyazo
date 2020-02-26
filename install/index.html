@@ -267,6 +267,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../migration/" title="Migration" class="md-nav__link">
+      Migration
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -298,7 +310,20 @@
                 
                 
                 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">¶</a></h1>
-<p>The recommended way to deploy pyazo on docker is with docker-compose. Simply download the <code>docker-compose.yml</code> file from <a href="https://raw.githubusercontent.com/BeryJu/pyazo/master/docker-compose.yml">here</a>, place it wherever you want to, and run the following commands:</p>
+<p>The recommended way to deploy pyazo on docker is with docker-compose. Simply download the <code>docker-compose.yml</code> file from <a href="https://raw.githubusercontent.com/BeryJu/pyazo/master/docker-compose.yml">here</a> and place it wherever you want to.</p>
+<p>To make your pyazo install secure, create a file called <code>.env</code> in the same directory as <code>docker-compose.yml</code> and add the following value:</p>
+<pre><code>PYAZO_POSTGRESQL__PASSWORD=&lt;some random password&gt;
+</code></pre>
+
+<p>The secret key is used to create and sign cookies. Use a website like <a href="https://miniwebtool.com/django-secret-key-generator/">this</a> to generate a key.</p>
+<pre><code>PYAZO_SECRET_KEY=some-key-that-should-be-really-long
+</code></pre>
+
+<p>Afterwards, run the following commands:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Optionally, if you want to migrate an old install, check <a href="../migration/">this</a> out.</p>
+</div>
 <pre><code>docker-compose pull
 docker-compose up -d
 docker-compose exec server ./manage.py migrate
