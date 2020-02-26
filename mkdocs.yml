@@ -7,6 +7,7 @@ nav:
 - Installation: install.md
 - Configuration: configuration.md
 - API: api.md
+- Migration: migration.md
 
 repo_name: "BeryJu/pyazo"
 repo_url: https://github.com/BeryJu/pyazo

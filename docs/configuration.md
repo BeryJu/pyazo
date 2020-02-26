@@ -3,14 +3,6 @@
 pyazo is configured through environment variables, which can be saved in a `.env` file in the same directory as your `docker-compose.yml` file.
 After changing any of these options, run `docker-compose up -d` to apply them.
 
-## Secret Key
-
-This key is used to create cookies. Use a website like [this](https://miniwebtool.com/django-secret-key-generator/) to generate a key.
-
-```
-PYAZO_SECRET_KEY=some-key-that-should-be-really-long
-```
-
 ## Error Reporting
 
 It is recommended to enable Error-reporting, as it drastically improves bug reporting and fixing:
