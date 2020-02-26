@@ -516,7 +516,7 @@ pgloader mysql://pyazo:@localhost/pyazo pgsql://pyazo@$PG_IP/pyazo
 </code></pre>
 
 <h2 id="update-the-database-to-the-newest-version">Update the database to the newest version<a class="headerlink" href="#update-the-database-to-the-newest-version" title="Permanent link">¶</a></h2>
-<pre><code>docker-compose exec server ./manage.py migrate
+<pre><code>docker-compose run server ./manage.py migrate
 </code></pre>
 
 <h2 id="start-pyazo">Start pyazo<a class="headerlink" href="#start-pyazo" title="Permanent link">¶</a></h2>
