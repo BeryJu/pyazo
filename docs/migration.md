@@ -1,13 +1,15 @@
 # Migrating from pyazo < 2.0
 
-This migration guide uses `pgLoader` to convert the MySQL Database from the old instance into the PostgreSQL Database that is used now. This guide also assumes that you want to keep using the same underlying server. Even if you want to move pyazo to a different machine, it is recommended to use this guide, as it makes it much easier to migrate ont he same host.
+This migration guide uses `pgLoader` to convert the MySQL Database from the old instance into the PostgreSQL Database that is used now. This guide also assumes that you want to keep using the same underlying server. Even if you want to move pyazo to a different machine, it is recommended to use this guide, as it makes it much easier to migrate on the same host.
 
 ## Pre-requisites
 
 - Docker and docker-compose is installed on the pyazo Server
 - Install pgLoader (`apt install pgloader` for example.)
 
-## Prepare the new pyazo Install
+## Prepare the new pyazo install
+
+The old config file is located here: `/etc/pyazo/config.yml`
 
 | Old setting name        | New setting name             |
 |-------------------------|------------------------------|
@@ -22,7 +24,7 @@ This migration guide uses `pgLoader` to convert the MySQL Database from the old 
 !!! note
     For LDAP Configuration, see [Configuration](configuration.md)
 
-## Saving a export of the old pyazo install
+## Saving an export of the old pyazo install
 
 Incase the migration goes wrong, it is recommended to create a database backup.
 
@@ -31,6 +33,17 @@ mysqldump -u pyazo -p pyazo > pyazo-backup.sql
 ```
 
 The password is saved in `/etc/pyazo/config.d/database.yml`.
+
+## Copying the media
+
+The media needs to be copied from `/usr/share/pyazo/media/` to `<new pyazo install>/media/`.
+
+Simply run the following command in your new pyazo's installation directory:
+
+```
+rsync -r --progress /usr/share/pyazo/media .
+chown -R 1000:1000 media
+```
 
 ## Migrate from MySQL to PostgreSQL
 
@@ -54,7 +67,7 @@ PG_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{en
 pgloader mysql://pyazo:@localhost/pyazo pgsql://pyazo@$PG_IP/pyazo
 ```
 
-## Update the Database to the newest version
+## Update the database to the newest version
 
 ```
 docker-compose exec server ./manage.py migrate
