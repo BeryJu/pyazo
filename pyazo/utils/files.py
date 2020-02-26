@@ -13,7 +13,10 @@ def get_mime_type(file_path: str) -> str:
     """Return mime-type for file"""
     import magic
 
-    return magic.from_file(file_path, mime=True)
+    try:
+        return magic.from_file(file_path, mime=True)
+    except FileNotFoundError:
+        return ""
 
 
 def generate_ext_thumb(extension: str):
