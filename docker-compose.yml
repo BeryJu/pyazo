@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_PASSWORD=${PG_PASS:-thisisnotagoodpassword}
+      - POSTGRES_PASSWORD=${PYAZO_POSTGRESQL__PASSWORD}
       - POSTGRES_USER=pyazo
       - POSTGRES_DB=pyazo
     labels:
@@ -34,7 +34,6 @@ services:
     environment:
       - PYAZO_REDIS__HOST=redis
       - PYAZO_POSTGRESQL__HOST=postgresql
-      - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
     volumes:
       - ./media:/app/media
       - ./media/thumbnails:/app/media/thumbnails
@@ -70,7 +69,6 @@ services:
     environment:
       - PYAZO_REDIS__HOST=redis
       - PYAZO_POSTGRESQL__HOST=postgresql
-      - PYAZO_POSTGRESQL__PASSWORD=${PG_PASS:-thisisnotagoodpassword}
   static:
     image: beryju/pyazo-static:latest
     networks:

@@ -261,10 +261,9 @@ _LOGGING_HANDLER_MAP = {
     "pyazo": "DEBUG",
     "django": "WARNING",
     "celery": "WARNING",
-    "grpc": "DEBUG",
     "oauthlib": "DEBUG",
-    "oauth2_provider": "DEBUG",
-    "oidc_provider": "DEBUG",
+    "mozilla_django_oidc": "DEBUG",
+    "django_auth_ldap": "DEBUG",
 }
 for handler_name, level in _LOGGING_HANDLER_MAP.items():
     LOGGING["loggers"][handler_name] = {
