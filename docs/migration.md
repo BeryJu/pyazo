@@ -70,7 +70,7 @@ pgloader mysql://pyazo:@localhost/pyazo pgsql://pyazo@$PG_IP/pyazo
 ## Update the database to the newest version
 
 ```
-docker-compose exec server ./manage.py migrate
+docker-compose run server ./manage.py migrate
 ```
 
 ## Start pyazo

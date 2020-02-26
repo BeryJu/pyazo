@@ -3,16 +3,6 @@
 from django.db import migrations
 
 
-def fix_file_path(apps, schema_editor):
-    Object = apps.get_model("pyazo_core", "Object")
-    db_alias = schema_editor.connection.alias
-    for obj in Object.objects.using(db_alias).all():
-        path = obj.file.path
-        if path.startswith("/usr/share/pyazo/media/"):
-            obj.file.path = path.replace("/usr/share/pyazo/media/", "/app/media/")
-            obj.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -20,5 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(fix_file_path),
+        migrations.RunSQL(
+            (
+                "UPDATE pyazo_core_object SET file = "
+                "replace(file, '/usr/share/pyazo/media/', '/app/media/');"
+            )
+        ),
     ]
