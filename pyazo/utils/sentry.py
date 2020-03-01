@@ -22,6 +22,7 @@ def before_send(event, hint):
         DisallowedHost,
         ConnectionResetError,
         KeyboardInterrupt,
+        OSError,
     )
     if "exc_info" in hint:
         _exc_type, exc_value, _ = hint["exc_info"]
