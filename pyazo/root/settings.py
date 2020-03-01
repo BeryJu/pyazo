@@ -40,9 +40,9 @@ DEBUG = CONFIG.y("debug")
 # Also allow server's hostname and server's fqdn
 ALLOWED_HOSTS = ["*"]
 
-LOGIN_REDIRECT_URL = "index"
 # Application definition
 LOGIN_URL = "accounts-login"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "accounts-login"
 INTERNAL_IPS = ["127.0.0.1"]
 
