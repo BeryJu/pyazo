@@ -476,6 +476,8 @@ PYAZO_OIDC__CLIENT_SECRET=bar
 PYAZO_OIDC__AUTHORIZATION_URL=https://&lt;your provider&gt;/application/oidc/authorize
 PYAZO_OIDC__TOKEN_URL=https://&lt;your provider&gt;/application/oidc/token
 PYAZO_OIDC__USER_URL=https://&lt;your provider&gt;/application/oidc/userinfo
+PYAZO_OIDC__ALGO=HS256 # Or RS256, depending on your Provider.
+PYAZO_OIDC__JWKS_URL=https://&lt;your provider&gt;/application/oidc/jwks # Only required if RS256 is used.
 </code></pre>
 
 <p>The Callback URL of pyazo is <code>&lt;pyazo URL&gt;/oidc/callback/</code>.</p>
