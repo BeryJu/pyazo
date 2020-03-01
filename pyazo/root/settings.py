@@ -87,6 +87,8 @@ if CONFIG.y("oidc.client_id", None):
     OIDC_OP_AUTHORIZATION_ENDPOINT = CONFIG.y("oidc.authorization_url")
     OIDC_OP_TOKEN_ENDPOINT = CONFIG.y("oidc.token_url")
     OIDC_OP_USER_ENDPOINT = CONFIG.y("oidc.user_url")
+    OIDC_OP_JWKS_ENDPOINT = CONFIG.y("oidc.jwks_url")
+    OIDC_RP_SIGN_ALGO = CONFIG.y("oidc.algo")
     AUTHENTICATION_BACKENDS += [
         "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
     ]
