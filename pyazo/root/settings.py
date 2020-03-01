@@ -89,6 +89,7 @@ if CONFIG.y("oidc.client_id", None):
     OIDC_OP_USER_ENDPOINT = CONFIG.y("oidc.user_url")
     OIDC_OP_JWKS_ENDPOINT = CONFIG.y("oidc.jwks_url")
     OIDC_RP_SIGN_ALGO = CONFIG.y("oidc.algo")
+    OIDC_USERNAME_ALGO = "pyazo.root.auth.generate_username"
     AUTHENTICATION_BACKENDS += [
         "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
     ]
