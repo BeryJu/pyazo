@@ -91,7 +91,7 @@ if CONFIG.y("oidc.client_id", None):
     OIDC_RP_SIGN_ALGO = CONFIG.y("oidc.algo")
     OIDC_USERNAME_ALGO = "pyazo.root.auth.generate_username"
     AUTHENTICATION_BACKENDS += [
-        "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+        "pyazo.root.auth.IDTokenOIDC",
     ]
     LOGGER.info("OIDC Enabled.")
 
