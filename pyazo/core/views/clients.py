@@ -27,9 +27,9 @@ class ClientDownloadView(LoginRequiredMixin, View):
 
     def client_windows(self, request: HttpRequest) -> HttpResponse:
         """Download windows client"""
-        client_path = os.path.join(settings.BASE_DIR + "/", "bin/", "Pyazo.exe")
+        client_path = os.path.join(settings.BASE_DIR + "/", "bin/", "pyazo.exe")
         host = urlparse(request.build_absolute_uri()).netloc
-        filename = "Pyazo_%s.exe" % host
+        filename = "pyazo_%s.exe" % host
         if os.path.isfile(client_path):
             with open(client_path, "rb") as _file:
                 response = HttpResponse(
