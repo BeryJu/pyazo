@@ -10,13 +10,10 @@ https://docs.djangoproject.com/en/1.10/howto/deployment/wsgi/
 import os
 from time import time
 
-import pymysql
 from django.core.wsgi import get_wsgi_application
 from structlog import get_logger
 
 from pyazo.utils import _get_client_ip_from_meta
-
-pymysql.install_as_MySQLdb()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pyazo.root.settings")
 
