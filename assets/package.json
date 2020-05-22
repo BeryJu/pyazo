@@ -9,7 +9,7 @@
     "clarity-ui": "latest",
     "dropzone": "^5.2.0",
     "font-awesome": "^4.7.0",
-    "grunt": "^1.0.1",
+    "grunt": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^2.0.0",
     "grunt-contrib-uglify": "^2.3.0",
