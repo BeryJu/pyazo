@@ -7,7 +7,7 @@
     "@webcomponents/custom-elements": "^1.4.1",
     "clarity-icons": "latest",
     "clarity-ui": "latest",
-    "dropzone": "^5.7.0",
+    "dropzone": "^5.7.1",
     "font-awesome": "^4.7.0",
     "grunt": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
