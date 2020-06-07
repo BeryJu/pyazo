@@ -25,6 +25,7 @@ RUN apt-get update && \
     apt-get remove --purge -y build-essential && \
     apt-get autoremove --purge -y
 
+COPY ./bin/ /app/bin
 COPY ./pyazo/ /app/pyazo
 COPY ./manage.py /app/
 COPY ./docker/uwsgi.ini /app/
