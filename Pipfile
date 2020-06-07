@@ -33,6 +33,7 @@ psycopg2-binary = "*"
 pyuwsgi = "*"
 drf-yasg = "*"
 django-auth-ldap = "*"
+future = "*"
 
 [requires]
 python_version = "3.8"
