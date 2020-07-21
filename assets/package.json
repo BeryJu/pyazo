@@ -4,7 +4,7 @@
   "description": "Static files for pyazo",
   "main": "index.js",
   "dependencies": {
-    "@webcomponents/custom-elements": "^1.4.1",
+    "@webcomponents/custom-elements": "^1.4.2",
     "clarity-icons": "latest",
     "clarity-ui": "latest",
     "dropzone": "^5.7.1",
