@@ -3,8 +3,8 @@ import os
 from typing import Tuple
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -127,7 +127,7 @@ class LegacyObjectView(View):
             if created:
                 # Run auto-claim
                 if CONFIG.y("auto_claim_enabled", False) and "username" in request.POST:
-                    matching = User.objects.filter(
+                    matching = get_user_model().objects.filter(
                         username=request.POST.get("username")
                     )
                     if matching.exists():

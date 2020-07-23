@@ -1,5 +1,6 @@
 """test core views"""
-from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from django.test import TestCase
 
@@ -31,7 +32,7 @@ class CoreViewTests(TestCase):
     def test_index_collection(self):
         """Test valid collection"""
         self.client.login(**test_auth())
-        Collection.objects.create(name="test", owner=User.objects.first())
+        Collection.objects.create(name="test", owner=get_user_model().objects.first())
         response = self.client.get(reverse("index") + "?collection=test")
         self.assertEqual(response.status_code, 200)
 

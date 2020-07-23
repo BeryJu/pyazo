@@ -1,5 +1,6 @@
 """pyazo API Viewsets"""
-from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from pyazo.api.serializers import (
@@ -15,13 +16,13 @@ from pyazo.core.models import Collection, Object, ObjectView
 class UserViewSet(ModelViewSet):
     """User viewset (only show current user for normal users, otherwise all users)"""
 
-    queryset = User.objects.none()
+    queryset = get_user_model().objects.none()
     serializer_class = UserSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return User.objects.all()
-        return User.objects.filter(pk=self.request.user.pk)
+            return get_user_model().objects.all()
+        return get_user_model().objects.filter(pk=self.request.user.pk)
 
 
 # pylint: disable=too-many-ancestors

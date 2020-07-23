@@ -16,7 +16,6 @@ class TaskTests(TestCase):
         super().setUp()
         with open(settings.MEDIA_ROOT + "test2.txt", "w") as _file:
             _file.write("updating existing upload")
-        self.upload = Object.objects.create(file=settings.MEDIA_ROOT + "test2.txt")
 
     def tearDown(self):
         super().tearDown()
@@ -27,5 +26,6 @@ class TaskTests(TestCase):
 
     def test_make_thumbnail(self):
         """test make_thumbnail"""
+        upload = Object.objects.create(file=settings.MEDIA_ROOT + "test2.txt")
         # pylint gets confused by celery tasks
-        make_thumbnail(self.upload.pk)  # pylint: disable=no-value-for-parameter
+        make_thumbnail(upload.pk)  # pylint: disable=no-value-for-parameter

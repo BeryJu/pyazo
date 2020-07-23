@@ -3,7 +3,7 @@ import glob
 import os
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from django.test import TestCase, override_settings
 
@@ -42,7 +42,7 @@ class ObjectViewTests(TestCase):
         """Test ObjectView's post"""
         auth = test_auth()
         self.client.login(**auth)
-        test_user = User.objects.get(username=auth.get("username"))
+        test_user = get_user_model().objects.get(username=auth.get("username"))
         test_collection = Collection.objects.create(name="test", owner=test_user)
         form_data = {"collection": test_collection}
         response = self.client.post(
