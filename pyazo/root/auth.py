@@ -1,7 +1,8 @@
 """OIDC helper"""
 import json
-from josepy.jws import JWS
+
 from django.utils.encoding import force_bytes
+from josepy.jws import JWS
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 
 

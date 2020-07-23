@@ -1,5 +1,6 @@
 """pyazo API Serializers"""
-from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import reverse
 from rest_framework.serializers import (
     HyperlinkedModelSerializer,
@@ -15,7 +16,7 @@ class UserSerializer(HyperlinkedModelSerializer):
 
     class Meta:
 
-        model = User
+        model = get_user_model()
         fields = ["pk", "first_name", "last_name", "username"]
 
 

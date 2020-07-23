@@ -1,6 +1,6 @@
 """pyazo models"""
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from user_agents import parse
 
@@ -13,7 +13,11 @@ class Object(models.Model):
     file = models.FileField(max_length=512)
     thumbnail = models.FileField(blank=True, upload_to="thumbnail/", max_length=512)
     user = models.ForeignKey(
-        User, default=None, null=True, blank=True, on_delete=models.SET_DEFAULT
+        settings.AUTH_USER_MODEL,
+        default=None,
+        null=True,
+        blank=True,
+        on_delete=models.SET_DEFAULT,
     )
     md5 = models.CharField(max_length=32, blank=True)
     sha256 = models.CharField(max_length=64, blank=True)
@@ -68,7 +72,11 @@ class ObjectView(models.Model):
 
     obj = models.ForeignKey("Object", on_delete=models.CASCADE)
     viewee = models.ForeignKey(
-        User, blank=True, null=True, default=None, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        default=None,
+        on_delete=models.CASCADE,
     )
     viewee_ip = models.GenericIPAddressField(blank=True, null=True)
     viewee_dns = models.TextField(blank=True)
@@ -89,7 +97,7 @@ class Collection(models.Model):
     """Collection to group Objects together"""
 
     name = models.CharField(max_length=255)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
