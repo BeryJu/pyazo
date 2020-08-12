@@ -24,11 +24,6 @@ services:
       - traefik.enable=false
   server:
     image: beryju/pyazo:${SERVER_TAG:-latest}
-    command:
-      - ./manage.py
-      - bootstrap
-      - uwsgi
-      - uwsgi.ini
     env_file:
       - .env
     environment:
@@ -38,13 +33,9 @@ services:
       - ./media:/app/media
       - ./media/thumbnails:/app/media/thumbnails
     ports:
-      - 8000
+      - 8000:8000
     networks:
       - internal
-    labels:
-      - traefik.port=8000
-      - traefik.docker.network=internal
-      - traefik.frontend.rule=PathPrefix:/
   worker:
     image: beryju/pyazo:${SERVER_TAG:-latest}
     command:
@@ -69,24 +60,6 @@ services:
     environment:
       - PYAZO_REDIS__HOST=redis
       - PYAZO_POSTGRESQL__HOST=postgresql
-  static:
-    image: beryju/pyazo-static:latest
-    networks:
-      - internal
-    labels:
-      - traefik.frontend.rule=PathPrefix:/static, /robots.txt
-      - traefik.port=80
-      - traefik.docker.network=internal
-  traefik:
-    image: traefik:1.7
-    command: --api --docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
-    networks:
-      - internal
 
 networks:
   internal: {}

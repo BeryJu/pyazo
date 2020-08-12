@@ -6,25 +6,6 @@ jobs:
   # Build
   build-server:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Docker Login Registry
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - name: Building Docker Image
-        run: docker build
-          --no-cache
-          -t beryju/pyazo:2.0.3
-          -t beryju/pyazo:latest
-          -f Dockerfile .
-      - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo:2.0.3
-      - name: Push Docker Container to Registry (latest)
-        run: docker push beryju/pyazo:latest
-  build-static:
-    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:latest
@@ -45,17 +26,16 @@ jobs:
         run: docker build
           --no-cache
           --network=$(docker network ls | grep github | awk '{print $1}')
-          -t beryju/pyazo-static:2.0.3
-          -t beryju/pyazo-static:latest
-          -f static.Dockerfile .
+          -t beryju/pyazo:2.0.3
+          -t beryju/pyazo:latest
+          .
       - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo-static:2.0.3
+        run: docker push beryju/pyazo:2.0.3
       - name: Push Docker Container to Registry (latest)
-        run: docker push beryju/pyazo-static:latest
+        run: docker push beryju/pyazo:latest
   test-release:
     needs:
       - build-server
-      - build-static
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
