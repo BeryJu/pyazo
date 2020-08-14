@@ -14,11 +14,11 @@ jobs:
       - name: Pre-release test
         run: |
           echo "PYAZO_POSTGRESQL__PASSWORD=foo" > .env
-          docker-compose pull
           docker build \
             --no-cache \
-            -t beryju/pyazo:latest \
+            -t beryju/pyazo:2.1.0 \
             -f Dockerfile .
+          docker-compose pull
           docker-compose up --no-start
           docker-compose start postgresql redis
           docker-compose run -u root server bash -c "pip install --no-cache -r requirements-dev.txt && ./manage.py test"
