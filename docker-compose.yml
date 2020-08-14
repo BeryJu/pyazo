@@ -23,7 +23,7 @@ services:
     labels:
       - traefik.enable=false
   server:
-    image: beryju/pyazo:${SERVER_TAG:-latest}
+    image: beryju/pyazo:${SERVER_TAG:-2.0.3}
     env_file:
       - .env
     environment:
@@ -37,7 +37,7 @@ services:
     networks:
       - internal
   worker:
-    image: beryju/pyazo:${SERVER_TAG:-latest}
+    image: beryju/pyazo:${SERVER_TAG:-2.0.3}
     command:
       - ./manage.py
       - bootstrap
