@@ -14,14 +14,10 @@ services:
       - POSTGRES_PASSWORD=${PYAZO_POSTGRESQL__PASSWORD}
       - POSTGRES_USER=pyazo
       - POSTGRES_DB=pyazo
-    labels:
-      - traefik.enable=false
   redis:
     image: redis
     networks:
       - internal
-    labels:
-      - traefik.enable=false
   server:
     image: beryju/pyazo:${SERVER_TAG:-2.2.0}
     env_file:
@@ -51,8 +47,6 @@ services:
       - ./media/thumbnails:/app/media/thumbnails
     networks:
       - internal
-    labels:
-      - traefik.enable=false
     env_file:
       - .env
     environment:
