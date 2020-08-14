@@ -26,11 +26,11 @@ jobs:
         run: docker build
           --no-cache
           --network=$(docker network ls | grep github | awk '{print $1}')
-          -t beryju/pyazo:2.1.0
+          -t beryju/pyazo:2.1.1
           -t beryju/pyazo:latest
           .
       - name: Push Docker Container to Registry (versioned)
-        run: docker push beryju/pyazo:2.1.0
+        run: docker push beryju/pyazo:2.1.1
       - name: Push Docker Container to Registry (latest)
         run: docker push beryju/pyazo:latest
   test-release:
