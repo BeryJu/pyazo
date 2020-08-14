@@ -26,6 +26,6 @@ docker-compose exec server ./manage.py migrate
 docker-compose exec server ./manage.py createsuperuser
 ```
 
-This will start pyazo, listening on port 80 and 443.
+This will start pyazo, listening on port 8000.
 
 To configure pyazo, check out [Configuration](configuration.md).
