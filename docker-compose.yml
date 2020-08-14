@@ -39,8 +39,6 @@ services:
   worker:
     image: beryju/pyazo:${SERVER_TAG:-2.0.3}
     command:
-      - ./manage.py
-      - bootstrap
       - celery
       - worker
       - --autoscale=10,3
