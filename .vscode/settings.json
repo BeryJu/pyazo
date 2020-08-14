@@ -6,5 +6,5 @@
   "cSpell.words": [
     "pyazo"
   ],
-  "python.pythonPath": "/Users/langhammerj/.local/share/virtualenvs/pyazo-HqZjhFYH/bin/python"
+  "python.linting.pylintEnabled": true
 }

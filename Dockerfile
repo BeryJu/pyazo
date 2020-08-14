@@ -58,12 +58,18 @@ RUN apt-get update && \
 COPY ./bin/ /app/bin
 COPY ./pyazo/ /app/pyazo
 COPY ./manage.py /app/
+# UWSGI and NGINX config
 COPY ./docker/uwsgi.ini /app/
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/supervisor.ini /etc/supervisor.ini
+# Copy bootstrap scripts
+COPY ./docker/bootstrap.sh /bootstrap.sh
+COPY ./docker/wait_for_db.py /app/wait_for_db.py
 
 USER pyazo
 
 ENV PYTHONUNBUFFERED=1
+
+ENTRYPOINT [ "/bootstrap.sh" ]
 
 CMD [ "supervisord", "-c", "/etc/supervisor.ini" ]
