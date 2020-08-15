@@ -33,7 +33,10 @@ class ObjectViewFile(View):
             viewee_user_agent=user_agent,
         )
         LOGGER.info(
-            "Logged view", client_ip=client_ip, client_rdns=client_dns, upload_sha512=upload.sha512
+            "Logged view",
+            client_ip=client_ip,
+            client_rdns=client_dns,
+            upload_sha512=upload.sha512,
         )
 
     def resolve_hash(self, file_hash: str) -> QuerySet:
