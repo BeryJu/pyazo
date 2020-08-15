@@ -23,35 +23,28 @@ services:
     env_file:
       - .env
     environment:
+      - PYAZO_SECRET_KEY=${PYAZO_SECRET_KEY} # explicitly define this variable so theres a warning when its undefined
       - PYAZO_REDIS__HOST=redis
       - PYAZO_POSTGRESQL__HOST=postgresql
+      - BOOTSTRAP_MODE=server
     volumes:
       - ./media:/app/media
-      - ./media/thumbnails:/app/media/thumbnails
     ports:
       - 8000:8000
     networks:
       - internal
   worker:
     image: beryju/pyazo:${SERVER_TAG:-2.2.0}
-    command:
-      - celery
-      - worker
-      - --autoscale=10,3
-      - -E
-      - -B
-      - -A=pyazo.root.celery
-      - -s=/tmp/celerybeat-schedule
-    volumes:
-      - ./media:/app/media
-      - ./media/thumbnails:/app/media/thumbnails
-    networks:
-      - internal
     env_file:
       - .env
     environment:
       - PYAZO_REDIS__HOST=redis
       - PYAZO_POSTGRESQL__HOST=postgresql
+      - BOOTSTRAP_MODE=worker
+    volumes:
+      - ./media:/app/media
+    networks:
+      - internal
 
 networks:
   internal: {}
