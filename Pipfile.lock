@@ -254,11 +254,11 @@
         },
         "mozilla-django-oidc": {
             "hashes": [
-                "sha256:03e15ea449b66ba3be9f8321a66237fd0cc7b570d4feeb893de58a2d8696b70b",
-                "sha256:ba6171ebac91f0a9679bfd5fb73d0d41c90f0711f0c06f595f219537a0a6bae0"
+                "sha256:6f1064ec35c0dc42a7f6487e8649c9b51db04df52c424f48ebad6fe35e7481c8",
+                "sha256:a5130790bc71096b864d67486bbdabbbd4efc9bf1a755fb50d1f51891c11f423"
             ],
             "index": "pypi",
-            "version": "==1.2.3"
+            "version": "==1.2.4"
         },
         "packaging": {
             "hashes": [
@@ -566,10 +566,10 @@
         },
         "attrs": {
             "hashes": [
-                "sha256:08a96c641c3a74e44eb59afb61a24f2cb9f4d7188748e76ba4bb5edfa3cb7d1c",
-                "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"
+                "sha256:0ef97238856430dcf9228e07f316aefc17e8939fc8507e18c6501b761ef1a42a",
+                "sha256:2867b7b9f8326499ab5b0e2d12801fa5c98842d2cbd22b35112ae04bf85b4dff"
             ],
-            "version": "==19.3.0"
+            "version": "==20.1.0"
         },
         "autopep8": {
             "hashes": [
