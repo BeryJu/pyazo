@@ -48,7 +48,10 @@ class ClientDownloadView(LoginRequiredMixin, View):
             "DestinationType": "ImageUploader",
             "RequestURL": "%s://%s/upload/",
             "FileFormName": "imagedata",
-            "Arguments": {"id": "%rn", "username": "%uln",},
+            "Arguments": {
+                "id": "%rn",
+                "username": "%uln",
+            },
         }
         url = urlparse(request.build_absolute_uri())
         scheme = "https" if request.is_secure() else "http"

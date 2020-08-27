@@ -25,7 +25,10 @@ info = openapi.Info(
     contact=openapi.Contact(email="hello@beryju.org"),
     license=openapi.License(name="MIT License"),
 )
-SchemaView = get_schema_view(info, public=True,)
+SchemaView = get_schema_view(
+    info,
+    public=True,
+)
 
 urlpatterns = [
     url(

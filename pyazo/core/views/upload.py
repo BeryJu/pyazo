@@ -146,7 +146,8 @@ class LegacyObjectView(View):
             )
             upload_hash = getattr(upload, default_return_view, "sha256")
             url = reverse(
-                "view_" + default_return_view, kwargs={"file_hash": upload_hash},
+                "view_" + default_return_view,
+                kwargs={"file_hash": upload_hash},
             )
             return HttpResponse(request.build_absolute_uri(url))
         return HttpResponse(status=400)

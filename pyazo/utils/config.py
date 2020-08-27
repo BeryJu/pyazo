@@ -10,9 +10,11 @@ import yaml
 from django.conf import ImproperlyConfigured
 from structlog import get_logger
 
-SEARCH_PATHS = ["pyazo/utils/default.yml", "/etc/pyazo/config.yml", "",] + glob(
-    "/etc/pyazo/config.d/*.yml", recursive=True
-)
+SEARCH_PATHS = [
+    "pyazo/utils/default.yml",
+    "/etc/pyazo/config.yml",
+    "",
+] + glob("/etc/pyazo/config.d/*.yml", recursive=True)
 LOGGER = get_logger()
 ENV_PREFIX = "PYAZO"
 ENVIRONMENT = os.getenv(f"{ENV_PREFIX}_ENV", "local")
