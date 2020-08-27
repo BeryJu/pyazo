@@ -13,9 +13,17 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(old_name="Upload", new_name="Object",),
-        migrations.RenameModel(old_name="UploadView", new_name="ObjectView",),
+        migrations.RenameModel(
+            old_name="Upload",
+            new_name="Object",
+        ),
+        migrations.RenameModel(
+            old_name="UploadView",
+            new_name="ObjectView",
+        ),
         migrations.RenameField(
-            model_name="objectview", old_name="upload", new_name="obj",
+            model_name="objectview",
+            old_name="upload",
+            new_name="obj",
         ),
     ]

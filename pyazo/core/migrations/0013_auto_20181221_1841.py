@@ -11,7 +11,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelTable(name="collection", table=None,),
-        migrations.AlterModelTable(name="upload", table=None,),
-        migrations.AlterModelTable(name="uploadview", table=None,),
+        migrations.AlterModelTable(
+            name="collection",
+            table=None,
+        ),
+        migrations.AlterModelTable(
+            name="upload",
+            table=None,
+        ),
+        migrations.AlterModelTable(
+            name="uploadview",
+            table=None,
+        ),
     ]

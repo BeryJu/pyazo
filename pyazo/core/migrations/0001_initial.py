@@ -17,7 +17,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            options={"db_table": "pyazo_upload",},
+            options={
+                "db_table": "pyazo_upload",
+            },
             name="Upload",
             fields=[
                 (
@@ -45,7 +47,9 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            options={"db_table": "pyazo_uploadview",},
+            options={
+                "db_table": "pyazo_uploadview",
+            },
             name="UplodaView",
             fields=[
                 (

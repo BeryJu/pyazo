@@ -12,5 +12,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(old_name="UplodaView", new_name="UploadView",),
+        migrations.RenameModel(
+            old_name="UplodaView",
+            new_name="UploadView",
+        ),
     ]

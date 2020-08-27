@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            options={"db_table": "pyazo_collection",},
+            options={
+                "db_table": "pyazo_collection",
+            },
             name="Collection",
             fields=[
                 (
@@ -47,6 +49,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="collection", unique_together={("name", "owner")},
+            name="collection",
+            unique_together={("name", "owner")},
         ),
     ]

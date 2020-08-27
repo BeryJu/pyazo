@@ -104,4 +104,9 @@ class Collection(models.Model):
 
     class Meta:
 
-        unique_together = (("name", "owner",),)
+        unique_together = (
+            (
+                "name",
+                "owner",
+            ),
+        )
