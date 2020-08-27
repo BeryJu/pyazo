@@ -227,6 +227,7 @@ if not DEBUG and _ERROR_REPORTING:
 structlog.configure_once(
     processors=[
         structlog.stdlib.add_log_level,
+        structlog.stdlib.add_logger_name,
         structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.processors.TimeStamper(),
         structlog.processors.StackInfoRenderer(),
@@ -243,6 +244,7 @@ LOG_PRE_CHAIN = [
     # Add the log level and a timestamp to the event_dict if the log entry
     # is not from structlog.
     structlog.stdlib.add_log_level,
+    structlog.stdlib.add_logger_name,
     structlog.processors.TimeStamper(),
 ]
 
@@ -271,6 +273,7 @@ LOGGING = {
     "loggers": {},
 }
 _LOGGING_HANDLER_MAP = {
+    "": "WARNING",
     "pyazo": "DEBUG",
     "django": "WARNING",
     "celery": "WARNING",

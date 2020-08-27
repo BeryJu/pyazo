@@ -89,8 +89,10 @@ class ASGILogger:
         return await self.send(message)
 
     def _get_ip(self) -> str:
-        client_ip, _ = self.scope.get("client", ("", 0))
-        return client_ip
+        client = self.scope.get("client", ("", 0))
+        if not client:
+            return ""
+        return client[0]
 
     def log(self, runtime: float):
         """Outpot access logs in a structured format"""
