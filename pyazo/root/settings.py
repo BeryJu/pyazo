@@ -41,7 +41,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 LOGIN_URL = "accounts-login"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/overview/"
 LOGOUT_REDIRECT_URL = "accounts-login"
 INTERNAL_IPS = ["127.0.0.1"]
 
