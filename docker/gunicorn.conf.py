@@ -45,5 +45,5 @@ logconfig_dict = {
             "level": "INFO",
             "propagate": False,
         },
-    }
+    },
 }

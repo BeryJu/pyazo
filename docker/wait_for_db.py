@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 """This file needs to be run from the root of the project to correctly
 import pyazo. This is done by the dockerfile."""
+from json import dumps
 from time import sleep
 
 from psycopg2 import OperationalError, connect
 from redis import Redis
 from redis.exceptions import RedisError
-from structlog import get_logger
 
 from pyazo.utils.config import CONFIG
 
-LOGGER = get_logger()
 
 while True:
     try:
@@ -24,7 +23,15 @@ while True:
         break
     except OperationalError:
         sleep(1)
-        LOGGER.warning("PostgreSQL Connection failed, retrying...")
+        print(
+            dumps(
+                {
+                    "event": "PostgreSQL Connection failed, retrying...",
+                    "level": "warning",
+                    "logger": __name__,
+                }
+            )
+        )
 
 while True:
     try:
@@ -38,4 +45,12 @@ while True:
         break
     except RedisError:
         sleep(1)
-        LOGGER.warning("Redis Connection failed, retrying...")
+        print(
+            dumps(
+                {
+                    "event": "Redis Connection failed, retrying...",
+                    "level": "warning",
+                    "logger": __name__,
+                }
+            )
+        )

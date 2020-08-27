@@ -1,4 +1,5 @@
 """pyazo core config loader"""
+from json import dumps
 import os
 from collections.abc import Mapping
 from contextlib import contextmanager
@@ -8,14 +9,12 @@ from urllib.parse import urlparse
 
 import yaml
 from django.conf import ImproperlyConfigured
-from structlog import get_logger
 
 SEARCH_PATHS = [
     "pyazo/utils/default.yml",
     "/etc/pyazo/config.yml",
     "",
 ] + glob("/etc/pyazo/config.d/*.yml", recursive=True)
-LOGGER = get_logger()
 ENV_PREFIX = "PYAZO"
 ENVIRONMENT = os.getenv(f"{ENV_PREFIX}_ENV", "local")
 
@@ -53,6 +52,13 @@ class ConfigLoader:
                         self.update_from_file(env_file)
         self.update_from_env()
 
+    def _log(self, level: str, message: str, **kwargs):
+        """Custom Log method, we want to ensure ConfigLoader always logs JSON even when
+        'structlog' or 'logging' hasn't been configured yet."""
+        output = {"event": message, "level": level, "logger": self.__class__.__module__}
+        output.update(kwargs)
+        print(dumps(output))
+
     @staticmethod
     def merge(root: Dict[Any, Any], updatee: Dict[Any, Any]) -> Dict[Any, Any]:
         """Recursively update dictionary"""
@@ -79,12 +85,14 @@ class ConfigLoader:
             with open(path) as file:
                 try:
                     ConfigLoader.merge(self.__config, yaml.safe_load(file))
-                    LOGGER.debug("Loaded config", file=path)
+                    self._log("debug", "Loaded config", file=path)
                     self.loaded_file.append(path)
                 except yaml.YAMLError as exc:
                     raise ImproperlyConfigured from exc
         except PermissionError as exc:
-            LOGGER.warning("Permission denied while reading file", path=path, error=exc)
+            self._log(
+                "warning", "Permission denied while reading file", path=path, error=exc
+            )
 
     def update_from_dict(self, update: Dict[Any, Any]):
         """Update config from dict"""
@@ -108,7 +116,7 @@ class ConfigLoader:
             current_obj[dot_parts[-1]] = value
             idx += 1
         if idx > 0:
-            LOGGER.debug("Loaded environment variables", count=idx)
+            self._log("debug", "Loaded environment variables", count=idx)
             ConfigLoader.merge(self.__config, outer)
 
     @contextmanager

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+from json import dumps
 import os
 import sys
 
@@ -21,8 +22,6 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from pyazo import __version__
 from pyazo.utils.config import CONFIG
 from pyazo.utils.sentry import before_send
-
-LOGGER = structlog.get_logger()
 
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -95,7 +94,7 @@ if CONFIG.y("oidc.client_id", None):
     AUTHENTICATION_BACKENDS += [
         "pyazo.root.auth.IDTokenOIDC",
     ]
-    LOGGER.info("OIDC Enabled.")
+    print(dumps({"event": "OIDC Enabled.", "level": "info", "logger": __name__}))
 
 # LDAP Settings
 if CONFIG.y_bool("ldap.enabled"):
@@ -115,7 +114,7 @@ if CONFIG.y_bool("ldap.enabled"):
     ]
     if CONFIG.y("ldap.require_group", None):
         AUTH_LDAP_REQUIRE_GROUP = CONFIG.y("ldap.require_group")
-    LOGGER.info("LDAP Enabled.")
+    print(dumps({"event": "LDAP Enabled.", "level": "info", "logger": __name__}))
 
 INSTALLED_APPS = [
     "django.contrib.admin",
