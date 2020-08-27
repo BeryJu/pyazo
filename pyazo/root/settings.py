@@ -162,7 +162,7 @@ TEMPLATES = [
 
 VERSION = __version__
 
-WSGI_APPLICATION = "pyazo.root.wsgi.application"
+ASGI_APPLICATION = "pyazo.root.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

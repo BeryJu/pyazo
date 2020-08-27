@@ -27,7 +27,6 @@ RUN apt-get update && \
 
 COPY ./pyazo/ /app/pyazo
 COPY ./manage.py /app/
-COPY ./docker/uwsgi.ini /app/
 
 ENV PYAZO_POSTGRESQL__HOST=postgres
 ENV PYAZO_REDIS__HOST=redis
@@ -59,8 +58,8 @@ RUN apt-get update && \
 COPY ./bin/ /app/bin
 COPY ./pyazo/ /app/pyazo
 COPY ./manage.py /app/
-# UWSGI and NGINX config
-COPY ./docker/uwsgi.ini /app/
+# gunicorn and NGINX config
+COPY ./docker/gunicorn.conf.py /app/
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/supervisor.server.ini /etc/supervisor/supervisor.server.ini
 COPY ./docker/supervisor.worker.ini /etc/supervisor/supervisor.worker.ini
