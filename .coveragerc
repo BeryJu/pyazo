@@ -2,7 +2,7 @@
 source = pyazo
 omit =
     env/
-    */wsgi.py
+    */asgi.py
     manage.py
     */migrations/*
     */apps.py
