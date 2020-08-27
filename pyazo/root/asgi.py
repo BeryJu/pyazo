@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 import os
 import typing
 from time import time
-from typing import Any, ByteString, Dict
+from typing import ByteString, Dict
 
 from django.core.asgi import get_asgi_application
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
@@ -47,7 +47,7 @@ class ASGILogger:
     send: Send
 
     scope: Scope
-    headers: Dict[ByteString, Any]
+    headers: Dict[ByteString, ByteString]
 
     status_code: int
     start: float
@@ -90,18 +90,20 @@ class ASGILogger:
     def _get_ip(self) -> str:
         client = self.scope.get("client", ("", 0))
         if not client:
+            if b"x-forwarded-for" in self.headers:
+                return self.headers[b"x-forwarded-for"].decode()
             return ""
         return client[0]
 
     def log(self, runtime: float):
         """Outpot access logs in a structured format"""
-        host = self._get_ip()
+        client = self._get_ip()
         query_string = ""
         if self.scope.get("query_string", b"") != b"":
             query_string = f"?{self.scope.get('query_string').decode()}"
         LOGGER.info(
             f"{self.scope.get('path', '')}{query_string}",
-            host=host,
+            client=client,
             method=self.scope.get("method", ""),
             scheme=self.scope.get("scheme", ""),
             status=self.status_code,
