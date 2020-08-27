@@ -11,7 +11,6 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_PASSWORD=${PYAZO_POSTGRESQL__PASSWORD}
       - POSTGRES_USER=pyazo
       - POSTGRES_DB=pyazo
   redis:

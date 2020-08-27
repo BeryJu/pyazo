@@ -7,8 +7,8 @@ Documentation: https://beryju.github.io/pyazo/
 ## Quick instance
 
 ```
-echo "PYAZO_POSTGRESQL__PASSWORD=$(openssl rand -base64 12)" >> .env
-echo "PYAZO_SECRET_KEY=$(openssl rand -base64 50)" >> .env
+echo "POSTGRES_PASSWORD=$(openssl rand -base64 12 | tr -d '\n ')" >> .env
+echo "PYAZO_SECRET_KEY=$(openssl rand -base64 50 | tr -d '\n ')" >> .env
 # Optionally enable Error-reporting
 # echo "PYAZO_ERROR_REPORTING=true" >> .env
 docker-compose pull
