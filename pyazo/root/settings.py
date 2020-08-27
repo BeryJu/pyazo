@@ -225,7 +225,15 @@ if not DEBUG and _ERROR_REPORTING:
         traces_sample_rate=1.0,
         send_default_pii=False,
     )
-    print(dumps({"event": "Error reporting is enabled.", "level": "info", "logger": __name__}))
+    print(
+        dumps(
+            {
+                "event": "Error reporting is enabled.",
+                "level": "info",
+                "logger": __name__,
+            }
+        )
+    )
 
 
 structlog.configure_once(
@@ -277,7 +285,7 @@ LOGGING = {
     "loggers": {},
 }
 _LOGGING_HANDLER_MAP = {
-    "": "WARNING",
+    "": "DEBUG",
     "pyazo": "DEBUG",
     "django": "WARNING",
     "celery": "WARNING",
