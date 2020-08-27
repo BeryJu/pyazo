@@ -6,11 +6,11 @@ LOGGER = get_logger()
 
 def before_send(event, hint):
     """Check if error is database error, and ignore if so"""
-    from django_redis.exceptions import ConnectionInterrupted
-    from django.db import OperationalError, InternalError
-    from rest_framework.exceptions import APIException
     from billiard.exceptions import WorkerLostError
     from django.core.exceptions import DisallowedHost
+    from django.db import InternalError, OperationalError
+    from django_redis.exceptions import ConnectionInterrupted
+    from rest_framework.exceptions import APIException
 
     ignored_classes = (
         OperationalError,

@@ -10,7 +10,6 @@ from time import time
 from typing import Any, ByteString, Dict
 
 from django.core.asgi import get_asgi_application
-from asgiref.compatibility import guarantee_single_callable
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from structlog import get_logger
 
@@ -111,6 +110,4 @@ class ASGILogger:
         )
 
 
-application = SentryAsgiMiddleware(
-    ASGILogger(guarantee_single_callable(get_asgi_application()))
-)
+application = SentryAsgiMiddleware(ASGILoggerMiddleware(get_asgi_application()))

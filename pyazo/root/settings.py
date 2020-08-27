@@ -90,7 +90,7 @@ if CONFIG.y("oidc.client_id", None):
     OIDC_OP_TOKEN_ENDPOINT = CONFIG.y("oidc.token_url")
     OIDC_OP_USER_ENDPOINT = CONFIG.y("oidc.user_url")
     OIDC_OP_JWKS_ENDPOINT = CONFIG.y("oidc.jwks_url")
-    OIDC_RP_SIGN_ALGO = CONFIG.y("oidc.algo")
+    OIDC_RP_SIGN_ALGO = CONFIG.y("oidc.algo", "RS256")
     OIDC_USERNAME_ALGO = "pyazo.root.auth.generate_username"
     AUTHENTICATION_BACKENDS += [
         "pyazo.root.auth.IDTokenOIDC",
@@ -218,9 +218,14 @@ if not DEBUG and _ERROR_REPORTING:
     LOGGER.info("Error reporting is enabled.")
     sentry_init(
         dsn="https://57bd7622b7114f1d87315dbe4f5b0488@sentry.beryju.org/5",
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[
+            DjangoIntegration(transaction_style="function_name"),
+            CeleryIntegration(),
+        ],
         before_send=before_send,
         release="pyazo@%s" % __version__,
+        traces_sample_rate=1.0,
+        send_default_pii=False,
     )
 
 
@@ -285,7 +290,7 @@ for handler_name, level in _LOGGING_HANDLER_MAP.items():
     LOGGING["loggers"][handler_name] = {
         "handlers": ["console"],
         "level": level,
-        "propagate": True,
+        "propagate": False,
     }
 
 
