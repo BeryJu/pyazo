@@ -214,7 +214,6 @@ STATIC_URL = "/static/"
 # Sentry integration
 _ERROR_REPORTING = CONFIG.y_bool("error_reporting", False)
 if not DEBUG and _ERROR_REPORTING:
-    LOGGER.info("Error reporting is enabled.")
     sentry_init(
         dsn="https://57bd7622b7114f1d87315dbe4f5b0488@sentry.beryju.org/5",
         integrations=[
@@ -226,6 +225,7 @@ if not DEBUG and _ERROR_REPORTING:
         traces_sample_rate=1.0,
         send_default_pii=False,
     )
+    print(dumps({"event": "Error reporting is enabled.", "level": "info", "logger": __name__}))
 
 
 structlog.configure_once(
