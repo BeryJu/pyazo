@@ -38,7 +38,12 @@ logconfig_dict = {
         "uvicorn": {
             "handlers": ["console"],
             "level": "WARNING",
-            "propagate": True,
+            "propagate": False,
+        },
+        "gunicorn": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
         },
     }
 }
