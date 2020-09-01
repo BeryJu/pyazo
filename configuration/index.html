@@ -485,7 +485,8 @@ The length of links is as following:</p>
 </tbody>
 </table>
 <h2 id="auto-claim">Auto Claim<a class="headerlink" href="#auto-claim" title="Permanent link">¶</a></h2>
-<p>Auto Claim automatically claims uploads to the first visitor that is logged in. Enable by add thing:</p>
+<p>Auto Claim automatically claims uploads to the first visitor that is logged in.
+This means, that the image can only be seen by the user the image was claimed by, and superusers. Enable by adding:</p>
 <pre><code>PYAZO_AUTO_CLAIM_ENABLED=true
 </code></pre>
 
@@ -517,7 +518,7 @@ PYAZO_OIDC__ALGO=HS256 # Or RS256, depending on your Provider.
 PYAZO_OIDC__JWKS_URL=https://&lt;your provider&gt;/application/oidc/jwks # Only required if RS256 is used.
 </code></pre>
 
-<p>The Callback URL of pyazo is <code>&lt;pyazo URL&gt;/oidc/callback/</code>.</p>
+<p>The Callback URL of pyazo is <code>&lt;pyazo URL&gt;/oidc/callback/</code>. pyazo uses the scopes <code>openid email</code>.</p>
                 
               
               
