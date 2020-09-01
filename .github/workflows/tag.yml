@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Pre-release test
         run: |
-          echo "PYAZO_POSTGRESQL__PASSWORD=foo" > .env
+          echo "POSTGRES_PASSWORD=foo" > .env
           docker build \
             --no-cache \
             -t beryju/pyazo:2.3.0 \
