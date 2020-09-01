@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 import os
 import typing
 from time import time
-from typing import ByteString, Dict
+from typing import Dict
 
 from django.core.asgi import get_asgi_application
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
@@ -47,7 +47,7 @@ class ASGILogger:
     send: Send
 
     scope: Scope
-    headers: Dict[ByteString, ByteString]
+    headers: Dict[bytes, bytes]
 
     status_code: int
     start: float
@@ -69,6 +69,10 @@ class ASGILogger:
             return
 
         self.start = time()
+        if scope["type"] == "lifespan":
+            # https://code.djangoproject.com/ticket/31508
+            # https://github.com/encode/uvicorn/issues/266
+            return
         await self.app(scope, receive, self.send_hooked)
 
     async def send_hooked(self, message: Message) -> None:

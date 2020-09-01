@@ -56,7 +56,7 @@ class ObjectViewFile(View):
     @cache_control(max_age=3600)
     def dispatch(self, request: HttpRequest, **kwargs) -> HttpResponse:
         """Return uploaded data"""
-        matching = self.resolve_hash(kwargs.get("file_hash"))
+        matching = self.resolve_hash(kwargs["file_hash"])
         if not matching.exists():
             raise Http404
         upload = matching.first()

@@ -10,7 +10,6 @@ from redis.exceptions import RedisError
 
 from pyazo.utils.config import CONFIG
 
-
 while True:
     try:
         conn = connect(

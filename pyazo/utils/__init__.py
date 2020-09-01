@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 from django.http import HttpRequest
 
 
-def _get_client_ip_from_meta(meta: Dict[str, Any]) -> Optional[str]:
+def _get_client_ip_from_meta(meta: Dict[str, Any]) -> str:
     """Attempt to get the client's IP by checking common HTTP Headers.
     Returns none if no IP Could be found"""
     headers = (
@@ -21,14 +21,14 @@ def _get_client_ip_from_meta(meta: Dict[str, Any]) -> Optional[str]:
         if "," in address:
             return address.split(",")[0]
         return address
-    return None
+    return ""
 
 
-def get_client_ip(request: HttpRequest) -> Optional[str]:
+def get_client_ip(request: HttpRequest) -> str:
     """Attempt to get the client's IP by checking common HTTP Headers.
     Returns none if no IP Could be found"""
     if not request:
-        return None
+        raise ValueError("Missing request")
     return _get_client_ip_from_meta(request.META)
 
 

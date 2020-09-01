@@ -7,7 +7,7 @@ coverage:
 	coverage report
 
 lint-fix:
-	isort -rc .
+	isort .
 	black .
 
 lint:

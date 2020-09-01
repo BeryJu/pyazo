@@ -27,5 +27,4 @@ class TaskTests(TestCase):
     def test_make_thumbnail(self):
         """test make_thumbnail"""
         upload = Object.objects.create(file=settings.MEDIA_ROOT + "test2.txt")
-        # pylint gets confused by celery tasks
-        make_thumbnail(upload.pk)  # pylint: disable=no-value-for-parameter
+        make_thumbnail.delay(upload.pk)

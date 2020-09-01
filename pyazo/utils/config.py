@@ -1,9 +1,8 @@
 """pyazo core config loader"""
-from json import dumps
 import os
-from collections.abc import Mapping
 from contextlib import contextmanager
 from glob import glob
+from json import dumps
 from typing import Any, Dict, List
 from urllib.parse import urlparse
 
@@ -63,7 +62,7 @@ class ConfigLoader:
     def merge(root: Dict[Any, Any], updatee: Dict[Any, Any]) -> Dict[Any, Any]:
         """Recursively update dictionary"""
         for key, value in updatee.items():
-            if isinstance(value, Mapping):
+            if isinstance(value, dict):
                 root[key] = ConfigLoader.merge(root.get(key, {}), value)
             else:
                 if isinstance(value, str):

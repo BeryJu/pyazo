@@ -10,19 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-from json import dumps
 import os
 import sys
+from json import dumps
 
 import structlog
 from sentry_sdk import init as sentry_init
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 from pyazo import __version__
 from pyazo.utils.config import CONFIG
 from pyazo.utils.sentry import before_send
-
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
@@ -219,6 +219,7 @@ if not DEBUG and _ERROR_REPORTING:
         integrations=[
             DjangoIntegration(transaction_style="function_name"),
             CeleryIntegration(),
+            RedisIntegration(),
         ],
         before_send=before_send,
         release="pyazo@%s" % __version__,
