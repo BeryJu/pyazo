@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
-     <loc>https://beryju.github.io/pyazo/</loc>
-     <lastmod>2020-08-15</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://beryju.github.io/pyazo/install/</loc>
-     <lastmod>2020-08-15</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://beryju.github.io/pyazo/configuration/</loc>
-     <lastmod>2020-08-15</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://beryju.github.io/pyazo/api/</loc>
-     <lastmod>2020-08-15</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://beryju.github.io/pyazo/migration/</loc>
-     <lastmod>2020-08-15</lastmod>
+     <loc>https://beryju.github.io/pyazo/upgrading/to-2.0.0/</loc>
+     <lastmod>2020-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/upgrading/to-2.1.0/</loc>
+     <lastmod>2020-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/upgrading/to-2.2.0/</loc>
+     <lastmod>2020-09-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://beryju.github.io/pyazo/upgrading/to-2.3.0/</loc>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
