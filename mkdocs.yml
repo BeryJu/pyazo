@@ -3,11 +3,15 @@ site_url: https://beryju.github.io/pyazo
 copyright: "Copyright &copy; 2019 - 2020 BeryJu.org"
 
 nav:
-- Home: index.md
+- Home: 'https://pyazo.beryju.org'
 - Installation: install.md
 - Configuration: configuration.md
 - API: api.md
-- Migration: migration.md
+- Upgrading:
+    - to 2.0.0: upgrading/to-2.0.0.md
+    - to 2.1.0: upgrading/to-2.1.0.md
+    - to 2.2.0: upgrading/to-2.2.0.md
+    - to 2.3.0: upgrading/to-2.3.0.md
 
 repo_name: "BeryJu/pyazo"
 repo_url: https://github.com/BeryJu/pyazo

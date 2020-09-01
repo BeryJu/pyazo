@@ -1,4 +1,11 @@
-# Migrating from pyazo < 2.0
+# Upgrading to 2.0.0
+
+## Changes
+
+- pyazo is now packaged in docker and run through docker-compose.
+- The recommended database was switched from MySQL to PostgreSQL.
+
+## Migration
 
 This migration guide uses `pgLoader` to convert the MySQL Database from the old instance into the PostgreSQL Database that is used now. This guide also assumes that you want to keep using the same underlying server. Even if you want to move pyazo to a different machine, it is recommended to use this guide, as it makes it much easier to migrate on the same host.
 
@@ -22,7 +29,7 @@ The old config file is located here: `/etc/pyazo/config.yml`
 **Additionally**, the content of `/etc/pyazo/secret_key` should be added as `PYAZO_SECRET_KEY`.
 
 !!! note
-    For LDAP Configuration, see [Configuration](configuration.md)
+    For LDAP Configuration, see [Configuration](../configuration.md)
 
 ## Saving an export of the old pyazo install
 
@@ -48,6 +55,13 @@ chown -R 1000:1000 media
 ## Migrate from MySQL to PostgreSQL
 
 ```
+# Download docker-compose file and create password
+wget https://raw.githubusercontent.com/BeryJu/pyazo/v2.0.0/docker-compose.yml
+echo "POSTGRES_PASSWORD=$(openssl rand -base64 12 | tr -d '\n ')" >> .env
+echo "PYAZO_SECRET_KEY=$(openssl rand -base64 50 | tr -d '\n ')" >> .env
+# Optionally enable Error-reporting
+# echo "PYAZO_ERROR_REPORTING=true" >> .env
+
 # Download latest images, create containers, but *only* start PostgreSQL
 docker-compose pull
 docker-compose up --no-start
