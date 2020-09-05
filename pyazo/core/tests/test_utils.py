@@ -16,7 +16,8 @@ class UtilsTest(TestCase):
 
     def test_remote_ip(self):
         """test get_client_ip"""
-        self.assertEqual(get_client_ip(None), None)
+        with self.assertRaises(ValueError):
+            get_client_ip(None)
         request = self.factory.get(reverse("index"))
         request.META["REMOTE_ADDR"] = "aa"
         self.assertEqual(get_client_ip(request), "aa")
