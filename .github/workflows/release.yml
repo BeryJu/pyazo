@@ -46,4 +46,4 @@ jobs:
           docker-compose pull
           docker-compose up --no-start
           docker-compose start postgresql redis
-          docker-compose run -u root server bash -c "pip install --no-cache -r requirements-dev.txt && ./manage.py test"
+          docker-compose run -u root --entrypoint bash server -c "pip install --no-cache -r requirements-dev.txt && ./manage.py test"
