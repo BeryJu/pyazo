@@ -14,6 +14,7 @@ jobs:
       - name: Pre-release test
         run: |
           echo "POSTGRES_PASSWORD=foo" > .env
+          echo "PYAZO_SECRET_KEY=$(openssl rand -base64 50 | tr -d '\n ')" >> .env
           docker build \
             --no-cache \
             -t beryju/pyazo:2.3.1 \

@@ -42,6 +42,7 @@ jobs:
       - name: Run test suite in final docker images
         run: |
           echo "POSTGRES_PASSWORD=foo" > .env
+          echo "PYAZO_SECRET_KEY=$(openssl rand -base64 50 | tr -d '\n ')" >> .env
           docker-compose pull
           docker-compose up --no-start
           docker-compose start postgresql redis
