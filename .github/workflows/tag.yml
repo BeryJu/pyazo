@@ -16,7 +16,7 @@ jobs:
           echo "POSTGRES_PASSWORD=foo" > .env
           docker build \
             --no-cache \
-            -t beryju/pyazo:2.3.0 \
+            -t beryju/pyazo:2.3.1 \
             -f Dockerfile .
           docker-compose up --no-start
           docker-compose start postgresql redis

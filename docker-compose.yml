@@ -18,7 +18,7 @@ services:
     networks:
       - internal
   server:
-    image: beryju/pyazo:${SERVER_TAG:-2.3.0}
+    image: beryju/pyazo:${SERVER_TAG:-2.3.1}
     env_file:
       - .env
     environment:
@@ -33,7 +33,7 @@ services:
     networks:
       - internal
   worker:
-    image: beryju/pyazo:${SERVER_TAG:-2.3.0}
+    image: beryju/pyazo:${SERVER_TAG:-2.3.1}
     env_file:
       - .env
     environment:
